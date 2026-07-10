@@ -122,6 +122,7 @@ img {
   padding: 26px 0;
   border-bottom: 1px solid var(--ink);
   transition:
+    margin 180ms ease,
     padding 180ms ease,
     border-color 180ms ease,
     border-radius 180ms ease,
@@ -1223,6 +1224,7 @@ main,
 :root[data-slop-tier="awful"] .site-header,
 :root[data-slop-tier="chaos"] .site-header {
   gap: 12px;
+  margin-block: 20px;
   padding: 14px 16px;
   border: 0;
   border-radius: 24px;
@@ -1589,7 +1591,7 @@ main,
   :root[data-slop-tier="awful"] .site-header,
   :root[data-slop-tier="chaos"] .site-header {
     width: calc(100% - 20px);
-    margin-top: 10px;
+    margin-block: 16px;
     padding: 10px 12px;
     border-radius: 20px;
     backdrop-filter: none;

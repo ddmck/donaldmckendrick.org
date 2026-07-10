@@ -17,6 +17,11 @@
         try {
           const savedTheme = localStorage.getItem('donald-theme');
           if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+
+          const savedSlop = Number(localStorage.getItem('donald-slop-level'));
+          const slopLevel = Number.isFinite(savedSlop) ? Math.min(100, Math.max(0, Math.round(savedSlop))) : 0;
+          root.style.setProperty('--slop', String(slopLevel / 100));
+          root.dataset.slopTier = slopLevel === 0 ? 'clean' : slopLevel <= 33 ? 'subtle' : slopLevel <= 66 ? 'awful' : 'chaos';
         } catch {}
 
         if (!theme) theme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -24,7 +29,7 @@
       })();
     </script>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer onerror="document.documentElement.classList.remove('js')"></script>
+    <script src="script.js" defer onerror="document.documentElement.classList.remove('js'); document.documentElement.dataset.slopTier='clean'; document.documentElement.style.setProperty('--slop','0')"></script>
   </head>
   <body class="resume-site">
     <header class="site-header">
@@ -48,29 +53,49 @@
         <span class="menu-icon" aria-hidden="true"></span>
       </button>
       <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
-        <a href="index.html#work">Work</a>
-        <a href="resume.html" aria-current="page">Resume</a>
-        <a href="mailto:ddmckendrick@gmail.com">Email</a>
+        <a href="index.html#work" data-slop-copy="nav-work">Work</a>
+        <a href="resume.html" aria-current="page" data-slop-copy="nav-resume">Resume</a>
+        <a href="mailto:ddmckendrick@gmail.com" data-slop-copy="nav-email">Email</a>
         <a href="https://linkedin.com/in/donaldmckendrick" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
     </header>
+
+    <aside class="slop-dock" data-slop-ui hidden aria-label="Slop filter controls">
+      <div class="slop-dock-heading">
+        <label for="slop-filter">Slop filter</label>
+        <output for="slop-filter" class="slop-output">
+          <span data-slop-stage>Restrained</span>
+          <strong data-slop-percent>0%</strong>
+        </output>
+      </div>
+      <div class="slop-range-row">
+        <span aria-hidden="true">Taste</span>
+        <input id="slop-filter" type="range" min="0" max="100" step="1" value="0" aria-valuetext="0 percent, Restrained">
+        <span aria-hidden="true">Slop</span>
+      </div>
+      <div class="slop-dock-footer">
+        <span class="slop-parody-badge">Parody mode: fictional claims</span>
+        <button class="slop-reset" type="button" hidden>De-slop</button>
+      </div>
+    </aside>
 
     <main class="resume-page">
       <h1 class="visually-hidden">Donald McKendrick resume</h1>
 
       <article class="resume-document">
         <section class="resume-summary" aria-label="Summary">
-          <p>
+          <p class="slop-eyebrow" data-slop-ui hidden aria-hidden="true">✨ Executive impact profile, intelligently amplified</p>
+          <p data-slop-copy="resume-summary">
             Product and technology leader with more than 10 years building education products. I co-founded Quill and
             helped grow it to more than 1.5 million users; I now lead product and engineering at Closegap. My work spans
             hands-on software development, AI and machine learning, game development, and research.
           </p>
-          <a class="button" href="assets/resume-donald-mckendrick.pdf">Download PDF</a>
+          <a class="button" href="assets/resume-donald-mckendrick.pdf" data-slop-copy="resume-download">Download PDF</a>
         </section>
 
         <section aria-labelledby="experience">
-          <h2 id="experience">Experience</h2>
+          <h2 id="experience" data-slop-copy="resume-heading-experience">Experience</h2>
 
           <div class="resume-role">
             <div class="role-heading">
@@ -81,11 +106,11 @@
               <p>Nov 2024 - Present / Remote</p>
             </div>
             <ul>
-              <li>Lead product strategy and engineering for free mental health and SEL tools used in K-12 schools nationwide.</li>
-              <li>Run development in six-week Shape Up cycles with dedicated prototyping weeks and cooldown periods.</li>
-              <li>Built a GenAI-powered crisis detection tool that replaced keyword matching with context-aware AI.</li>
-              <li>Collaborate with Northeastern University's IASL lab on early research into emotional granularity in students.</li>
-              <li>Set architecture, write production code, and review AI-generated dynamic responses for age-appropriate multilingual support.</li>
+              <li data-slop-copy="resume-b01">Lead product strategy and engineering for free mental health and SEL tools used in K-12 schools nationwide.</li>
+              <li data-slop-copy="resume-b02">Run development in six-week Shape Up cycles with dedicated prototyping weeks and cooldown periods.</li>
+              <li data-slop-copy="resume-b03">Built a GenAI-powered crisis detection tool that replaced keyword matching with context-aware AI.</li>
+              <li data-slop-copy="resume-b04">Collaborate with Northeastern University's IASL lab on early research into emotional granularity in students.</li>
+              <li data-slop-copy="resume-b05">Set architecture, write production code, and review AI-generated dynamic responses for age-appropriate multilingual support.</li>
             </ul>
           </div>
 
@@ -98,7 +123,7 @@
               <p>Mar 2024 - Jun 2024</p>
             </div>
             <ul>
-              <li>Selected for a competitive fellowship focused on emerging technology and innovation.</li>
+              <li data-slop-copy="resume-b06">Selected for a competitive fellowship focused on emerging technology and innovation.</li>
             </ul>
           </div>
 
@@ -111,10 +136,10 @@
               <p>Mar 2020 - Aug 2022 / Redwood City, CA</p>
             </div>
             <ul>
-              <li>Worked on curriculum and differentiation teams for CZI's project-based learning platform.</li>
-              <li>Led the 2.0 launch of Announcements, the primary landing page for millions of users during COVID.</li>
-              <li>Introduced Puppeteer-based feature testing infrastructure and onboarded the engineering team.</li>
-              <li>Full-stack work with Ruby on Rails, Sorbet, and React.</li>
+              <li data-slop-copy="resume-b07">Worked on curriculum and differentiation teams for CZI's project-based learning platform.</li>
+              <li data-slop-copy="resume-b08">Led the 2.0 launch of Announcements, the primary landing page for millions of users during COVID.</li>
+              <li data-slop-copy="resume-b09">Introduced Puppeteer-based feature testing infrastructure and onboarded the engineering team.</li>
+              <li data-slop-copy="resume-b10">Full-stack work with Ruby on Rails, Sorbet, and React.</li>
             </ul>
           </div>
 
@@ -127,10 +152,10 @@
               <p>Aug 2022 - Nov 2024 / San Francisco Bay Area</p>
             </div>
             <ul>
-              <li>Built a turn-based RPG inspired by classic JRPGs, with educational mechanics woven into narrative.</li>
-              <li>Placed 4th in a VR Game Jam with an accessible party game featuring progressive difficulty and spatial memory mechanics.</li>
-              <li>Explored games addressing mental health themes in connection with Closegap's SEL work.</li>
-              <li>Technologies included Unity, 3D simulation, and VR.</li>
+              <li data-slop-copy="resume-b11">Built a turn-based RPG inspired by classic JRPGs, with educational mechanics woven into narrative.</li>
+              <li data-slop-copy="resume-b12">Placed 4th in a VR Game Jam with an accessible party game featuring progressive difficulty and spatial memory mechanics.</li>
+              <li data-slop-copy="resume-b13">Explored games addressing mental health themes in connection with Closegap's SEL work.</li>
+              <li data-slop-copy="resume-b14">Technologies included Unity, 3D simulation, and VR.</li>
             </ul>
           </div>
 
@@ -143,8 +168,8 @@
               <p>Mar 2019 - Mar 2020 / San Francisco Bay Area</p>
             </div>
             <ul>
-              <li>Applied ML to improve administrative workflows on the Data Interoperability team.</li>
-              <li>Worked in a HIPAA-compliant healthcare environment with rigorous privacy and security practices.</li>
+              <li data-slop-copy="resume-b15">Applied ML to improve administrative workflows on the Data Interoperability team.</li>
+              <li data-slop-copy="resume-b16">Worked in a HIPAA-compliant healthcare environment with rigorous privacy and security practices.</li>
             </ul>
           </div>
 
@@ -157,18 +182,18 @@
               <p>Jan 2016 - Feb 2019 / New York City</p>
             </div>
             <ul>
-              <li>Co-founded and scaled an interactive literacy platform from 10K to 1.5M+ users and 60K DAU.</li>
-              <li>Shipped Connect, Lessons, and Diagnostic, including differentiated recommendations from a 22-question adaptive assessment.</li>
-              <li>Introduced AI/NLP in 2016 for real-time feedback on open-ended writing.</li>
-              <li>Built a deep learning sentence fragment detector and automated grading models using NLP tools and spaCy.</li>
-              <li>Raised $3M+ through technical grant writing and built live funder demos, including a Twilio SMS prototype.</li>
-              <li>Reviewed and deployed all code and built a Jenkins CI/CD pipeline across Rails, Express, Flask, React, React Native, Angular, PostgreSQL, Firebase, TensorFlow, GraphQL, and AWS.</li>
+              <li data-slop-copy="resume-b17">Co-founded and scaled an interactive literacy platform from 10K to 1.5M+ users and 60K DAU.</li>
+              <li data-slop-copy="resume-b18">Shipped Connect, Lessons, and Diagnostic, including differentiated recommendations from a 22-question adaptive assessment.</li>
+              <li data-slop-copy="resume-b19">Introduced AI/NLP in 2016 for real-time feedback on open-ended writing.</li>
+              <li data-slop-copy="resume-b20">Built a deep learning sentence fragment detector and automated grading models using NLP tools and spaCy.</li>
+              <li data-slop-copy="resume-b21">Raised $3M+ through technical grant writing and built live funder demos, including a Twilio SMS prototype.</li>
+              <li data-slop-copy="resume-b22">Reviewed and deployed all code and built a Jenkins CI/CD pipeline across Rails, Express, Flask, React, React Native, Angular, PostgreSQL, Firebase, TensorFlow, GraphQL, and AWS.</li>
             </ul>
           </div>
         </section>
 
         <section aria-labelledby="earlier-career">
-          <h2 id="earlier-career">Earlier Career</h2>
+          <h2 id="earlier-career" data-slop-copy="resume-heading-earlier">Earlier Career</h2>
           <div class="resume-role">
             <div class="role-heading">
               <div>
@@ -178,8 +203,8 @@
               <p>Nov 2014 - Aug 2015 / Edinburgh, UK and NYC</p>
             </div>
             <ul>
-              <li>Led engineering for iOS and web apps, including data enrichment for 1M+ products.</li>
-              <li>Worked with Node, Angular, Rails, and Swift.</li>
+              <li data-slop-copy="resume-b23">Led engineering for iOS and web apps, including data enrichment for 1M+ products.</li>
+              <li data-slop-copy="resume-b24">Worked with Node, Angular, Rails, and Swift.</li>
             </ul>
           </div>
           <div class="resume-role">
@@ -191,13 +216,13 @@
               <p>Aug 2013 - Oct 2014 / Edinburgh, UK</p>
             </div>
             <ul>
-              <li>Built payment systems with Stripe, the marketing site, and an interactive onboarding tutorial.</li>
+              <li data-slop-copy="resume-b25">Built payment systems with Stripe, the marketing site, and an interactive onboarding tutorial.</li>
             </ul>
           </div>
         </section>
 
         <section aria-labelledby="education">
-          <h2 id="education">Education & Research</h2>
+          <h2 id="education" data-slop-copy="resume-heading-education">Education & Research</h2>
           <div class="resume-role">
             <div class="role-heading">
               <div>
@@ -207,8 +232,8 @@
               <p>Sep 2011 - May 2013</p>
             </div>
             <ul>
-              <li>Researched gas absorption in metal-organic frameworks using Monte Carlo and molecular dynamics simulation.</li>
-              <li>Left the PhD track to pursue a career in education technology.</li>
+              <li data-slop-copy="resume-b26">Researched gas absorption in metal-organic frameworks using Monte Carlo and molecular dynamics simulation.</li>
+              <li data-slop-copy="resume-b27">Left the PhD track to pursue a career in education technology.</li>
             </ul>
           </div>
           <div class="resume-role">
@@ -220,44 +245,44 @@
               <p>2006 - 2011</p>
             </div>
             <ul>
-              <li>Master's thesis: quantum simulation of catalytic synthesis of isoquinoline.</li>
-              <li>School Officer from 2008 to 2011, improving student feedback systems.</li>
+              <li data-slop-copy="resume-b28">Master's thesis: quantum simulation of catalytic synthesis of isoquinoline.</li>
+              <li data-slop-copy="resume-b29">School Officer from 2008 to 2011, improving student feedback systems.</li>
             </ul>
           </div>
         </section>
 
         <section aria-labelledby="skills">
-          <h2 id="skills">Skills & Technologies</h2>
+          <h2 id="skills" data-slop-copy="resume-heading-skills">Skills & Technologies</h2>
           <dl class="skill-list">
             <div>
               <dt>Product & Leadership</dt>
-              <dd>Product strategy, roadmapping, cross-functional leadership, technical grant writing, stakeholder communication, budget management, Shape Up, Scrum, Agile.</dd>
+              <dd data-slop-copy="resume-skill-product">Product strategy, roadmapping, cross-functional leadership, technical grant writing, stakeholder communication, budget management, Shape Up, Scrum, Agile.</dd>
             </div>
             <div>
               <dt>AI & Machine Learning</dt>
-              <dd>NLP, spaCy, Paul Allen Institute tools, deep learning, GenAI, TensorFlow, scikit-learn, responsible AI in K-12, AI-enabled development.</dd>
+              <dd data-slop-copy="resume-skill-ai">NLP, spaCy, Paul Allen Institute tools, deep learning, GenAI, TensorFlow, scikit-learn, responsible AI in K-12, AI-enabled development.</dd>
             </div>
             <div>
               <dt>Game & Interactive</dt>
-              <dd>Unity, VR development, 3D simulation, ECS architecture, game mechanics design, music composition, Figma, playtesting, iterative prototyping.</dd>
+              <dd data-slop-copy="resume-skill-game">Unity, VR development, 3D simulation, ECS architecture, game mechanics design, music composition, Figma, playtesting, iterative prototyping.</dd>
             </div>
             <div>
               <dt>Engineering</dt>
-              <dd>Ruby on Rails, React, Node, Express, Python, Flask, Angular, Swift, GraphQL, PostgreSQL, Firebase, AWS, GCP, Heroku, Docker, Jenkins, Git.</dd>
+              <dd data-slop-copy="resume-skill-engineering">Ruby on Rails, React, Node, Express, Python, Flask, Angular, Swift, GraphQL, PostgreSQL, Firebase, AWS, GCP, Heroku, Docker, Jenkins, Git.</dd>
             </div>
             <div>
               <dt>Research & Domain</dt>
-              <dd>Research partnerships, efficacy studies, computational simulation, K-12 education, project-based learning, mastery-based learning, SEL.</dd>
+              <dd data-slop-copy="resume-skill-research">Research partnerships, efficacy studies, computational simulation, K-12 education, project-based learning, mastery-based learning, SEL.</dd>
             </div>
           </dl>
         </section>
 
         <section aria-labelledby="recognition">
-          <h2 id="recognition">Recognition</h2>
+          <h2 id="recognition" data-slop-copy="resume-heading-recognition">Recognition</h2>
           <ul>
-            <li>The World's Most Innovative Companies in Education 2018 - Quill.org, Fast Company.</li>
-            <li>Product Forge 2014 - Winning Team, Education Technology.</li>
-            <li>Languages: English, native; German.</li>
+            <li data-slop-copy="resume-b30">The World's Most Innovative Companies in Education 2018 - Quill.org, Fast Company.</li>
+            <li data-slop-copy="resume-b31">Product Forge 2014 - Winning Team, Education Technology.</li>
+            <li data-slop-copy="resume-b32">Languages: English, native; German.</li>
           </ul>
         </section>
       </article>
@@ -271,5 +296,17 @@
         <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </footer>
+
+    <div class="slop-atmosphere" data-slop-ui hidden aria-hidden="true">
+      <span class="slop-orb slop-orb-one"></span>
+      <span class="slop-orb slop-orb-two"></span>
+      <span class="slop-floater slop-floater-one">✨</span>
+      <span class="slop-floater slop-floater-two">🚀</span>
+      <span class="slop-floater slop-floater-three">💡</span>
+      <span class="slop-floater slop-floater-four">⚡</span>
+    </div>
+    <div class="slop-hype-strip" data-slop-ui hidden aria-hidden="true">
+      <div>AI-POWERED&nbsp; • &nbsp;FUTURE-READY&nbsp; • &nbsp;HUMAN-CENTERED&nbsp; • &nbsp;10,000× IMPACT&nbsp; • &nbsp;PARADIGM-SHIFTING&nbsp; • &nbsp;</div>
+    </div>
   </body>
 </html>

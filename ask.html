@@ -38,11 +38,11 @@
         root.dataset.theme = theme;
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=ask-4">
-    <script src="script.js?v=ask-4" defer></script>
-    <script src="ask.js?v=ask-4" defer></script>
+    <link rel="stylesheet" href="styles.css?v=ask-5">
+    <script src="script.js?v=ask-5" defer></script>
+    <script src="ask.js?v=ask-5" defer></script>
   </head>
-  <body class="ask-site">
+  <body class="ask-site" data-ai-state="checking">
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="Donald McKendrick home">Donald McKendrick</a>
       <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" title="Switch to dark mode">
@@ -90,63 +90,82 @@
     </aside>
 
     <main class="ask-page">
-      <section class="ask-intro" aria-labelledby="ask-title">
-        <div>
-          <p class="ask-kicker" data-slop-copy="ask-kicker">On-device assistant</p>
-          <h1 id="ask-title" data-slop-copy="ask-title">Ask about my work.</h1>
-        </div>
-        <p data-slop-copy="ask-intro-copy">
-          Ask about my services, experience, and technical background. Chrome generates answers on your device from
-          the same facts as this site and my resume.
+      <section class="ask-unsupported" data-unsupported hidden aria-labelledby="unsupported-title">
+        <p class="ask-unsupported-kicker">Chrome built-in AI</p>
+        <h1 id="unsupported-title">This assistant isn’t available in your browser.</h1>
+        <p data-unsupported-copy>
+          Open this page in a compatible desktop version of Chrome to try the on-device assistant.
         </p>
+        <div class="ask-unsupported-actions">
+          <a
+            class="ask-docs-link"
+            href="https://developer.chrome.com/docs/ai/prompt-api"
+            target="_blank"
+            rel="noopener noreferrer"
+          >How the Prompt API works <span aria-hidden="true">↗</span></a>
+          <a class="ask-resume-link" href="resume.html">Read my resume instead</a>
+        </div>
       </section>
 
-      <section class="ask-workspace" aria-label="Ask Donald's resume assistant">
-        <div class="ask-status" aria-live="polite">
-          <span class="ask-status-dot" aria-hidden="true"></span>
-          <span data-ai-status>Checking this browser</span>
-        </div>
-
-        <div class="chat-log" role="log" aria-live="polite" aria-relevant="additions text">
-          <div class="chat-message chat-message-assistant">
-            <span class="chat-speaker">Donald's browser</span>
-            <p>What would you like to know? I can help you understand where Donald's experience might fit your team.</p>
+      <div class="ask-experience" data-ask-experience>
+        <section class="ask-intro" aria-labelledby="ask-title">
+          <div>
+            <p class="ask-kicker" data-slop-copy="ask-kicker">On-device assistant</p>
+            <h1 id="ask-title" data-slop-copy="ask-title">Ask about my work.</h1>
           </div>
-        </div>
+          <p data-slop-copy="ask-intro-copy">
+            Ask about my services, experience, and technical background. Chrome generates answers on your device from
+            the same facts as this site and my resume.
+          </p>
+        </section>
 
-        <div class="suggested-questions" aria-label="Suggested questions"></div>
+        <section class="ask-workspace" aria-label="Ask Donald's resume assistant">
+          <div class="ask-status" aria-live="polite">
+            <span class="ask-status-dot" aria-hidden="true"></span>
+            <span data-ai-status>Checking this browser</span>
+          </div>
 
-        <form class="ask-form" id="ask-form">
-          <label class="visually-hidden" for="question">Ask a question about Donald's work</label>
-          <textarea
-            id="question"
-            name="question"
-            rows="2"
-            maxlength="500"
-            placeholder="Ask about services, experience, or technical fit…"
-            autocomplete="off"
-            disabled
-          ></textarea>
-          <button class="ask-submit" type="submit" disabled>
-            <span>Ask</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m5 12 14-7-4 14-3-6-7-1Z"></path>
-            </svg>
-          </button>
-        </form>
+          <div class="chat-log" role="log" aria-live="polite" aria-relevant="additions text">
+            <div class="chat-message chat-message-assistant">
+              <span class="chat-speaker">Donald's browser</span>
+              <p>What would you like to know? I can help you understand where Donald's experience might fit your team.</p>
+            </div>
+          </div>
 
-        <p class="ask-form-note" data-ai-note role="status">
-          Checking whether Chrome's on-device model is available…
-        </p>
-      </section>
+          <div class="suggested-questions" aria-label="Suggested questions"></div>
 
-      <aside class="ask-privacy" aria-label="Privacy and limitations">
-        <p><strong data-slop-copy="ask-privacy-label">Private by design.</strong> Your questions and the resume context stay on your device.</p>
-        <p>
-          <strong data-slop-copy="ask-reality-label">Reality check.</strong> Built-in AI can make mistakes. For a definitive answer, <a href="resume.html">read the resume</a> or
-          <a href="mailto:ddmckendrick@gmail.com">email me</a>.
-        </p>
-      </aside>
+          <form class="ask-form" id="ask-form">
+            <label class="visually-hidden" for="question">Ask a question about Donald's work</label>
+            <textarea
+              id="question"
+              name="question"
+              rows="2"
+              maxlength="500"
+              placeholder="Ask about services, experience, or technical fit…"
+              autocomplete="off"
+              disabled
+            ></textarea>
+            <button class="ask-submit" type="submit" disabled>
+              <span>Ask</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m5 12 14-7-4 14-3-6-7-1Z"></path>
+              </svg>
+            </button>
+          </form>
+
+          <p class="ask-form-note" data-ai-note role="status">
+            Checking whether Chrome's on-device model is available…
+          </p>
+        </section>
+
+        <aside class="ask-privacy" aria-label="Privacy and limitations">
+          <p><strong data-slop-copy="ask-privacy-label">Private by design.</strong> Your questions and the resume context stay on your device.</p>
+          <p>
+            <strong data-slop-copy="ask-reality-label">Reality check.</strong> Built-in AI can make mistakes. For a definitive answer, <a href="resume.html">read the resume</a> or
+            <a href="mailto:ddmckendrick@gmail.com">email me</a>.
+          </p>
+        </aside>
+      </div>
     </main>
 
     <footer class="site-footer">

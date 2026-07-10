@@ -9,9 +9,13 @@
   const suggestions = document.querySelector('.suggested-questions');
   const toneInput = document.querySelector('#slop-filter');
   const toneReset = document.querySelector('.slop-reset');
+  const unsupported = document.querySelector('[data-unsupported]');
+  const unsupportedCopy = document.querySelector('[data-unsupported-copy]');
+  const experience = document.querySelector('[data-ask-experience]');
 
   if (
-    !form || !input || !submit || !submitLabel || !status || !note || !log || !suggestions || !toneInput
+    !form || !input || !submit || !submitLabel || !status || !note || !log || !suggestions || !toneInput ||
+    !unsupported || !unsupportedCopy || !experience
   ) return;
 
   const CAPABILITIES = {
@@ -151,6 +155,21 @@ SKILLS
     document.body.dataset.aiState = kind;
     status.textContent = statusText;
     note.textContent = noteText;
+  }
+
+  function showUnsupported(message) {
+    availability = 'unavailable';
+    document.body.dataset.aiState = 'unavailable';
+    unsupportedCopy.textContent = message;
+    experience.hidden = true;
+    unsupported.hidden = false;
+
+    const root = document.documentElement;
+    root.dataset.slopTier = 'clean';
+    root.style.setProperty('--slop', '0');
+    root.style.setProperty('--slop-position', '0');
+    root.style.setProperty('--slop-percent', '0%');
+    root.style.setProperty('--slop-thumb-offset', '8px');
   }
 
   function setControls(enabled) {
@@ -307,11 +326,8 @@ SKILLS
 
   async function checkAvailability() {
     if (!('LanguageModel' in window)) {
-      availability = 'unavailable';
-      setState(
-        'unavailable',
-        'On-device AI unavailable',
-        'This preview needs a compatible desktop version of Chrome. The resume and email links still work.'
+      showUnsupported(
+        'This browser doesn’t include Chrome’s on-device language model. Open this page in a compatible desktop version of Chrome to try it.'
       );
       return;
     }
@@ -319,10 +335,8 @@ SKILLS
     try {
       availability = await LanguageModel.availability(CAPABILITIES);
       if (availability === 'unavailable') {
-        setState(
-          'unavailable',
-          'On-device AI unavailable',
-          'This device does not currently meet Chrome’s built-in AI requirements. The resume and email links still work.'
+        showUnsupported(
+          'Chrome’s on-device model isn’t available on this device yet. Try a compatible desktop version of Chrome, or review the requirements in the Prompt API docs.'
         );
         return;
       }
@@ -338,8 +352,9 @@ SKILLS
       setControls(true);
       input.focus();
     } catch (error) {
-      availability = 'unavailable';
-      setState('unavailable', 'On-device AI unavailable', 'Chrome could not start the built-in model on this device.');
+      showUnsupported(
+        'Chrome couldn’t start its on-device model on this device. Try a compatible desktop version of Chrome, or review the requirements in the Prompt API docs.'
+      );
       console.error(error);
     }
   }

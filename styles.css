@@ -24,6 +24,23 @@
   --shade: #191919;
 }
 
+.home-page,
+.resume-site {
+  --site-content-width: 800px;
+}
+
+:root[data-slop-tier="subtle"] .home-page,
+:root[data-slop-tier="subtle"] .resume-site {
+  --site-content-width: 920px;
+}
+
+:root[data-slop-tier="awful"] .home-page,
+:root[data-slop-tier="awful"] .resume-site,
+:root[data-slop-tier="chaos"] .home-page,
+:root[data-slop-tier="chaos"] .resume-site {
+  --site-content-width: 1040px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
@@ -100,18 +117,19 @@ img {
 
 .hero,
 .section {
-  width: min(800px, calc(100% - 40px));
+  width: min(var(--site-content-width, 800px), calc(100% - 40px));
+  transition: width 220ms ease;
 }
 
 .home-page .site-header,
 .home-page .site-footer {
-  width: min(800px, calc(100% - 40px));
+  width: min(var(--site-content-width), calc(100% - 40px));
 }
 
 .resume-site .site-header,
 .resume-site .site-footer,
 .resume-site .resume-page {
-  width: min(800px, calc(100% - 40px));
+  width: min(var(--site-content-width), calc(100% - 40px));
 }
 
 .site-header {
@@ -122,6 +140,7 @@ img {
   padding: 26px 0;
   border-bottom: 1px solid var(--ink);
   transition:
+    width 220ms ease,
     margin 180ms ease,
     padding 180ms ease,
     border-color 180ms ease,
@@ -455,6 +474,7 @@ h3 {
   color: var(--muted);
   font-size: 14px;
   transition:
+    width 220ms ease,
     padding 180ms ease,
     border-color 180ms ease,
     border-radius 180ms ease,
@@ -471,10 +491,11 @@ h3 {
 
 .resume-page {
   padding: clamp(44px, 6vw, 78px) 0 clamp(70px, 9vw, 118px);
+  transition: width 220ms ease;
 }
 
 .resume-document {
-  max-width: 860px;
+  max-width: 100%;
   padding-top: 0;
 }
 
@@ -557,7 +578,7 @@ h3 {
   .resume-site .site-header,
   .resume-site .site-footer,
   .resume-site .resume-page {
-    width: min(100% - 28px, 800px);
+    width: min(100% - 28px, var(--site-content-width, 800px));
   }
 
   .hero {
@@ -1434,6 +1455,11 @@ main,
   gap: 14px;
 }
 
+:root[data-slop-tier="chaos"] .skill-list {
+  display: grid;
+  gap: 16px;
+}
+
 :root[data-slop-tier="chaos"] .resume-document h2 {
   border-bottom: 0;
 }
@@ -1887,6 +1913,95 @@ main,
 .ask-page {
   margin-inline: auto;
   padding: clamp(52px, 7vw, 72px) 0 clamp(70px, 9vw, 104px);
+}
+
+.ask-unsupported {
+  display: flex;
+  min-height: clamp(500px, calc(100svh - 230px), 720px);
+  max-width: 730px;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(44px, 8vw, 92px) 0;
+  animation: ask-rise 360ms ease both;
+}
+
+.ask-unsupported[hidden],
+.ask-experience[hidden] {
+  display: none;
+}
+
+.ask-unsupported-kicker {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.ask-unsupported h1 {
+  max-width: 700px;
+  font-size: clamp(3rem, 7vw, 5.25rem);
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.ask-unsupported > p:not(.ask-unsupported-kicker) {
+  max-width: 610px;
+  margin: 30px 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  line-height: 1.58;
+}
+
+.ask-unsupported-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 24px;
+  margin-top: 34px;
+}
+
+.ask-docs-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  gap: 10px;
+  padding: 12px 17px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+.ask-docs-link:hover {
+  opacity: 0.84;
+  transform: translateY(-1px);
+}
+
+.ask-docs-link:focus-visible,
+.ask-resume-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.ask-resume-link {
+  color: var(--ink);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.js body.ask-site[data-ai-state="unavailable"] {
+  padding-bottom: 0;
+}
+
+.ask-site[data-ai-state="unavailable"] .slop-dock,
+.ask-site[data-ai-state="unavailable"] .slop-atmosphere,
+.ask-site[data-ai-state="unavailable"] .slop-hype-strip {
+  display: none !important;
 }
 
 .ask-intro {
@@ -2480,6 +2595,20 @@ main,
 @media (max-width: 560px) {
   .ask-page {
     padding-top: 42px;
+  }
+
+  .ask-unsupported {
+    min-height: calc(100svh - 180px);
+    padding-block: 34px 58px;
+  }
+
+  .ask-unsupported h1 {
+    font-size: clamp(2.65rem, 13vw, 3.8rem);
+  }
+
+  .ask-unsupported-actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .ask-intro h1 {

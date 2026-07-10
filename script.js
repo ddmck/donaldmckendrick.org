@@ -9,10 +9,10 @@
   const themeToggle = document.querySelector('.theme-toggle');
 
   const SLOP_STAGES = [
-    { id: 'clean', intensity: 0, label: 'Clean' },
-    { id: 'subtle', intensity: 0.22, label: 'Subtle satire' },
-    { id: 'awful', intensity: 0.55, label: 'Delightfully awful' },
-    { id: 'chaos', intensity: 1, label: 'Total chaos' },
+    { id: 'clean', intensity: 0, label: 'Clean', shortLabel: 'Clean' },
+    { id: 'subtle', intensity: 0.22, label: 'Subtle satire', shortLabel: 'Subtle' },
+    { id: 'awful', intensity: 0.55, label: 'Delightfully awful', shortLabel: 'Awful' },
+    { id: 'chaos', intensity: 1, label: 'Total chaos', shortLabel: 'Chaos' },
   ];
 
   const COPY_VARIANTS = {
@@ -380,9 +380,12 @@
   function applySlop(stageIndex, { persist = false } = {}) {
     currentSlopStage = clampSlopStage(stageIndex);
     const stage = SLOP_STAGES[currentSlopStage];
+    const slopPosition = currentSlopStage / (SLOP_STAGES.length - 1);
 
     root.style.setProperty('--slop', String(stage.intensity));
-    root.style.setProperty('--slop-position', String(currentSlopStage / (SLOP_STAGES.length - 1)));
+    root.style.setProperty('--slop-position', String(slopPosition));
+    root.style.setProperty('--slop-percent', `${slopPosition * 100}%`);
+    root.style.setProperty('--slop-thumb-offset', `${8 - (slopPosition * 16)}px`);
     root.dataset.slopTier = stage.id;
 
     copyElements.forEach((element) => {
@@ -395,7 +398,7 @@
       slopInput.value = String(currentSlopStage);
       slopInput.setAttribute('aria-valuetext', stage.label);
     }
-    if (slopStageOutput) slopStageOutput.textContent = stage.label;
+    if (slopStageOutput) slopStageOutput.textContent = stage.shortLabel;
     if (slopReset) slopReset.hidden = currentSlopStage === 0;
     if (persist) storeSlop(currentSlopStage);
   }

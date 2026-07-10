@@ -26,8 +26,11 @@
             : !Number.isFinite(legacyLevel) || legacyLevel <= 0 ? 0 : legacyLevel <= 33 ? 1 : legacyLevel <= 66 ? 2 : 3;
           const intensities = [0, 0.22, 0.55, 1];
           const tiers = ['clean', 'subtle', 'awful', 'chaos'];
+          const slopPosition = slopStage / 3;
           root.style.setProperty('--slop', String(intensities[slopStage]));
-          root.style.setProperty('--slop-position', String(slopStage / 3));
+          root.style.setProperty('--slop-position', String(slopPosition));
+          root.style.setProperty('--slop-percent', `${slopPosition * 100}%`);
+          root.style.setProperty('--slop-thumb-offset', `${8 - (slopPosition * 16)}px`);
           root.dataset.slopTier = tiers[slopStage];
         } catch {}
 
@@ -36,7 +39,7 @@
       })();
     </script>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer onerror="document.documentElement.classList.remove('js'); document.documentElement.dataset.slopTier='clean'; document.documentElement.style.setProperty('--slop','0'); document.documentElement.style.setProperty('--slop-position','0')"></script>
+    <script src="script.js" defer onerror="document.documentElement.classList.remove('js'); document.documentElement.dataset.slopTier='clean'; document.documentElement.style.setProperty('--slop','0'); document.documentElement.style.setProperty('--slop-position','0'); document.documentElement.style.setProperty('--slop-percent','0%'); document.documentElement.style.setProperty('--slop-thumb-offset','8px')"></script>
   </head>
   <body class="resume-site">
     <header class="site-header">
@@ -71,21 +74,13 @@
     <aside class="slop-dock" data-slop-ui hidden aria-label="Slop filter controls">
       <div class="slop-dock-heading">
         <label for="slop-filter">Slop filter</label>
-        <div class="slop-dock-actions">
-          <output for="slop-filter" class="slop-output">
-            <strong data-slop-stage>Clean</strong>
-          </output>
-          <button class="slop-reset" type="button" hidden>Reset</button>
-        </div>
+        <button class="slop-reset" type="button" hidden>Reset</button>
       </div>
       <div class="slop-range-row">
+        <output for="slop-filter" class="slop-output">
+          <strong data-slop-stage>Clean</strong>
+        </output>
         <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="Clean">
-        <div class="slop-ticks" aria-hidden="true">
-          <span>Clean</span>
-          <span>Subtle</span>
-          <span>Awful</span>
-          <span>Chaos</span>
-        </div>
       </div>
       <div class="slop-dock-footer">
         <span class="slop-parody-badge">Parody mode: fictional claims</span>

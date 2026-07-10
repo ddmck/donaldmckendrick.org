@@ -373,7 +373,8 @@
   const slopInput = document.querySelector('#slop-filter');
   const slopStageOutput = document.querySelector('[data-slop-stage]');
   const slopReset = document.querySelector('.slop-reset');
-  let currentSlopStage = readStoredSlop();
+  const isAskPage = body.classList.contains('ask-site');
+  let currentSlopStage = isAskPage ? 0 : readStoredSlop();
   let prePrintSlopStage = currentSlopStage;
 
   function applySlop(stageIndex, { persist = false } = {}) {
@@ -515,7 +516,7 @@
   function preparePage() {
     root.classList.remove('menu-ready');
     closeMenu();
-    applySlop(readStoredSlop());
+    applySlop(isAskPage ? 0 : readStoredSlop());
     window.requestAnimationFrame(() => root.classList.add('menu-ready'));
   }
 

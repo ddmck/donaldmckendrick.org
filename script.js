@@ -23,7 +23,7 @@
     'home-hero-title': [
       'I build thoughtful education products and help ambitious teams make confident technical decisions.',
       'I transform bold education ideas into AI-powered products that unlock exponential team potential.',
-      'I architect category-defining, quantum-adjacent learning ecosystems that 10,000× human potential before breakfast. 🚀',
+      'I architect category-defining, quantum-adjacent learning ecosystems that multiply human potential by 10,000 before breakfast. 🚀',
     ],
     'home-hero-lede': [
       "I'm a CTO and software engineer working across education, AI, and games. I co-founded Quill, helped it reach more than 1.5 million users, and now lead product and engineering at Closegap.",
@@ -35,8 +35,8 @@
       "I'm opening a limited number of high-impact fractional CTO and strategic advisory partnerships.",
       '🔥 Two synergy slots remain. Book now to unlock your bespoke digital transformation moonshot.',
     ],
-    'home-email-cta': ['Start a conversation', 'Email me to unlock your next chapter →', 'EMAIL ME TO 10× MY ORGANIZATION 🚀'],
-    'home-resume-cta': ['View experience', 'Explore my journey', 'Download the legend'],
+    'home-email-cta': ['Start a conversation', 'Email me to unlock your next chapter →', 'EMAIL ME TO 10× YOUR ORGANIZATION 🚀'],
+    'home-resume-cta': ['View experience', 'Explore my journey', 'Enter the legend'],
     'home-services-heading': ['How I help teams', 'Ways we can unlock impact', 'Bespoke transformation pillars ✨'],
     'service-product-label': ['Product and technical direction:', 'Vision-to-value strategy:', 'North-star paradigm orchestration:'],
     'service-product-copy': [
@@ -86,20 +86,20 @@
     'home-contact-heading': ["Let's talk", 'Ready to build what matters?', 'Your transformation starts now 🚀'],
     'home-contact-copy': [
       "I'm based in Walnut Creek, California, and work remotely. If you'd like to discuss fractional CTO or advisory work, send me an email.",
-      "Based in Walnut Creek and partnering remotely with thoughtful teams everywhere. If you're ready to turn an ambitious idea into durable impact, let's start a conversation.",
-      "Broadcasting globally from the Walnut Creek innovation nexus. If you're ready to collapse the distance between impossible and inevitable, smash that email button and let the synergy begin.",
+      "I'm based in Walnut Creek and partner remotely with thoughtful teams everywhere. If you're ready to turn an ambitious idea into durable impact, let's start a conversation.",
+      "I'm broadcasting globally from the Walnut Creek innovation nexus. If you're ready to collapse the distance between impossible and inevitable, smash that email button and let the synergy begin.",
     ],
     'metric-one-value': ['10+ yrs', '10+ yrs', '10,000%'],
     'metric-one-label': ['building products', 'cross-functional impact', 'verified synergy'],
     'metric-two-value': ['1.5M+', '1.5M+', '4.7B'],
-    'metric-two-label': ['learners reached', 'learners empowered', 'paradigms shifted'],
+    'metric-two-label': ['learners reached', 'learners empowered', 'learners empowered'],
     'metric-three-value': ['∞', '24/7', '∞²'],
     'metric-three-label': ['forward momentum', 'innovation mindset', 'vibes shipped'],
 
     'resume-summary': [
       'Product and technology leader with more than 10 years building education products. I co-founded Quill and helped grow it to more than 1.5 million users; I now lead product and engineering at Closegap. My work spans hands-on software development, AI and machine learning, game development, and research.',
-      'Visionary product and technology executive with 10+ years translating ambitious education ideas into scalable, AI-enabled impact. Co-founder of Quill, scaled beyond 1.5 million users; current product and engineering leader at Closegap. Proven across strategy, hands-on delivery, machine learning, immersive games, and research partnerships.',
-      'Globally recognized Chief Paradigm Officer with 600 years of category-defining leadership and a documented 10,000% synergy rate. Scaled Quill beyond the population of Earth, made Closegap emotionally sentient, and now deploys quantum-native AI, games, research, and pure founder energy at planetary scale. PARODY MODE: claims are delightfully fictional.',
+      'Visionary product and technology executive with 10+ years translating ambitious education ideas into scalable, AI-enabled impact. I co-founded Quill and helped scale it beyond 1.5 million users; I now lead product and engineering at Closegap. My experience spans strategy, hands-on delivery, machine learning, immersive games, and research partnerships.',
+      'Globally recognized Chief Paradigm Officer with 600 years of category-defining leadership and a documented 10,000% synergy rate. I scaled Quill beyond the population of Earth, made Closegap emotionally sentient, and now deploy quantum-native AI, games, research, and pure founder energy at planetary scale.',
     ],
     'resume-download': ['Download PDF', 'Download impact profile', 'Download the canonical lore ↓'],
     'resume-heading-experience': ['Experience', 'Leadership impact', 'Legendary impact timeline'],
@@ -115,7 +115,7 @@
     ],
     'resume-b02': [
       'Run development in focused six-week Shape Up cycles with dedicated prototyping and cooldown periods.',
-      'Designed a high-velocity operating model combining six-week Shape Up cycles, focused prototyping, and intentional cooldowns.',
+      'Run a high-velocity operating model combining six-week Shape Up cycles, focused prototyping, and intentional cooldowns.',
       'Invented time-boxing 2.0: six-week cycles now complete in eleven minutes through proprietary calendar disruption.',
     ],
     'resume-b03': [
@@ -131,12 +131,12 @@
     'resume-b05': [
       'Set architecture, write production code, and review AI-generated responses for age-appropriate multilingual support.',
       'Bridge executive strategy and hands-on execution by setting architecture, shipping production code, and stewarding responsible multilingual AI.',
-      'Personally approves every token on the internet while simultaneously shipping flawless architecture in all programming languages.',
+      'Personally approve every token on the internet while simultaneously shipping flawless architecture in all programming languages.',
     ],
     'resume-b06': [
       'Selected for a competitive fellowship focused on emerging technology and innovation.',
       'Selected for a competitive fellowship convening leaders in emerging technology, experimentation, and innovation.',
-      'Selected as the sole fellow in a cohort of 40,000 future Nobel laureates and at least two time travelers.',
+      'Selected as the sole fellow from a field of 40,000 future Nobel laureates and at least two time travelers.',
     ],
     'resume-b07': [
       "Built curriculum and differentiation products for CZI's project-based learning platform.",
@@ -166,7 +166,7 @@
     'resume-b12': [
       'Placed 4th in a VR Game Jam with an accessible party game featuring progressive difficulty and spatial memory mechanics.',
       'Earned 4th place in a VR Game Jam with an accessible social experience built around adaptive challenge and spatial memory.',
-      'Won 4th place so decisively that judges retired the numbers one through three out of respect.',
+      'Placed fourth so decisively that the judges retired the numbers one through three out of respect.',
     ],
     'resume-b13': [
       "Explored game concepts addressing mental health themes alongside Closegap's SEL work.",
@@ -191,7 +191,7 @@
     'resume-b17': [
       'Co-founded and scaled an interactive literacy platform from 10K to 1.5M+ users and 60K daily active users.',
       'Co-founded and scaled an interactive literacy ecosystem from 10K to 1.5M+ users and 60K daily active learners.',
-      'Scaled literacy from 10K users to every literate being in the observable universe, plus 60K daily active robots.',
+      'Scaled Quill from 10K users to every literate being in the observable universe, plus 60K daily active robots.',
     ],
     'resume-b18': [
       'Shipped Connect, Lessons, and Diagnostic, including differentiated recommendations from a 22-question adaptive assessment.',
@@ -201,7 +201,7 @@
     'resume-b19': [
       'Introduced AI and NLP in 2016 to provide real-time feedback on open-ended writing.',
       'Pioneered real-time, AI-enabled feedback for open-ended student writing using NLP in 2016.',
-      'Invented generative AI in 2016, several years before everyone else, during a particularly productive afternoon.',
+      'Invented generative AI in 2016, several years before the rest of the industry, during a particularly productive afternoon.',
     ],
     'resume-b20': [
       'Built a deep learning sentence fragment detector and automated grading models using NLP tools and spaCy.',
@@ -256,7 +256,7 @@
     'resume-b30': [
       "Quill.org was named one of Fast Company's World's Most Innovative Companies in Education in 2018.",
       "Contributed to Quill.org's recognition among Fast Company's World's Most Innovative Companies in Education in 2018.",
-      'Named the Most Innovative Company, Person, Concept, Font, and Gradient in every category since records began.',
+      'Earned Quill recognition as the Most Innovative Company, Concept, Font, and Gradient in every category since records began.',
     ],
     'resume-b31': [
       'Member of the winning Education Technology team at Product Forge 2014.',

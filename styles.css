@@ -1,6 +1,7 @@
 :root {
   color-scheme: light;
   --slop: 0;
+  --slop-position: 0;
   --ink: #101010;
   --muted: #5d5d5d;
   --quiet: #e7e7e7;
@@ -840,7 +841,7 @@ h3 {
 /* Progressive slop filter */
 
 .js body {
-  padding-bottom: calc(126px + env(safe-area-inset-bottom));
+  padding-bottom: calc(142px + env(safe-area-inset-bottom));
 }
 
 body::before,
@@ -966,16 +967,13 @@ main,
 }
 
 .slop-output strong {
-  min-width: 3ch;
   color: var(--ink);
-  font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
 .slop-range-row {
   display: grid;
-  grid-template-columns: auto minmax(120px, 1fr) auto;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 8px;
   color: var(--muted);
   font-size: 0.69rem;
@@ -998,13 +996,13 @@ main,
 #slop-filter::-webkit-slider-runnable-track {
   height: 4px;
   border-radius: 99px;
-  background: linear-gradient(90deg, #7c3aed 0 calc(var(--slop) * 100%), var(--quiet) calc(var(--slop) * 100%) 100%);
+  background: linear-gradient(90deg, #7c3aed 0 calc(var(--slop-position) * 100%), var(--quiet) calc(var(--slop-position) * 100%) 100%);
 }
 
 #slop-filter::-moz-range-track {
   height: 4px;
   border-radius: 99px;
-  background: linear-gradient(90deg, #7c3aed 0 calc(var(--slop) * 100%), var(--quiet) calc(var(--slop) * 100%) 100%);
+  background: linear-gradient(90deg, #7c3aed 0 calc(var(--slop-position) * 100%), var(--quiet) calc(var(--slop-position) * 100%) 100%);
 }
 
 #slop-filter::-webkit-slider-thumb {
@@ -1038,6 +1036,56 @@ main,
 #slop-filter:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 4px;
+}
+
+.slop-ticks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: -13px;
+  padding-inline: 9px;
+  pointer-events: none;
+}
+
+.slop-ticks span {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 0.59rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.slop-ticks span::before {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--paper) 82%, transparent);
+  content: "";
+}
+
+.slop-ticks span:first-child {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.slop-ticks span:last-child {
+  align-items: flex-end;
+  text-align: right;
+}
+
+:root[data-slop-tier="clean"] .slop-ticks span:first-child::before,
+:root[data-slop-tier="subtle"] .slop-ticks span:nth-child(-n + 2)::before,
+:root[data-slop-tier="awful"] .slop-ticks span:nth-child(-n + 3)::before,
+:root[data-slop-tier="chaos"] .slop-ticks span::before {
+  border-color: #7c3aed;
+  background: #7c3aed;
 }
 
 .slop-dock-footer {
@@ -1413,7 +1461,8 @@ main,
 }
 
 :root[data-slop-tier="chaos"] .slop-dock .slop-output,
-:root[data-slop-tier="chaos"] .slop-dock .slop-range-row {
+:root[data-slop-tier="chaos"] .slop-dock .slop-range-row,
+:root[data-slop-tier="chaos"] .slop-dock .slop-ticks span {
   color: rgb(255 255 255 / 0.82);
 }
 
@@ -1543,7 +1592,7 @@ main,
 
 @media (max-width: 560px) {
   .js body {
-    padding-bottom: calc(142px + env(safe-area-inset-bottom));
+    padding-bottom: calc(154px + env(safe-area-inset-bottom));
   }
 
   .slop-dock {
@@ -1592,8 +1641,7 @@ main,
   }
 
   .slop-range-row {
-    grid-template-columns: auto minmax(90px, 1fr) auto;
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   :root[data-slop-tier="awful"] .hero,

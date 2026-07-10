@@ -18,10 +18,17 @@
           const savedTheme = localStorage.getItem('donald-theme');
           if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
 
-          const savedSlop = Number(localStorage.getItem('donald-slop-level'));
-          const slopLevel = Number.isFinite(savedSlop) ? Math.min(100, Math.max(0, Math.round(savedSlop))) : 0;
-          root.style.setProperty('--slop', String(slopLevel / 100));
-          root.dataset.slopTier = slopLevel === 0 ? 'clean' : slopLevel <= 33 ? 'subtle' : slopLevel <= 66 ? 'awful' : 'chaos';
+          const savedStage = localStorage.getItem('donald-slop-stage');
+          const legacyLevel = Number(localStorage.getItem('donald-slop-level'));
+          const parsedStage = Number(savedStage);
+          const slopStage = savedStage !== null && Number.isInteger(parsedStage) && parsedStage >= 0 && parsedStage <= 3
+            ? parsedStage
+            : !Number.isFinite(legacyLevel) || legacyLevel <= 0 ? 0 : legacyLevel <= 33 ? 1 : legacyLevel <= 66 ? 2 : 3;
+          const intensities = [0, 0.22, 0.55, 1];
+          const tiers = ['clean', 'subtle', 'awful', 'chaos'];
+          root.style.setProperty('--slop', String(intensities[slopStage]));
+          root.style.setProperty('--slop-position', String(slopStage / 3));
+          root.dataset.slopTier = tiers[slopStage];
         } catch {}
 
         if (!theme) theme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -29,7 +36,7 @@
       })();
     </script>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer onerror="document.documentElement.classList.remove('js'); document.documentElement.dataset.slopTier='clean'; document.documentElement.style.setProperty('--slop','0')"></script>
+    <script src="script.js" defer onerror="document.documentElement.classList.remove('js'); document.documentElement.dataset.slopTier='clean'; document.documentElement.style.setProperty('--slop','0'); document.documentElement.style.setProperty('--slop-position','0')"></script>
   </head>
   <body class="resume-site">
     <header class="site-header">
@@ -64,19 +71,24 @@
     <aside class="slop-dock" data-slop-ui hidden aria-label="Slop filter controls">
       <div class="slop-dock-heading">
         <label for="slop-filter">Slop filter</label>
-        <output for="slop-filter" class="slop-output">
-          <span data-slop-stage>Restrained</span>
-          <strong data-slop-percent>0%</strong>
-        </output>
+        <div class="slop-dock-actions">
+          <output for="slop-filter" class="slop-output">
+            <strong data-slop-stage>Clean</strong>
+          </output>
+          <button class="slop-reset" type="button" hidden>Reset</button>
+        </div>
       </div>
       <div class="slop-range-row">
-        <span aria-hidden="true">Taste</span>
-        <input id="slop-filter" type="range" min="0" max="100" step="1" value="0" aria-valuetext="0 percent, Restrained">
-        <span aria-hidden="true">Slop</span>
+        <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="Clean">
+        <div class="slop-ticks" aria-hidden="true">
+          <span>Clean</span>
+          <span>Subtle</span>
+          <span>Awful</span>
+          <span>Chaos</span>
+        </div>
       </div>
       <div class="slop-dock-footer">
         <span class="slop-parody-badge">Parody mode: fictional claims</span>
-        <button class="slop-reset" type="button" hidden>De-slop</button>
       </div>
     </aside>
 

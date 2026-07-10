@@ -1,6 +1,7 @@
 (() => {
   const THEME_STORAGE_KEY = 'donald-theme';
-  const SLOP_STORAGE_KEY = 'donald-slop-level';
+  const SLOP_STORAGE_KEY = 'donald-slop-stage';
+  const LEGACY_SLOP_STORAGE_KEY = 'donald-slop-level';
   const root = document.documentElement;
   const body = document.body;
   const themeQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -8,10 +9,10 @@
   const themeToggle = document.querySelector('.theme-toggle');
 
   const SLOP_STAGES = [
-    { id: 'clean', label: 'Restrained' },
-    { id: 'subtle', label: 'Tastefully optimized' },
-    { id: 'awful', label: 'Delightfully awful' },
-    { id: 'chaos', label: 'Total chaos' },
+    { id: 'clean', intensity: 0, label: 'Clean' },
+    { id: 'subtle', intensity: 0.22, label: 'Subtle satire' },
+    { id: 'awful', intensity: 0.55, label: 'Delightfully awful' },
+    { id: 'chaos', intensity: 1, label: 'Total chaos' },
   ];
 
   const COPY_VARIANTS = {
@@ -295,13 +296,13 @@
     ],
   };
 
-  function clampSlop(value) {
+  function clampSlopStage(value) {
     const parsed = Number(value);
-    return Number.isFinite(parsed) ? Math.min(100, Math.max(0, Math.round(parsed))) : 0;
+    return Number.isFinite(parsed) ? Math.min(SLOP_STAGES.length - 1, Math.max(0, Math.round(parsed))) : 0;
   }
 
-  function slopTier(level) {
-    if (level === 0) return 0;
+  function legacyLevelToStage(level) {
+    if (!Number.isFinite(level) || level <= 0) return 0;
     if (level <= 33) return 1;
     if (level <= 66) return 2;
     return 3;
@@ -324,15 +325,17 @@
 
   function readStoredSlop() {
     try {
-      return clampSlop(localStorage.getItem(SLOP_STORAGE_KEY));
+      const savedStage = localStorage.getItem(SLOP_STORAGE_KEY);
+      if (savedStage !== null) return clampSlopStage(savedStage);
+      return legacyLevelToStage(Number(localStorage.getItem(LEGACY_SLOP_STORAGE_KEY)));
     } catch {
       return 0;
     }
   }
 
-  function storeSlop(level) {
+  function storeSlop(stage) {
     try {
-      localStorage.setItem(SLOP_STORAGE_KEY, String(level));
+      localStorage.setItem(SLOP_STORAGE_KEY, String(stage));
     } catch {}
   }
 
@@ -370,33 +373,31 @@
   const originalCopy = new Map(copyElements.map((element) => [element, element.textContent.trim()]));
   const slopInput = document.querySelector('#slop-filter');
   const slopStageOutput = document.querySelector('[data-slop-stage]');
-  const slopPercentOutput = document.querySelector('[data-slop-percent]');
   const slopReset = document.querySelector('.slop-reset');
-  let currentSlop = readStoredSlop();
-  let prePrintSlop = currentSlop;
+  let currentSlopStage = readStoredSlop();
+  let prePrintSlopStage = currentSlopStage;
 
-  function applySlop(level, { persist = false } = {}) {
-    currentSlop = clampSlop(level);
-    const tier = slopTier(currentSlop);
-    const stage = SLOP_STAGES[tier];
+  function applySlop(stageIndex, { persist = false } = {}) {
+    currentSlopStage = clampSlopStage(stageIndex);
+    const stage = SLOP_STAGES[currentSlopStage];
 
-    root.style.setProperty('--slop', String(currentSlop / 100));
+    root.style.setProperty('--slop', String(stage.intensity));
+    root.style.setProperty('--slop-position', String(currentSlopStage / (SLOP_STAGES.length - 1)));
     root.dataset.slopTier = stage.id;
 
     copyElements.forEach((element) => {
       const key = element.dataset.slopCopy;
       const variants = COPY_VARIANTS[key];
-      element.textContent = tier === 0 || !variants ? originalCopy.get(element) : variants[tier - 1];
+      element.textContent = currentSlopStage === 0 || !variants ? originalCopy.get(element) : variants[currentSlopStage - 1];
     });
 
     if (slopInput) {
-      slopInput.value = String(currentSlop);
-      slopInput.setAttribute('aria-valuetext', `${currentSlop} percent, ${stage.label}`);
+      slopInput.value = String(currentSlopStage);
+      slopInput.setAttribute('aria-valuetext', stage.label);
     }
     if (slopStageOutput) slopStageOutput.textContent = stage.label;
-    if (slopPercentOutput) slopPercentOutput.textContent = `${currentSlop}%`;
-    if (slopReset) slopReset.hidden = currentSlop === 0;
-    if (persist) storeSlop(currentSlop);
+    if (slopReset) slopReset.hidden = currentSlopStage === 0;
+    if (persist) storeSlop(currentSlopStage);
   }
 
   document.querySelectorAll('[data-slop-ui]').forEach((element) => {
@@ -413,15 +414,15 @@
   });
 
   window.addEventListener('beforeprint', () => {
-    prePrintSlop = currentSlop;
+    prePrintSlopStage = currentSlopStage;
     applySlop(0);
   });
 
   window.addEventListener('afterprint', () => {
-    applySlop(prePrintSlop);
+    applySlop(prePrintSlopStage);
   });
 
-  applySlop(currentSlop);
+  applySlop(currentSlopStage);
 
   const header = document.querySelector('.site-header');
   const brand = header?.querySelector('.brand');

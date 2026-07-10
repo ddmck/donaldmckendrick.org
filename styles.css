@@ -651,6 +651,15 @@ h3 {
   .work-list article {
     grid-template-columns: 1fr;
     gap: 8px;
+    padding: 0;
+  }
+
+  .work-list {
+    margin-top: 26px;
+  }
+
+  .work-list article + article {
+    margin-top: 32px;
   }
 
   .role-heading {

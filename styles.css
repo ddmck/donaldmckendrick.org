@@ -249,7 +249,6 @@ h3 {
   gap: 14px;
 }
 
-.work-list article,
 .resume-role,
 .skill-list div {
   padding: 24px 0;
@@ -295,7 +294,9 @@ h3 {
 }
 
 .work-list {
-  margin-top: 30px;
+  display: grid;
+  margin-top: 26px;
+  gap: 32px;
 }
 
 .work-list span {
@@ -651,15 +652,6 @@ h3 {
   .work-list article {
     grid-template-columns: 1fr;
     gap: 8px;
-    padding: 0;
-  }
-
-  .work-list {
-    margin-top: 26px;
-  }
-
-  .work-list article + article {
-    margin-top: 32px;
   }
 
   .role-heading {

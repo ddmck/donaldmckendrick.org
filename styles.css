@@ -53,6 +53,18 @@ img {
   max-width: 100%;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .site-header,
 .site-footer,
 .hero,
@@ -354,14 +366,20 @@ h3 {
   padding: clamp(44px, 6vw, 78px) 0 clamp(70px, 9vw, 118px);
 }
 
-.resume-download {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .resume-document {
   max-width: 860px;
-  padding-top: 42px;
+  padding-top: 0;
+}
+
+.resume-summary p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.16rem;
+  line-height: 1.55;
+}
+
+.resume-summary .button {
+  margin-top: 24px;
 }
 
 .resume-document section + section {
@@ -507,7 +525,7 @@ h3 {
 @media print {
   .site-header,
   .site-footer,
-  .resume-download {
+  .resume-summary .button {
     display: none;
   }
 

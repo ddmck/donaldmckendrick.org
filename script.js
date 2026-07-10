@@ -9,7 +9,7 @@
   const themeToggle = document.querySelector('.theme-toggle');
 
   const SLOP_STAGES = [
-    { id: 'clean', intensity: 0, label: 'Clean', shortLabel: 'Clean' },
+    { id: 'clean', intensity: 0, label: 'None', shortLabel: 'None' },
     { id: 'subtle', intensity: 0.22, label: 'Subtle satire', shortLabel: 'Subtle' },
     { id: 'awful', intensity: 0.55, label: 'Delightfully awful', shortLabel: 'Awful' },
     { id: 'chaos', intensity: 1, label: 'Total chaos', shortLabel: 'Chaos' },

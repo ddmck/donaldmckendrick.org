@@ -2026,6 +2026,10 @@ main,
   text-transform: uppercase;
 }
 
+:root[data-slop-tier="clean"] .ask-kicker {
+  display: none;
+}
+
 .ask-intro h1 {
   max-width: 680px;
   font-size: clamp(2.65rem, 5vw, 3.75rem);
@@ -2319,10 +2323,7 @@ main,
 }
 
 :root[data-slop-tier="subtle"] .ask-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
-  gap: clamp(40px, 8vw, 100px);
-  align-items: end;
+  display: block;
   max-width: none;
 }
 
@@ -2331,19 +2332,20 @@ main,
 }
 
 :root[data-slop-tier="subtle"] .ask-intro h1 {
-  max-width: 590px;
-  font-size: clamp(3.2rem, 8vw, 6.4rem);
+  max-width: 860px;
+  font-size: clamp(3.2rem, 6.6vw, 5.4rem);
   letter-spacing: -0.045em;
-  line-height: 0.92;
+  line-height: 0.96;
 }
 
 :root[data-slop-tier="subtle"] .ask-intro > p {
-  margin: 0 0 4px;
-  font-size: 1rem;
+  max-width: 660px;
+  margin: 28px 0 0;
+  font-size: 1.06rem;
 }
 
 :root[data-slop-tier="subtle"] .ask-workspace {
-  margin-top: clamp(54px, 9vw, 104px);
+  margin-top: clamp(54px, 7vw, 76px);
 }
 
 :root[data-slop-tier="subtle"] .suggested-questions button {
@@ -2378,10 +2380,7 @@ main,
 :root[data-slop-tier="chaos"] .ask-intro {
   position: relative;
   isolation: isolate;
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(270px, 0.8fr);
-  gap: clamp(34px, 7vw, 84px);
-  align-items: end;
+  display: block;
   max-width: none;
   padding: clamp(28px, 5vw, 48px);
   overflow: hidden;
@@ -2415,16 +2414,17 @@ main,
 
 :root[data-slop-tier="awful"] .ask-intro h1,
 :root[data-slop-tier="chaos"] .ask-intro h1 {
-  max-width: 680px;
-  font-size: clamp(3.5rem, 7vw, 6.3rem);
+  max-width: 880px;
+  font-size: clamp(3.5rem, 6.4vw, 5.8rem);
   letter-spacing: -0.055em;
-  line-height: 0.92;
+  line-height: 0.95;
 }
 
 :root[data-slop-tier="awful"] .ask-intro > p,
 :root[data-slop-tier="chaos"] .ask-intro > p {
-  margin: 0 0 4px;
-  font-size: 1rem;
+  max-width: 680px;
+  margin: 30px 0 0;
+  font-size: 1.06rem;
 }
 
 :root[data-slop-tier="awful"] .ask-workspace,

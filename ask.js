@@ -157,19 +157,22 @@ SKILLS
     note.textContent = noteText;
   }
 
-  function showUnsupported(message) {
-    availability = 'unavailable';
-    document.body.dataset.aiState = 'unavailable';
-    unsupportedCopy.textContent = message;
-    experience.hidden = true;
-    unsupported.hidden = false;
-
+  function resetUnsupportedVisuals() {
     const root = document.documentElement;
     root.dataset.slopTier = 'clean';
     root.style.setProperty('--slop', '0');
     root.style.setProperty('--slop-position', '0');
     root.style.setProperty('--slop-percent', '0%');
     root.style.setProperty('--slop-thumb-offset', '8px');
+  }
+
+  function showUnsupported(message) {
+    availability = 'unavailable';
+    document.body.dataset.aiState = 'unavailable';
+    unsupportedCopy.textContent = message;
+    experience.hidden = true;
+    unsupported.hidden = false;
+    resetUnsupportedVisuals();
   }
 
   function setControls(enabled) {
@@ -372,6 +375,10 @@ SKILLS
   });
 
   document.documentElement.addEventListener('slopchange', (event) => {
+    if (availability === 'unavailable') {
+      resetUnsupportedVisuals();
+      return;
+    }
     resetSessionForTone(event.detail?.stage);
   });
 

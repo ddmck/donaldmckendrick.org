@@ -798,6 +798,11 @@ h3 {
     background: var(--ink);
   }
 
+  :root[data-slop-tier="awful"] .home-page .section > h2::after,
+  :root[data-slop-tier="chaos"] .home-page .section > h2::after {
+    display: none;
+  }
+
   .work-list article {
     grid-template-columns: 1fr;
     gap: 8px;
@@ -1409,6 +1414,14 @@ main,
   gap: 14px;
 }
 
+:root[data-slop-tier="chaos"] .resume-document h2 {
+  border-bottom: 0;
+}
+
+:root[data-slop-tier="chaos"] .resume-role + .resume-role {
+  margin-top: 16px;
+}
+
 :root[data-slop-tier="chaos"] body {
   padding-top: 32px;
 }
@@ -1635,11 +1648,63 @@ main,
     padding: 24px 20px;
   }
 
-  :root[data-slop-tier="awful"] .site-nav a,
-  :root[data-slop-tier="chaos"] .site-nav a {
-    padding: 7px 12px;
+  :root[data-slop-tier="awful"] .slop-eyebrow,
+  :root[data-slop-tier="chaos"] .slop-eyebrow {
+    width: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
     background: transparent;
     box-shadow: none;
+    backdrop-filter: none;
+    font-size: clamp(0.68rem, 3.2vw, 0.76rem);
+    letter-spacing: 0.065em;
+  }
+
+  :root[data-slop-tier="chaos"] .hero .button {
+    padding-inline: 8px;
+    font-size: clamp(0.68rem, 3.35vw, 0.82rem);
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+  }
+
+  :root[data-slop-tier="awful"] .site-nav a,
+  :root[data-slop-tier="chaos"] .site-nav a {
+    padding: 7px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  :root[data-slop-tier="awful"] .site-nav a:hover,
+  :root[data-slop-tier="awful"] .site-nav a[aria-current="page"],
+  :root[data-slop-tier="chaos"] .site-nav a:hover,
+  :root[data-slop-tier="chaos"] .site-nav a[aria-current="page"] {
+    border: 0;
+    background: transparent;
+  }
+
+  :root[data-slop-tier="awful"] .site-nav a:focus-visible,
+  :root[data-slop-tier="chaos"] .site-nav a:focus-visible {
+    outline: 0;
+    text-decoration: underline;
+    text-decoration-color: #7c3aed;
+    text-decoration-thickness: 2px;
+  }
+
+  :root.js body.menu-open .site-header {
+    z-index: 30;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  :root.js body.menu-open .site-nav {
+    width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .slop-metrics {

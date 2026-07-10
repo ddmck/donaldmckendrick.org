@@ -16,8 +16,8 @@
   ];
 
   const COPY_VARIANTS = {
-    'nav-work': ['Work', 'Impact', 'Paradigm portfolio'],
-    'nav-resume': ['Resume', 'Profile', 'Legendary resume'],
+    'nav-work': ['Work', 'Impact', 'Impact portfolio'],
+    'nav-resume': ['Resume', 'Profile', 'Resume'],
     'nav-email': ['Connect', "Let's talk", 'Initiate synergy'],
 
     'home-hero-title': [
@@ -36,7 +36,6 @@
       '🔥 Two synergy slots remain. Book now to unlock your bespoke digital transformation moonshot.',
     ],
     'home-email-cta': ['Start a conversation', 'Email me to unlock your next chapter →', 'EMAIL ME TO 10× YOUR ORGANIZATION 🚀'],
-    'home-resume-cta': ['View experience', 'Explore my journey', 'Enter the legend'],
     'home-services-heading': ['How I help teams', 'Ways we can unlock impact', 'Bespoke transformation pillars ✨'],
     'service-product-label': ['Product and technical direction:', 'Vision-to-value strategy:', 'North-star paradigm orchestration:'],
     'service-product-copy': [

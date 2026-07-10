@@ -8,13 +8,36 @@
       name="description"
       content="Donald McKendrick is a CTO and software engineer working in education, AI, and game development."
     >
-    <script>document.documentElement.classList.add('js')</script>
+    <script>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('js');
+
+        let theme;
+        try {
+          const savedTheme = localStorage.getItem('donald-theme');
+          if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+        } catch {}
+
+        if (!theme) theme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.dataset.theme = theme;
+      })();
+    </script>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer onerror="document.documentElement.classList.remove('js')"></script>
   </head>
   <body class="home-page">
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="Donald McKendrick home">Donald McKendrick</a>
+      <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" title="Switch to dark mode">
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+        </svg>
+      </button>
       <button
         class="menu-toggle"
         type="button"
@@ -50,7 +73,7 @@
       </section>
 
       <section class="section" aria-labelledby="services">
-        <h2 id="services">What I can help with</h2>
+        <h2 id="services"><span>What I can help with</span></h2>
         <div class="service-list">
           <p><strong>Product and technical direction:</strong> Deciding what to build, how to build it, and where the risks are.</p>
           <p><strong>Hands-on development:</strong> Prototyping and shipping, especially for AI and learning products.</p>
@@ -59,7 +82,7 @@
       </section>
 
       <section class="section" aria-labelledby="work">
-        <h2 id="work">Selected work</h2>
+        <h2 id="work"><span>Selected work</span></h2>
         <div class="work-list">
           <article>
             <div>
@@ -110,7 +133,7 @@
       </section>
 
       <section class="section closing" aria-labelledby="contact">
-        <h2 id="contact">Get in touch</h2>
+        <h2 id="contact"><span>Get in touch</span></h2>
         <p>
           I'm based in Walnut Creek, California, and work remotely. If you'd like to discuss fractional CTO or advisory
           work, email me.

@@ -1,15 +1,64 @@
 (() => {
-  const mobileQuery = window.matchMedia('(max-width: 560px)');
+  const THEME_STORAGE_KEY = 'donald-theme';
   const root = document.documentElement;
   const body = document.body;
+  const themeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const mobileQuery = window.matchMedia('(max-width: 560px)');
+  const themeToggle = document.querySelector('.theme-toggle');
+
+  function readStoredTheme() {
+    try {
+      const theme = localStorage.getItem(THEME_STORAGE_KEY);
+      return theme === 'light' || theme === 'dark' ? theme : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function storeTheme(theme) {
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {}
+  }
+
+  function systemTheme() {
+    return themeQuery.matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    root.dataset.theme = isDark ? 'dark' : 'light';
+
+    if (!themeToggle) return;
+
+    themeToggle.setAttribute('aria-pressed', String(isDark));
+    themeToggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+  }
+
+  const storedTheme = readStoredTheme();
+  let hasExplicitTheme = Boolean(storedTheme);
+
+  applyTheme(root.dataset.theme || storedTheme || systemTheme());
+
+  themeToggle?.addEventListener('click', () => {
+    const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    hasExplicitTheme = true;
+    applyTheme(theme);
+    storeTheme(theme);
+  });
+
+  themeQuery.addEventListener('change', (event) => {
+    if (!hasExplicitTheme) applyTheme(event.matches ? 'dark' : 'light');
+  });
+
   const header = document.querySelector('.site-header');
   const brand = header?.querySelector('.brand');
-  const toggle = header?.querySelector('.menu-toggle');
+  const menuToggle = header?.querySelector('.menu-toggle');
   const navigation = header?.querySelector('.site-nav');
   const main = document.querySelector('main');
   const footer = document.querySelector('.site-footer');
 
-  if (!header || !brand || !toggle || !navigation || !main || !footer) return;
+  if (!header || !brand || !menuToggle || !navigation || !main || !footer) return;
 
   const links = Array.from(navigation.querySelectorAll('a'));
 
@@ -28,24 +77,24 @@
 
   function closeMenu({ restoreFocus = false } = {}) {
     body.classList.remove('menu-open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Open menu');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Open menu');
     setPageInert(false);
 
-    if (restoreFocus) toggle.focus();
+    if (restoreFocus) menuToggle.focus();
   }
 
   function openMenu() {
     if (!mobileQuery.matches) return;
 
     body.classList.add('menu-open');
-    toggle.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-label', 'Close menu');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    menuToggle.setAttribute('aria-label', 'Close menu');
     setPageInert(true);
     links[0]?.focus();
   }
 
-  toggle.addEventListener('click', () => {
+  menuToggle.addEventListener('click', () => {
     if (body.classList.contains('menu-open')) {
       closeMenu({ restoreFocus: true });
     } else {
@@ -71,7 +120,7 @@
 
     if (event.key !== 'Tab') return;
 
-    const focusable = [brand, toggle, ...links];
+    const focusable = [brand, themeToggle, menuToggle, ...links].filter(Boolean);
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
 

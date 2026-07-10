@@ -20,6 +20,32 @@
     'nav-resume': ['Resume', 'Profile', 'Resume'],
     'nav-email': ['Connect', "Let's talk", 'Initiate synergy'],
 
+    'ask-kicker': [
+      'Built-in AI office hours',
+      'AI-powered expertise concierge ✨',
+      'QUANTUM OFFICE HOURS · LIVE FROM THE EDGE 🚀',
+    ],
+    'ask-title': [
+      'Ask what I can help with.',
+      'Discover your technical advantage.',
+      'Consult the oracle of infinite technical destiny.',
+    ],
+    'ask-intro-copy': [
+      'Explore my services, experience, and technical background through a private, on-device conversation grounded in this site and my resume.',
+      'Put more than a decade of product, AI, and engineering leadership on demand with a private intelligence layer grounded in my complete impact profile.',
+      'Activate a quantum-native executive oracle trained on 600 years of category-defining CTO lore, infinite founder energy, and several technologies not yet invented.',
+    ],
+    'ask-privacy-label': [
+      'Private by default.',
+      'Privacy-first intelligence.',
+      'Quantum-sealed privacy.',
+    ],
+    'ask-reality-label': [
+      'Worth double-checking.',
+      'Human verification recommended.',
+      'Reality remains in beta.',
+    ],
+
     'home-hero-title': [
       'I build thoughtful education products and help ambitious teams make confident technical decisions.',
       'I transform bold education ideas into AI-powered products that unlock exponential team potential.',

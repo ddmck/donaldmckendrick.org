@@ -10,30 +10,22 @@
     >
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
+  <body class="resume-site">
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="Donald McKendrick home">Donald McKendrick</a>
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="index.html#work">Work</a>
         <a href="resume.html" aria-current="page">Resume</a>
         <a href="mailto:ddmckendrick@gmail.com">Email</a>
+        <a href="https://linkedin.com/in/donaldmckendrick" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
     </header>
 
     <main class="resume-page">
-      <section class="resume-header" aria-labelledby="resume-title">
-        <div>
-          <p class="eyebrow">Resume</p>
-          <h1 id="resume-title">Donald McKendrick</h1>
-          <p class="resume-subtitle">Product and technology leader working in education, AI, and games.</p>
-        </div>
-        <div class="resume-actions" aria-label="Resume actions">
-          <a class="button" href="assets/resume-donald-mckendrick.pdf">Download PDF</a>
-          <a href="mailto:ddmckendrick@gmail.com">Email</a>
-          <a href="https://linkedin.com/in/donaldmckendrick">LinkedIn</a>
-          <a href="https://github.com/ddmck">GitHub</a>
-        </div>
-      </section>
+      <div class="resume-download">
+        <a class="button" href="assets/resume-donald-mckendrick.pdf">Download PDF</a>
+      </div>
 
       <article class="resume-document">
         <section aria-labelledby="summary">
@@ -241,7 +233,11 @@
 
     <footer class="site-footer">
       <span>Donald McKendrick</span>
-      <span>Walnut Creek, CA</span>
+      <div class="footer-links">
+        <span>Walnut Creek, CA</span>
+        <a href="https://linkedin.com/in/donaldmckendrick" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
     </footer>
   </body>
 </html>

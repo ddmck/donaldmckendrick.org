@@ -17,16 +17,30 @@
         try {
           const savedTheme = localStorage.getItem('donald-theme');
           if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+
+          const savedStage = localStorage.getItem('donald-slop-stage');
+          const legacyLevel = Number(localStorage.getItem('donald-slop-level'));
+          const parsedStage = Number(savedStage);
+          const slopStage = savedStage !== null && Number.isInteger(parsedStage) && parsedStage >= 0 && parsedStage <= 3
+            ? parsedStage
+            : !Number.isFinite(legacyLevel) || legacyLevel <= 0 ? 0 : legacyLevel <= 33 ? 1 : legacyLevel <= 66 ? 2 : 3;
+          const intensities = [0, 0.22, 0.55, 1];
+          const tiers = ['clean', 'subtle', 'awful', 'chaos'];
+          const slopPosition = slopStage / 3;
+          root.style.setProperty('--slop', String(intensities[slopStage]));
+          root.style.setProperty('--slop-position', String(slopPosition));
+          root.style.setProperty('--slop-percent', `${slopPosition * 100}%`);
+          root.style.setProperty('--slop-thumb-offset', `${8 - (slopPosition * 16)}px`);
+          root.dataset.slopTier = tiers[slopStage];
         } catch {}
 
         if (!theme) theme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         root.dataset.theme = theme;
-        root.dataset.slopTier = 'clean';
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=ask-2">
-    <script src="script.js?v=ask-2" defer></script>
-    <script src="ask.js?v=ask-2" defer></script>
+    <link rel="stylesheet" href="styles.css?v=ask-3">
+    <script src="script.js?v=ask-3" defer></script>
+    <script src="ask.js?v=ask-3" defer></script>
   </head>
   <body class="ask-site">
     <header class="site-header">
@@ -59,6 +73,22 @@
       </nav>
     </header>
 
+    <aside class="slop-dock" data-slop-ui hidden aria-label="Slop Slider controls">
+      <div class="slop-dock-heading">
+        <label for="slop-filter">Slop Slider</label>
+        <div class="slop-dock-actions">
+          <span class="slop-fictional-note">Fictional claims</span>
+          <button class="slop-reset" type="button" hidden>Reset</button>
+        </div>
+      </div>
+      <div class="slop-range-row">
+        <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="None">
+        <output for="slop-filter" class="slop-output">
+          <strong data-slop-stage>None</strong>
+        </output>
+      </div>
+    </aside>
+
     <main class="ask-page">
       <section class="ask-intro" aria-labelledby="ask-title">
         <div>
@@ -84,11 +114,7 @@
           </div>
         </div>
 
-        <div class="suggested-questions" aria-label="Suggested questions">
-          <button type="button" data-question="What kinds of teams does Donald help?" disabled>What kinds of teams do you help?</button>
-          <button type="button" data-question="What is Donald's experience building AI products?" disabled>What is your AI experience?</button>
-          <button type="button" data-question="Why might Donald be a good fractional CTO?" disabled>Why fractional CTO work?</button>
-        </div>
+        <div class="suggested-questions" aria-label="Suggested questions"></div>
 
         <form class="ask-form" id="ask-form">
           <label class="visually-hidden" for="question">Ask a question about Donald's work</label>
@@ -131,5 +157,17 @@
         <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </footer>
+
+    <div class="slop-atmosphere" data-slop-ui hidden aria-hidden="true">
+      <span class="slop-orb slop-orb-one"></span>
+      <span class="slop-orb slop-orb-two"></span>
+      <span class="slop-floater slop-floater-one">✨</span>
+      <span class="slop-floater slop-floater-two">🚀</span>
+      <span class="slop-floater slop-floater-three">💡</span>
+      <span class="slop-floater slop-floater-four">⚡</span>
+    </div>
+    <div class="slop-hype-strip" data-slop-ui hidden aria-hidden="true">
+      <div>AI-POWERED&nbsp; • &nbsp;FUTURE-READY&nbsp; • &nbsp;HUMAN-CENTERED&nbsp; • &nbsp;10,000× IMPACT&nbsp; • &nbsp;PARADIGM-SHIFTING&nbsp; • &nbsp;</div>
+    </div>
   </body>
 </html>

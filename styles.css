@@ -1876,10 +1876,6 @@ main,
   --signal-soft: #1b2240;
 }
 
-.js body.ask-site {
-  padding-bottom: 0;
-}
-
 .ask-site .site-header,
 .ask-site .site-footer,
 .ask-page {
@@ -2037,6 +2033,7 @@ main,
   font: inherit;
   font-size: 0.76rem;
   cursor: pointer;
+  animation: ask-message 180ms ease both;
   transition: border-color 150ms ease, color 150ms ease, transform 150ms ease;
 }
 

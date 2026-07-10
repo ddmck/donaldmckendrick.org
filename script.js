@@ -373,8 +373,7 @@
   const slopInput = document.querySelector('#slop-filter');
   const slopStageOutput = document.querySelector('[data-slop-stage]');
   const slopReset = document.querySelector('.slop-reset');
-  const isAskPage = body.classList.contains('ask-site');
-  let currentSlopStage = isAskPage ? 0 : readStoredSlop();
+  let currentSlopStage = readStoredSlop();
   let prePrintSlopStage = currentSlopStage;
 
   function applySlop(stageIndex, { persist = false } = {}) {
@@ -401,6 +400,9 @@
     if (slopStageOutput) slopStageOutput.textContent = stage.shortLabel;
     if (slopReset) slopReset.hidden = currentSlopStage === 0;
     if (persist) storeSlop(currentSlopStage);
+    root.dispatchEvent(new CustomEvent('slopchange', {
+      detail: { stage: currentSlopStage, id: stage.id, label: stage.label },
+    }));
   }
 
   document.querySelectorAll('[data-slop-ui]').forEach((element) => {
@@ -516,7 +518,7 @@
   function preparePage() {
     root.classList.remove('menu-ready');
     closeMenu();
-    applySlop(isAskPage ? 0 : readStoredSlop());
+    applySlop(readStoredSlop());
     window.requestAnimationFrame(() => root.classList.add('menu-ready'));
   }
 

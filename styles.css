@@ -883,7 +883,7 @@ main,
 
 .slop-eyebrow,
 .slop-metrics,
-.slop-parody-badge,
+.slop-fictional-note,
 .slop-hype-strip,
 .slop-floater {
   display: none;
@@ -956,9 +956,25 @@ main,
   letter-spacing: 0.02em;
 }
 
+.slop-dock-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slop-fictional-note {
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1;
+  opacity: 0.78;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .slop-output {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: calc(var(--slop-percent) + var(--slop-thumb-offset));
   z-index: 3;
   display: inline-flex;
@@ -981,11 +997,11 @@ main,
 
 .slop-output::after {
   position: absolute;
-  bottom: -4px;
+  top: -4px;
   left: 50%;
   border: 4px solid transparent;
-  border-top-color: var(--ink);
-  border-bottom: 0;
+  border-top: 0;
+  border-bottom-color: var(--ink);
   content: "";
   transform: translateX(-50%);
 }
@@ -997,7 +1013,7 @@ main,
 .slop-range-row {
   position: relative;
   margin-top: 6px;
-  padding-top: 27px;
+  padding-bottom: 23px;
 }
 
 :root[data-slop-tier="clean"] .slop-output {
@@ -1006,7 +1022,7 @@ main,
 }
 
 :root[data-slop-tier="clean"] .slop-output::after {
-  left: 8px;
+  left: 4px;
   transform: none;
 }
 
@@ -1017,7 +1033,7 @@ main,
 }
 
 :root[data-slop-tier="chaos"] .slop-output::after {
-  right: 8px;
+  right: 4px;
   left: auto;
   transform: none;
 }
@@ -1025,6 +1041,7 @@ main,
 #slop-filter {
   position: relative;
   z-index: 2;
+  display: block;
   width: 100%;
   height: 22px;
   margin: 0;
@@ -1086,11 +1103,6 @@ main,
 #slop-filter:focus-visible::-moz-range-thumb {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
-}
-
-.slop-dock-footer {
-  display: none;
-  margin-top: 7px;
 }
 
 .slop-reset {
@@ -1432,24 +1444,8 @@ main,
   animation: slop-marquee 11s linear infinite;
 }
 
-:root[data-slop-tier="chaos"] .slop-parody-badge {
-  display: inline-flex;
-  align-items: center;
-  min-height: 20px;
-  padding: 2px 7px;
-  border: 1px solid rgb(255 255 255 / 0.54);
-  border-radius: 999px;
-  background: #101010;
-  color: #ffffff;
-  font-size: 0.56rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-:root[data-slop-tier="chaos"] .slop-dock-footer {
-  display: flex;
-  justify-content: flex-start;
+:root[data-slop-tier="chaos"] .slop-fictional-note {
+  display: inline;
 }
 
 :root[data-slop-tier="chaos"] .slop-dock {

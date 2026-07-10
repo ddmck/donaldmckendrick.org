@@ -71,19 +71,19 @@
       </nav>
     </header>
 
-    <aside class="slop-dock" data-slop-ui hidden aria-label="Slop filter controls">
+    <aside class="slop-dock" data-slop-ui hidden aria-label="Slop Slider controls">
       <div class="slop-dock-heading">
-        <label for="slop-filter">Slop filter</label>
-        <button class="slop-reset" type="button" hidden>Reset</button>
+        <label for="slop-filter">Slop Slider</label>
+        <div class="slop-dock-actions">
+          <span class="slop-fictional-note">Fictional claims</span>
+          <button class="slop-reset" type="button" hidden>Reset</button>
+        </div>
       </div>
       <div class="slop-range-row">
+        <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="Clean">
         <output for="slop-filter" class="slop-output">
           <strong data-slop-stage>Clean</strong>
         </output>
-        <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="Clean">
-      </div>
-      <div class="slop-dock-footer">
-        <span class="slop-parody-badge">Parody mode: fictional claims</span>
       </div>
     </aside>
 

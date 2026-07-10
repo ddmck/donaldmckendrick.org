@@ -15,9 +15,9 @@
   ];
 
   const COPY_VARIANTS = {
-    'nav-work': ['Work', 'Work & impact', 'Work: paradigm portfolio'],
-    'nav-resume': ['Resume+', 'Resume / impact profile', 'Resume: receipts & lore'],
-    'nav-email': ['Email / connect', 'Email / start a conversation', 'Email: initiate synergy'],
+    'nav-work': ['Work', 'Impact', 'Paradigm portfolio'],
+    'nav-resume': ['Resume', 'Profile', 'Legendary resume'],
+    'nav-email': ['Connect', "Let's talk", 'Initiate synergy'],
 
     'home-hero-title': [
       'I build thoughtful education products and help ambitious teams make confident technical decisions.',

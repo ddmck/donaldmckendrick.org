@@ -1906,6 +1906,33 @@ main,
   --map-signal: #ff8065;
 }
 
+:root[data-slop-tier="subtle"] .map-site {
+  --map-signal: #2f5cff;
+  --map-signal-soft: color-mix(in srgb, var(--map-signal) 11%, transparent);
+}
+
+:root[data-theme="dark"][data-slop-tier="subtle"] .map-site {
+  --map-signal: #8ba5ff;
+}
+
+:root[data-slop-tier="awful"] .map-site {
+  --map-signal: #7c3aed;
+  --map-signal-soft: color-mix(in srgb, var(--map-signal) 15%, transparent);
+}
+
+:root[data-theme="dark"][data-slop-tier="awful"] .map-site {
+  --map-signal: #c4b5fd;
+}
+
+:root[data-slop-tier="chaos"] .map-site {
+  --map-signal: #6d28d9;
+  --map-signal-soft: color-mix(in srgb, var(--map-signal) 17%, transparent);
+}
+
+:root[data-theme="dark"][data-slop-tier="chaos"] .map-site {
+  --map-signal: #c4b5fd;
+}
+
 .js body.map-site {
   padding-bottom: calc((var(--slop-position) * 56px) + env(safe-area-inset-bottom));
 }
@@ -1943,8 +1970,25 @@ main,
   flex: 1 1 auto;
   flex-direction: column;
   border: 0;
-  background: color-mix(in srgb, var(--paper) 96%, transparent);
+  isolation: isolate;
+  background: transparent;
   animation: map-workspace-rise 480ms ease both;
+  transition:
+    border-color 220ms ease,
+    border-radius 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease,
+    backdrop-filter 220ms ease;
+}
+
+.map-workspace::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
 }
 
 .map-toolbar {
@@ -1956,8 +2000,12 @@ main,
   gap: 16px 28px;
   padding: 9px 0;
   border-bottom: 1px solid var(--quiet);
-  background: var(--paper);
+  background: transparent;
   font-size: 0.74rem;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    backdrop-filter 180ms ease;
 }
 
 .map-toolbar-status {
@@ -1996,7 +2044,7 @@ main,
   padding: 6px 28px 6px 9px;
   border: 1px solid var(--quiet);
   border-radius: 0;
-  background: var(--paper);
+  background: transparent;
   color: var(--ink);
   font: inherit;
   cursor: pointer;
@@ -2039,6 +2087,7 @@ main,
 
 .map-layout {
   position: relative;
+  z-index: 1;
   display: grid;
   min-width: 0;
   min-height: 0;
@@ -2052,9 +2101,12 @@ main,
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--map-signal) calc(var(--slop) * 8%), transparent), transparent 44%),
-    var(--paper);
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--map-signal) calc(var(--slop) * 8%), transparent),
+    transparent 44%
+  );
+  transition: background 220ms ease;
 }
 
 .knowledge-map {
@@ -2314,7 +2366,13 @@ main,
   display: flex;
   align-items: stretch;
   border: 1px solid var(--ink);
-  background: var(--paper);
+  background: transparent;
+  transition:
+    border-color 180ms ease,
+    border-radius 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    backdrop-filter 180ms ease;
 }
 
 .map-zoom button {
@@ -2323,7 +2381,7 @@ main,
   padding: 7px 12px;
   border: 0;
   border-right: 1px solid var(--quiet);
-  background: var(--paper);
+  background: transparent;
   color: var(--ink);
   font: inherit;
   font-size: 0.77rem;
@@ -2374,11 +2432,28 @@ main,
   width: min(348px, 42%);
   min-width: 0;
   padding: clamp(28px, 3vw, 44px) clamp(24px, 3vw, 38px);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   border-left: 1px solid var(--ink);
   background: color-mix(in srgb, var(--paper) 97%, transparent);
   box-shadow: -22px 0 52px rgb(0 0 0 / 0.1);
   animation: map-inspector-in 220ms ease both;
+  transition:
+    border-color 180ms ease,
+    border-radius 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    backdrop-filter 180ms ease;
+}
+
+.map-inspector::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
 }
 
 .map-inspector[hidden] {
@@ -2492,6 +2567,44 @@ main,
   display: none;
 }
 
+:root[data-slop-tier="subtle"] .map-workspace,
+:root[data-slop-tier="subtle"] .map-toolbar,
+:root[data-slop-tier="subtle"] .map-canvas,
+:root[data-slop-tier="subtle"] .map-topic-jump select {
+  background: transparent;
+}
+
+:root[data-slop-tier="subtle"] .map-toolbar {
+  border-bottom-color: color-mix(in srgb, var(--map-signal) 18%, var(--quiet));
+}
+
+:root[data-slop-tier="subtle"] .map-topic-jump select {
+  border-color: color-mix(in srgb, var(--map-signal) 20%, var(--quiet));
+}
+
+:root[data-slop-tier="subtle"] .map-zoom {
+  border-color: color-mix(in srgb, var(--map-signal) 32%, var(--ink));
+  background: color-mix(in srgb, var(--paper) 28%, transparent);
+  backdrop-filter: blur(8px) saturate(1.08);
+}
+
+:root[data-slop-tier="subtle"] .map-zoom button {
+  background: transparent;
+}
+
+:root[data-slop-tier="subtle"] .map-inspector {
+  isolation: isolate;
+  border-left-color: color-mix(in srgb, var(--map-signal) 30%, var(--ink));
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  box-shadow: -20px 0 48px rgb(47 92 255 / 0.08);
+  backdrop-filter: blur(12px) saturate(1.12);
+}
+
+:root[data-slop-tier="subtle"] .map-related button {
+  border-color: color-mix(in srgb, var(--map-signal) 20%, var(--quiet));
+  background: color-mix(in srgb, var(--paper) 26%, transparent);
+}
+
 :root[data-slop-tier="subtle"] .map-node:nth-child(3n) .map-node-motion {
   transform: translateY(-2px) rotate(-0.4deg);
 }
@@ -2503,9 +2616,21 @@ main,
 :root[data-slop-tier="awful"] .map-workspace,
 :root[data-slop-tier="chaos"] .map-workspace {
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, #7c3aed 60%, var(--ink));
-  border-radius: calc(16px + (var(--slop) * 10px));
-  box-shadow: 0 28px 90px rgb(124 58 237 / 0.16);
+  border: 1px solid rgb(124 58 237 / 0.24);
+  border-radius: 30px;
+  background: color-mix(in srgb, var(--paper) 65%, transparent);
+  box-shadow:
+    0 26px 86px rgb(76 29 149 / 0.16),
+    inset 0 1px rgb(255 255 255 / 0.22);
+  backdrop-filter: blur(22px) saturate(1.4);
+}
+
+:root[data-slop-tier="awful"] .map-workspace::before,
+:root[data-slop-tier="chaos"] .map-workspace::before {
+  background:
+    linear-gradient(118deg, rgb(255 255 255 / 0.2), transparent 28%, transparent 68%, rgb(34 211 238 / 0.12)),
+    radial-gradient(circle at 8% 12%, rgb(124 58 237 / 0.2), transparent 32%);
+  opacity: 1;
 }
 
 :root[data-slop-tier="awful"] .map-page,
@@ -2516,6 +2641,9 @@ main,
 :root[data-slop-tier="awful"] .map-toolbar,
 :root[data-slop-tier="chaos"] .map-toolbar {
   padding-inline: 14px;
+  border-bottom-color: rgb(124 58 237 / 0.2);
+  background: color-mix(in srgb, var(--paper) 32%, transparent);
+  backdrop-filter: blur(14px) saturate(1.25);
 }
 
 :root[data-slop-tier="awful"] .map-canvas,
@@ -2523,20 +2651,151 @@ main,
   background:
     radial-gradient(circle at 18% 20%, rgb(34 211 238 / 0.14), transparent 28%),
     radial-gradient(circle at 84% 76%, rgb(244 63 94 / 0.13), transparent 29%),
-    radial-gradient(circle at 50% 48%, rgb(124 58 237 / 0.15), transparent 36%),
-    var(--paper);
+    radial-gradient(circle at 50% 48%, rgb(124 58 237 / 0.15), transparent 36%);
+}
+
+:root[data-slop-tier="awful"] .map-topic-jump select,
+:root[data-slop-tier="chaos"] .map-topic-jump select {
+  border-color: rgb(124 58 237 / 0.24);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--paper) 48%, transparent);
+  box-shadow: inset 0 1px rgb(255 255 255 / 0.18);
+  backdrop-filter: blur(10px) saturate(1.25);
+}
+
+:root[data-slop-tier="awful"] .map-zoom,
+:root[data-slop-tier="chaos"] .map-zoom {
+  overflow: hidden;
+  border-color: rgb(124 58 237 / 0.28);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--paper) 48%, transparent);
+  box-shadow:
+    0 14px 42px rgb(76 29 149 / 0.14),
+    inset 0 1px rgb(255 255 255 / 0.2);
+  backdrop-filter: blur(16px) saturate(1.3);
+}
+
+:root[data-slop-tier="awful"] .map-zoom button,
+:root[data-slop-tier="chaos"] .map-zoom button {
+  border-right-color: rgb(124 58 237 / 0.18);
+  background: transparent;
+}
+
+:root[data-slop-tier="awful"] .map-zoom button:hover,
+:root[data-slop-tier="chaos"] .map-zoom button:hover {
+  background: color-mix(in srgb, var(--map-signal) 72%, transparent);
+  color: #ffffff;
+}
+
+:root[data-slop-tier="awful"] .map-node rect,
+:root[data-slop-tier="chaos"] .map-node rect {
+  fill: color-mix(in srgb, var(--paper) 62%, transparent);
+  stroke: rgb(124 58 237 / 0.48);
+  filter: drop-shadow(0 8px 14px rgb(76 29 149 / 0.12));
+}
+
+:root[data-slop-tier="awful"] .map-node-core rect,
+:root[data-slop-tier="chaos"] .map-node-core rect {
+  fill: color-mix(in srgb, var(--ink) 86%, transparent);
+  stroke: color-mix(in srgb, var(--map-signal) 62%, var(--ink));
 }
 
 :root[data-slop-tier="awful"] .map-node-branch rect,
 :root[data-slop-tier="chaos"] .map-node-branch rect {
-  fill: #7c3aed;
-  stroke: #22d3ee;
-  filter: drop-shadow(0 0 10px rgb(124 58 237 / 0.34));
+  fill: rgb(124 58 237 / 0.68);
+  stroke: rgb(34 211 238 / 0.72);
+  filter:
+    drop-shadow(0 10px 18px rgb(76 29 149 / 0.22))
+    drop-shadow(0 0 10px rgb(34 211 238 / 0.12));
 }
 
 :root[data-slop-tier="awful"] .map-node-branch text,
 :root[data-slop-tier="chaos"] .map-node-branch text {
   fill: #fff;
+}
+
+:root[data-slop-tier="awful"] .map-node.is-selected rect,
+:root[data-slop-tier="chaos"] .map-node.is-selected rect {
+  fill: color-mix(in srgb, var(--map-signal) 78%, transparent);
+  stroke: color-mix(in srgb, #ffffff 58%, var(--map-signal));
+  filter:
+    drop-shadow(0 12px 22px color-mix(in srgb, var(--map-signal) 32%, transparent))
+    drop-shadow(0 0 12px color-mix(in srgb, var(--map-signal) 22%, transparent));
+}
+
+:root[data-slop-tier="awful"] .map-node-expand circle,
+:root[data-slop-tier="chaos"] .map-node-expand circle {
+  fill: color-mix(in srgb, var(--paper) 58%, transparent);
+  stroke: color-mix(in srgb, var(--map-signal) 56%, var(--ink));
+  filter: drop-shadow(0 6px 12px rgb(76 29 149 / 0.16));
+}
+
+:root[data-slop-tier="awful"] .map-node-expand:hover circle,
+:root[data-slop-tier="awful"] .map-node-expand:focus-visible circle,
+:root[data-slop-tier="awful"] .map-node-expand.is-expanded circle,
+:root[data-slop-tier="chaos"] .map-node-expand:hover circle,
+:root[data-slop-tier="chaos"] .map-node-expand:focus-visible circle,
+:root[data-slop-tier="chaos"] .map-node-expand.is-expanded circle {
+  fill: color-mix(in srgb, var(--map-signal) 78%, transparent);
+}
+
+:root[data-slop-tier="awful"] .map-inspector,
+:root[data-slop-tier="chaos"] .map-inspector {
+  isolation: isolate;
+  border-left-color: rgb(124 58 237 / 0.28);
+  border-radius: 24px 0 0 24px;
+  background:
+    linear-gradient(118deg, rgb(255 255 255 / 0.16), transparent 34%, rgb(34 211 238 / 0.08)),
+    color-mix(in srgb, var(--paper) 58%, transparent);
+  box-shadow:
+    -24px 0 70px rgb(76 29 149 / 0.18),
+    inset 1px 0 rgb(255 255 255 / 0.2);
+  backdrop-filter: blur(22px) saturate(1.4);
+}
+
+:root[data-slop-tier="awful"] .map-inspector::before,
+:root[data-slop-tier="chaos"] .map-inspector::before {
+  background:
+    linear-gradient(118deg, rgb(255 255 255 / 0.16), transparent 32%, transparent 68%, rgb(34 211 238 / 0.12)),
+    radial-gradient(circle at 12% 10%, rgb(124 58 237 / 0.22), transparent 36%);
+  opacity: 1;
+}
+
+:root[data-slop-tier="awful"] .map-inspector-close,
+:root[data-slop-tier="chaos"] .map-inspector-close {
+  border: 1px solid rgb(124 58 237 / 0.24);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--paper) 48%, transparent);
+  box-shadow: inset 0 1px rgb(255 255 255 / 0.18);
+  backdrop-filter: blur(10px);
+}
+
+:root[data-slop-tier="awful"] .map-related button,
+:root[data-slop-tier="chaos"] .map-related button {
+  border-color: rgb(124 58 237 / 0.24);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 46%, transparent);
+  box-shadow: inset 0 1px rgb(255 255 255 / 0.16);
+  backdrop-filter: blur(10px);
+}
+
+:root[data-slop-tier="awful"] .map-related button:hover,
+:root[data-slop-tier="awful"] .map-related button:focus-visible,
+:root[data-slop-tier="chaos"] .map-related button:hover,
+:root[data-slop-tier="chaos"] .map-related button:focus-visible {
+  border-color: var(--map-signal);
+  background: color-mix(in srgb, var(--map-signal) 14%, var(--paper) 42%);
+}
+
+:root[data-slop-tier="awful"] .map-fiction-note,
+:root[data-slop-tier="chaos"] .map-fiction-note {
+  border-color: var(--map-signal);
+  background: color-mix(in srgb, var(--map-signal) 8%, transparent);
+}
+
+:root[data-slop-tier="awful"] .map-detail-link,
+:root[data-slop-tier="chaos"] .map-detail-link {
+  text-decoration-color: color-mix(in srgb, var(--map-signal) 62%, transparent);
 }
 
 :root[data-slop-tier="awful"] .map-node:nth-child(5n) .map-node-motion {
@@ -2553,6 +2812,100 @@ main,
   transform-origin: center;
 }
 
+:root[data-slop-tier="chaos"] .map-workspace {
+  border-color: rgb(255 255 255 / 0.38);
+  background:
+    linear-gradient(128deg, rgb(124 58 237 / 0.22), rgb(34 211 238 / 0.13) 52%, rgb(244 63 94 / 0.18)),
+    color-mix(in srgb, var(--paper) 48%, transparent);
+  box-shadow:
+    0 30px 110px rgb(109 40 217 / 0.34),
+    0 12px 60px rgb(8 145 178 / 0.18),
+    inset 0 1px rgb(255 255 255 / 0.4);
+  backdrop-filter: blur(32px) saturate(1.8);
+}
+
+:root[data-slop-tier="chaos"] .map-workspace::before {
+  background:
+    linear-gradient(108deg, transparent 12%, rgb(255 255 255 / 0.24) 34%, transparent 56%),
+    radial-gradient(circle at 8% 12%, rgb(124 58 237 / 0.36), transparent 34%),
+    radial-gradient(circle at 92% 78%, rgb(34 211 238 / 0.24), transparent 32%);
+  background-size: 220% 100%, 100% 100%, 100% 100%;
+  animation: ask-glass-sheen 5s ease-in-out infinite alternate;
+}
+
+:root[data-slop-tier="chaos"] .map-toolbar {
+  border-bottom-color: rgb(255 255 255 / 0.22);
+  background:
+    linear-gradient(108deg, rgb(124 58 237 / 0.12), rgb(34 211 238 / 0.08) 54%, rgb(244 63 94 / 0.1)),
+    color-mix(in srgb, var(--paper) 28%, transparent);
+  backdrop-filter: blur(20px) saturate(1.6);
+}
+
+:root[data-slop-tier="chaos"] .map-topic-jump select,
+:root[data-slop-tier="chaos"] .map-zoom {
+  border-color: rgb(255 255 255 / 0.34);
+  background:
+    linear-gradient(118deg, rgb(124 58 237 / 0.14), rgb(34 211 238 / 0.1), rgb(244 63 94 / 0.12)),
+    color-mix(in srgb, var(--paper) 34%, transparent);
+  box-shadow:
+    0 16px 52px rgb(109 40 217 / 0.22),
+    inset 0 1px rgb(255 255 255 / 0.32);
+  backdrop-filter: blur(20px) saturate(1.65);
+}
+
+:root[data-slop-tier="chaos"] .map-inspector {
+  border-left-color: rgb(255 255 255 / 0.38);
+  background:
+    linear-gradient(128deg, rgb(124 58 237 / 0.26), rgb(34 211 238 / 0.15) 54%, rgb(244 63 94 / 0.2)),
+    color-mix(in srgb, var(--paper) 44%, transparent);
+  box-shadow:
+    -28px 0 90px rgb(109 40 217 / 0.3),
+    -10px 0 46px rgb(8 145 178 / 0.14),
+    inset 1px 0 rgb(255 255 255 / 0.36);
+  backdrop-filter: blur(30px) saturate(1.8);
+}
+
+:root[data-slop-tier="chaos"] .map-inspector::before {
+  background:
+    linear-gradient(108deg, transparent 12%, rgb(255 255 255 / 0.26) 34%, transparent 58%),
+    radial-gradient(circle at 12% 10%, rgb(124 58 237 / 0.34), transparent 36%),
+    radial-gradient(circle at 88% 78%, rgb(34 211 238 / 0.22), transparent 34%);
+  background-size: 220% 100%, 100% 100%, 100% 100%;
+  animation: ask-glass-sheen 5s ease-in-out infinite alternate;
+}
+
+:root[data-slop-tier="chaos"] .map-node rect {
+  fill: color-mix(in srgb, var(--paper) 42%, transparent);
+  stroke: rgb(255 255 255 / 0.42);
+}
+
+:root[data-slop-tier="chaos"] .map-node-branch rect {
+  fill: rgb(109 40 217 / 0.72);
+  stroke: rgb(217 70 239 / 0.84);
+}
+
+:root[data-slop-tier="chaos"] .map-node.is-selected rect {
+  fill: rgb(109 40 217 / 0.9);
+  stroke: rgb(244 114 182 / 0.9);
+}
+
+:root[data-slop-tier="chaos"] .map-node-expand circle,
+:root[data-slop-tier="chaos"] .map-inspector-close,
+:root[data-slop-tier="chaos"] .map-related button {
+  border-color: rgb(255 255 255 / 0.28);
+  background:
+    linear-gradient(118deg, rgb(124 58 237 / 0.14), rgb(34 211 238 / 0.1)),
+    color-mix(in srgb, var(--paper) 36%, transparent);
+  box-shadow:
+    0 10px 28px rgb(109 40 217 / 0.16),
+    inset 0 1px rgb(255 255 255 / 0.24);
+}
+
+:root[data-slop-tier="chaos"] .map-node-expand circle {
+  fill: color-mix(in srgb, var(--paper) 36%, transparent);
+  stroke: rgb(255 255 255 / 0.5);
+}
+
 :root[data-slop-tier="chaos"] .map-edge {
   animation: map-chaos-edge 2.8s linear infinite;
 }
@@ -2563,7 +2916,7 @@ main,
 }
 
 :root[data-slop-tier="chaos"] .map-toolbar-status {
-  color: #7c3aed;
+  color: var(--map-signal);
 }
 
 @keyframes map-workspace-rise {
@@ -2614,12 +2967,17 @@ main,
 }
 
 @media (max-width: 760px) {
+  .map-workspace.detail-open .map-layout {
+    z-index: 9;
+  }
+
   .map-inspector {
     position: fixed;
     top: auto;
     right: 12px;
     bottom: calc(12px + (var(--slop-position) * 56px) + env(safe-area-inset-bottom));
     left: 12px;
+    z-index: 20;
     width: auto;
     max-height: min(62svh, 500px);
     padding: 28px 24px 32px;
@@ -2631,6 +2989,28 @@ main,
 
   .map-inspector h2 {
     max-width: 82%;
+  }
+
+  .map-inspector-close {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    margin: -14px -10px -24px auto;
+  }
+
+  :root[data-slop-tier="subtle"] .map-inspector {
+    border-color: color-mix(in srgb, var(--map-signal) 30%, var(--ink));
+    border-radius: 22px;
+  }
+
+  :root[data-slop-tier="awful"] .map-inspector,
+  :root[data-slop-tier="chaos"] .map-inspector {
+    border-color: rgb(124 58 237 / 0.3);
+    border-radius: 24px;
+  }
+
+  :root[data-slop-tier="chaos"] .map-inspector {
+    border-color: rgb(255 255 255 / 0.4);
   }
 
   .map-workspace.detail-open .map-zoom,
@@ -2647,9 +3027,12 @@ main,
 
 @media (max-width: 560px) {
   .map-site .site-header,
-  .map-site .site-footer,
   .map-page {
     width: min(100% - 24px, var(--map-width));
+  }
+
+  .map-site .site-footer {
+    display: none;
   }
 
   .map-page {
@@ -2657,20 +3040,32 @@ main,
   }
 
   .map-toolbar-status {
+    display: block;
     min-width: 0;
-    flex: 1 1 auto;
+    width: 100%;
+    flex: 1 1 100%;
     font-size: 0.66rem;
+    line-height: 1.35;
+    white-space: normal;
+  }
+
+  .map-status-dot {
+    display: inline-block;
+    margin-right: 9px;
+    vertical-align: 0.05em;
   }
 
   .map-topic-jump {
+    display: grid;
     width: 100%;
+    grid-template-columns: auto minmax(0, 1fr);
     order: 3;
   }
 
   .map-topic-jump select {
-    width: auto;
+    width: 100%;
+    max-width: 100%;
     min-width: 0;
-    flex: 1;
   }
 
   .map-slop {
@@ -2702,10 +3097,12 @@ main,
 
 @media (prefers-reduced-motion: reduce) {
   .map-workspace,
+  .map-workspace::before,
   .map-edge,
   .map-node,
   .map-node-motion,
   .map-inspector,
+  .map-inspector::before,
   .map-camera,
   .map-grid {
     animation: none !important;

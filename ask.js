@@ -94,6 +94,22 @@ SUMMARY
 - He co-founded Quill and helped grow it from 10,000 to more than 1.5 million users and 60,000 daily active users.
 - He now leads product and engineering at Closegap.
 
+WHY EDUCATION TECHNOLOGY
+- In high school in Scotland, Donald could not afford a tutor. He used Scholar, a free learning platform built by
+  Heriot-Watt University in Edinburgh, to practise math, chemistry, physics, and biology and check his understanding
+  against example tests. It helped him feel more confident.
+- Later, platforms such as Codecademy and Khan Academy helped him learn to code. Those experiences made him want to
+  build more free, confidence-building learning tools.
+- He especially likes education technology in a nonprofit setting because schools can use short, useful interventions
+  with students without a procurement process or contracts. At Quill, that meant helping students improve grammar and
+  writing; at Closegap, it means helping students get support for their emotional needs.
+
+OTHER NONPROFITS HE ADMIRES
+- Donald is a fan of Lemon Tree, which makes it easier for people who need to put food on the table to find food
+  pantries and food banks.
+- He also admires Dollar For, which helps people fight unfair medical bills.
+- Coco helps technology platforms respond when users are in crisis by routing them toward quick interventions.
+
 EXPERIENCE
 - Closegap, remote, July 2023 to present: Chief Technology Officer since November 2024, previously Director of
   Technology. He leads product strategy and engineering for free mental health and social-emotional learning tools used

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ask about my work - Donald McKendrick</title>
+    <meta
+      name="description"
+      content="Ask an on-device AI questions about Donald McKendrick's services, experience, and resume."
+    >
+    <script>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('js');
+
+        let theme;
+        try {
+          const savedTheme = localStorage.getItem('donald-theme');
+          if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+
+          const savedStage = localStorage.getItem('donald-slop-stage');
+          const legacyLevel = Number(localStorage.getItem('donald-slop-level'));
+          const parsedStage = Number(savedStage);
+          const slopStage = savedStage !== null && Number.isInteger(parsedStage) && parsedStage >= 0 && parsedStage <= 3
+            ? parsedStage
+            : !Number.isFinite(legacyLevel) || legacyLevel <= 0 ? 0 : legacyLevel <= 33 ? 1 : legacyLevel <= 66 ? 2 : 3;
+          const intensities = [0, 0.22, 0.55, 1];
+          const tiers = ['clean', 'subtle', 'awful', 'chaos'];
+          const slopPosition = slopStage / 3;
+          root.style.setProperty('--slop', String(intensities[slopStage]));
+          root.style.setProperty('--slop-position', String(slopPosition));
+          root.style.setProperty('--slop-percent', `${slopPosition * 100}%`);
+          root.style.setProperty('--slop-thumb-offset', `${8 - (slopPosition * 16)}px`);
+          root.dataset.slopTier = tiers[slopStage];
+        } catch {}
+
+        if (!theme) theme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.dataset.theme = theme;
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=ask-18">
+    <script src="script.js?v=ask-18" defer></script>
+    <script src="ask.js?v=ask-18" defer></script>
+  </head>
+  <body class="ask-site" data-ai-state="checking">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Donald McKendrick home">Donald McKendrick</a>
+      <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" title="Switch to dark mode">
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+        </svg>
+      </button>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+        aria-label="Open menu"
+      >
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+        <a href="index.html#work" aria-label="Selected work">Work</a>
+        <a href="resume.html" aria-label="Resume">Resume</a>
+        <a href="ask.html" aria-current="page" aria-label="Ask about Donald's work">Ask</a>
+        <a href="mailto:ddmckendrick@gmail.com" aria-label="Email Donald McKendrick">Email</a>
+        <a href="https://linkedin.com/in/donaldmckendrick" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <main class="ask-page">
+      <section class="ask-unsupported" data-unsupported hidden aria-labelledby="unsupported-title">
+        <p class="ask-unsupported-kicker">Chrome built-in AI</p>
+        <h1 id="unsupported-title">This assistant isn’t available in your browser.</h1>
+        <p data-unsupported-copy>
+          Open this page in a compatible desktop version of Chrome to try the on-device assistant.
+        </p>
+        <div class="ask-unsupported-actions">
+          <a
+            class="ask-docs-link"
+            href="https://developer.chrome.com/docs/ai/prompt-api"
+            target="_blank"
+            rel="noopener noreferrer"
+          >How the Prompt API works <span aria-hidden="true">↗</span></a>
+          <a class="ask-resume-link" href="resume.html">Read my resume instead</a>
+        </div>
+      </section>
+
+      <div class="ask-experience" data-ask-experience>
+        <section class="ask-workspace" aria-labelledby="ask-title">
+          <div class="ask-status">
+            <div class="ask-status-state">
+              <span class="ask-status-dot" aria-hidden="true"></span>
+              <span data-ai-status aria-live="polite">Checking this browser</span>
+            </div>
+
+            <div class="ask-tone-control" data-slop-ui hidden>
+              <button
+                class="ask-tone-trigger"
+                type="button"
+                aria-expanded="false"
+                aria-controls="ask-tone-panel"
+              >
+                <span>Slop Slider:</span>
+                <strong data-slop-stage>None</strong>
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="m4 6 4 4 4-4"></path>
+                </svg>
+              </button>
+
+              <div class="ask-tone-panel" id="ask-tone-panel" hidden>
+                <div class="ask-tone-panel-heading">
+                  <label for="slop-filter">Response style</label>
+                  <div class="slop-dock-actions">
+                    <span class="slop-fictional-note">Fictional claims</span>
+                    <button class="slop-reset" type="button" hidden>Reset</button>
+                  </div>
+                </div>
+                <div class="slop-range-row">
+                  <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="None">
+                  <output for="slop-filter" class="slop-output">
+                    <strong data-slop-stage>None</strong>
+                  </output>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-log" role="log" aria-live="polite" aria-relevant="additions text">
+            <div class="chat-message chat-message-assistant chat-message-intro">
+              <span class="chat-speaker">Donald's browser</span>
+              <div class="chat-intro-copy">
+                <h1 id="ask-title" data-slop-copy="ask-title">Ask about my work.</h1>
+                <p data-slop-copy="ask-intro-copy">
+                  This experiment uses Chrome’s new Prompt API to answer from the facts on this site and my resume.
+                  The model, your questions, and the resume context all stay on your device.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="suggested-questions-shell">
+            <div class="suggested-questions" role="group" aria-label="Suggested questions"></div>
+          </div>
+
+          <form class="ask-form" id="ask-form">
+            <label class="visually-hidden" for="question">Ask a question about Donald's work</label>
+            <textarea
+              id="question"
+              name="question"
+              rows="2"
+              maxlength="500"
+              placeholder="Ask about services, experience, or technical fit…"
+              autocomplete="off"
+              disabled
+            ></textarea>
+            <button class="ask-submit" type="submit" disabled>
+              <span>Ask</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m5 12 14-7-4 14-3-6-7-1Z"></path>
+              </svg>
+            </button>
+          </form>
+
+          <p class="ask-form-note" data-ai-note role="status">
+            Checking whether Chrome's on-device model is available…
+          </p>
+        </section>
+
+        <aside class="ask-privacy" aria-label="Privacy and limitations">
+          <p><strong data-slop-copy="ask-privacy-label">Private by design.</strong> The assistant runs without sending this conversation to a server.</p>
+          <p>
+            <strong data-slop-copy="ask-reality-label">Reality check.</strong> Built-in AI can make mistakes. For a definitive answer, <a href="resume.html">read the resume</a> or
+            <a href="mailto:ddmckendrick@gmail.com">email me</a>.
+          </p>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <span>Donald McKendrick</span>
+      <div class="footer-links">
+        <span>Walnut Creek, CA</span>
+        <a href="https://linkedin.com/in/donaldmckendrick" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </footer>
+
+    <div class="slop-atmosphere" data-slop-ui hidden aria-hidden="true">
+      <span class="slop-orb slop-orb-one"></span>
+      <span class="slop-orb slop-orb-two"></span>
+      <span class="slop-floater slop-floater-one">✨</span>
+      <span class="slop-floater slop-floater-two">🚀</span>
+      <span class="slop-floater slop-floater-three">💡</span>
+      <span class="slop-floater slop-floater-four">⚡</span>
+    </div>
+    <div class="slop-hype-strip" data-slop-ui hidden aria-hidden="true">
+      <div>AI-POWERED&nbsp; • &nbsp;FUTURE-READY&nbsp; • &nbsp;HUMAN-CENTERED&nbsp; • &nbsp;10,000× IMPACT&nbsp; • &nbsp;PARADIGM-SHIFTING&nbsp; • &nbsp;</div>
+    </div>
+  </body>
+</html>

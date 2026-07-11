@@ -18,13 +18,14 @@
   const closeButton = document.querySelector('[data-map-close]');
   const zoomInButton = document.querySelector('[data-map-zoom-in]');
   const zoomOutButton = document.querySelector('[data-map-zoom-out]');
+  const expandAllButton = document.querySelector('[data-map-expand-all]');
   const fitButton = document.querySelector('[data-map-fit]');
 
   if (
     !svg || !workspace || !cameraElement || !edgesElement || !extraEdgesElement || !labelsElement ||
     !nodesElement || !inspector || !picker || !status || !detailType || !detailTitle ||
     !detailCopy || !detailLink || !fictionNote || !relatedElement || !closeButton || !zoomInButton ||
-    !zoomOutButton || !fitButton
+    !zoomOutButton || !expandAllButton || !fitButton
   ) return;
 
   const NS = 'http://www.w3.org/2000/svg';
@@ -36,20 +37,20 @@
     { id: 'donald', label: 'Donald McKendrick', x: 800, y: 540, type: 'core', group: 'center', detail: 'CTO, software engineer, and product builder working across education, AI, research, and games.', link: 'resume.html', linkLabel: 'Read the résumé' },
 
     { id: 'products', parent: 'donald', label: 'Products & organizations', x: 440, y: 480, type: 'branch', group: 'products', detail: 'The organizations where Donald has built education, healthcare, and student-support products.' },
-    { id: 'closegap', parent: 'products', label: 'Closegap', x: 235, y: 270, type: 'role', group: 'products', detail: 'Chief Technology Officer since November 2024, leading product strategy and engineering for K–12 mental-health and SEL tools.', link: 'https://www.closegap.org', linkLabel: 'Visit Closegap', external: true },
+    { id: 'closegap', parent: 'products', label: 'Closegap', x: 200, y: 270, type: 'role', group: 'products', detail: 'Chief Technology Officer since November 2024, leading product strategy and engineering for K–12 mental-health and SEL tools.', link: 'https://www.closegap.org', linkLabel: 'Visit Closegap', external: true },
     { id: 'student-support', parent: 'closegap', label: 'K–12 mental health & SEL', x: 55, y: 165, type: 'evidence', group: 'products', detail: 'Free tools that help K–12 students identify and get support for emotional needs.' },
-    { id: 'context-detection', parent: 'closegap', label: 'Context-aware detection', x: 55, y: 330, type: 'evidence', group: 'products', detail: 'A generative-AI crisis detection tool that replaced keyword matching with context-aware analysis.' },
+    { id: 'context-detection', parent: 'closegap', label: 'Context-aware detection', x: -60, y: 350, type: 'evidence', group: 'products', detail: 'A generative-AI crisis detection tool that replaced keyword matching with context-aware analysis.' },
     { id: 'quill', parent: 'products', label: 'Quill.org', x: 180, y: 440, type: 'role', group: 'products', detail: 'Cofounder and Technical Director from 2016 to 2019, building free literacy products and automated writing feedback.', link: 'https://www.quill.org', linkLabel: 'Visit Quill.org', external: true },
-    { id: 'quill-growth', parent: 'quill', label: '10,000 → 1.5M+ learners', x: 20, y: 475, type: 'evidence', group: 'products', detail: 'Donald helped grow Quill from roughly 10,000 users to more than 1.5 million.' },
-    { id: 'writing-feedback', parent: 'quill', label: 'NLP writing feedback', x: 95, y: 575, type: 'evidence', group: 'products', detail: 'Connect, Lessons, and Diagnostic used automated feedback for open-ended writing, including a deep-learning sentence-fragment detector.' },
-    { id: 'czi', parent: 'products', label: 'Chan Zuckerberg Initiative', x: 220, y: 615, type: 'role', group: 'products', detail: 'Senior Software Engineer from 2020 to 2022, working on curriculum and differentiation for a project-based learning platform.' },
-    { id: 'project-learning', parent: 'czi', label: 'Project-based learning', x: 40, y: 710, type: 'evidence', group: 'products', detail: 'Curriculum, differentiation, and the 2.0 launch of Announcements, a primary landing page during COVID.' },
+    { id: 'quill-growth', parent: 'quill', label: '10,000 → 1.5M+ learners', x: -40, y: 490, type: 'evidence', group: 'products', detail: 'Donald helped grow Quill from roughly 10,000 users to more than 1.5 million.' },
+    { id: 'writing-feedback', parent: 'quill', label: 'NLP writing feedback', x: 10, y: 600, type: 'evidence', group: 'products', detail: 'Connect, Lessons, and Diagnostic used automated feedback for open-ended writing, including a deep-learning sentence-fragment detector.' },
+    { id: 'czi', parent: 'products', label: 'Chan Zuckerberg Initiative', x: 280, y: 650, type: 'role', group: 'products', detail: 'Senior Software Engineer from 2020 to 2022, working on curriculum and differentiation for a project-based learning platform.' },
+    { id: 'project-learning', parent: 'czi', label: 'Project-based learning', x: 70, y: 755, type: 'evidence', group: 'products', detail: 'Curriculum, differentiation, and the 2.0 launch of Announcements, a primary landing page during COVID.' },
     { id: 'one-medical', parent: 'products', label: 'One Medical', x: 360, y: 760, type: 'role', group: 'products', detail: 'Software Engineer on the Data Interoperability team from 2019 to 2020, including machine-learning work in a HIPAA-compliant healthcare environment.' },
 
-    { id: 'independent', parent: 'donald', label: 'Games & independent work', x: 1130, y: 690, type: 'branch', group: 'independent', detail: 'Independent game development, interactive prototypes, and music created outside Donald’s product work.' },
-    { id: 'ddm', parent: 'independent', label: 'Derivative Daydream Machine', x: 1350, y: 600, type: 'role', group: 'independent', detail: 'Donald’s independent game-development studio, active from 2022 to 2024.' },
-    { id: 'donimoes', parent: 'ddm', label: 'Donimoes', x: 1510, y: 500, type: 'project', group: 'independent', detail: 'A simple two-player game that uses dominoes as playing pieces.', link: 'https://donimoes.fun/', linkLabel: 'Play Donimoes', external: true },
-    { id: 'unity-vr', parent: 'ddm', label: 'Unity & VR', x: 1500, y: 685, type: 'project', group: 'independent', detail: 'Unity and 3D simulation prototypes, including a fourth-place VR game-jam project built around accessible spatial-memory play.' },
+    { id: 'independent', parent: 'donald', label: 'Games & independent work', x: 1080, y: 720, type: 'branch', group: 'independent', detail: 'Independent game development, interactive prototypes, and music created outside Donald’s product work.' },
+    { id: 'ddm', parent: 'independent', label: 'Derivative Daydream Machine', x: 1390, y: 600, type: 'role', group: 'independent', detail: 'Donald’s independent game-development studio, active from 2022 to 2024.' },
+    { id: 'donimoes', parent: 'ddm', label: 'Donimoes', x: 1580, y: 480, type: 'project', group: 'independent', detail: 'A simple two-player game that uses dominoes as playing pieces.', link: 'https://donimoes.fun/', linkLabel: 'Play Donimoes', external: true },
+    { id: 'unity-vr', parent: 'ddm', label: 'Unity & VR', x: 1540, y: 735, type: 'project', group: 'independent', detail: 'Unity and 3D simulation prototypes, including a fourth-place VR game-jam project built around accessible spatial-memory play.' },
     { id: 'music', parent: 'ddm', label: 'Music', x: 1390, y: 845, type: 'evidence', group: 'independent', detail: 'Music and composition remain part of Donald’s independent game-making practice.' },
 
     { id: 'research', parent: 'donald', label: 'Research foundations', x: 720, y: 850, type: 'branch', group: 'research', detail: 'Donald’s background in computational chemistry, molecular modeling, and quantum simulation.' },
@@ -59,20 +60,20 @@
     { id: 'quantum-simulation', parent: 'heriot-watt', label: 'Quantum simulation', x: 160, y: 1020, type: 'evidence', group: 'research', detail: 'His thesis used quantum simulation to study catalytic synthesis of isoquinoline.' },
 
     { id: 'practice', parent: 'donald', label: 'Leadership & practice', x: 680, y: 210, type: 'branch', group: 'practice', detail: 'How Donald approaches technical direction, product strategy, team design, and delivery.' },
-    { id: 'technical-direction', parent: 'practice', label: 'Technical direction', x: 440, y: 70, type: 'practice', group: 'practice', detail: 'Technical strategy, architecture, engineering standards, and support for technical leads.' },
+    { id: 'technical-direction', parent: 'practice', label: 'Technical direction', x: 360, y: 70, type: 'practice', group: 'practice', detail: 'Technical strategy, architecture, engineering standards, and support for technical leads.' },
     { id: 'product-strategy', parent: 'practice', label: 'Product strategy', x: 650, y: 40, type: 'practice', group: 'practice', detail: 'Shaping product direction, prototyping ideas, setting priorities, and connecting technical choices to user needs.' },
-    { id: 'team-design', parent: 'practice', label: 'Hiring & team design', x: 870, y: 70, type: 'practice', group: 'practice', detail: 'Hiring, team structure, collaboration practices, and creating room for technical leadership.' },
-    { id: 'shape-up', parent: 'practice', label: 'Shape Up', x: 430, y: 255, type: 'practice', group: 'practice', detail: 'At Closegap, Donald runs development in six-week Shape Up cycles with prototyping weeks and cooldowns.' },
-    { id: 'fractional', parent: 'practice', label: 'Fractional CTO work', x: 920, y: 215, type: 'practice', group: 'practice', detail: 'Donald is available for select fractional CTO and advisory engagements with small teams.', link: 'mailto:ddmckendrick@gmail.com', linkLabel: 'Start a conversation' },
+    { id: 'team-design', parent: 'practice', label: 'Hiring & team design', x: 920, y: 70, type: 'practice', group: 'practice', detail: 'Hiring, team structure, collaboration practices, and creating room for technical leadership.' },
+    { id: 'shape-up', parent: 'practice', label: 'Shape Up', x: 450, y: 300, type: 'practice', group: 'practice', detail: 'At Closegap, Donald runs development in six-week Shape Up cycles with prototyping weeks and cooldowns.' },
+    { id: 'fractional', parent: 'practice', label: 'Fractional CTO work', x: 820, y: 350, type: 'practice', group: 'practice', detail: 'Donald is available for select fractional CTO and advisory engagements with small teams.', link: 'mailto:ddmckendrick@gmail.com', linkLabel: 'Start a conversation' },
 
     { id: 'themes', parent: 'donald', label: 'Recurring themes', x: 1100, y: 300, type: 'branch', group: 'themes', detail: 'Ideas that recur across otherwise separate organizations, projects, and research.' },
     { id: 'education-technology', parent: 'themes', label: 'Education technology', x: 1320, y: 145, type: 'theme', group: 'themes', detail: 'Learning products spanning literacy, project-based learning, student mental health, and social-emotional support.' },
-    { id: 'applied-ai', parent: 'themes', label: 'Applied AI & NLP', x: 1380, y: 285, type: 'theme', group: 'themes', detail: 'Applied machine learning, NLP, deep learning, and generative AI used inside real product contexts.' },
+    { id: 'applied-ai', parent: 'themes', label: 'Applied AI & NLP', x: 1420, y: 285, type: 'theme', group: 'themes', detail: 'Applied machine learning, NLP, deep learning, and generative AI used inside real product contexts.' },
     { id: 'privacy-safety', parent: 'themes', label: 'Privacy & safety', x: 1360, y: 435, type: 'theme', group: 'themes', detail: 'Privacy-sensitive healthcare systems and safety-sensitive analysis for student-support products.' },
-    { id: 'simulation', parent: 'themes', label: 'Simulation', x: 1110, y: 70, type: 'theme', group: 'themes', detail: 'A through-line connecting molecular modeling with later Unity, 3D, and VR experiments.' },
+    { id: 'simulation', parent: 'themes', label: 'Simulation', x: 1160, y: 0, type: 'theme', group: 'themes', detail: 'A through-line connecting molecular modeling with later Unity, 3D, and VR experiments.' },
 
-    { id: 'synergy', parent: 'themes', label: 'Interdimensional synergy', x: 1510, y: 525, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional operating layer that allegedly aligns every stakeholder in this diagram before breakfast.', fictional: true },
-    { id: 'quantum-tutor', parent: 'products', label: 'Quantum tutor network', x: 105, y: 850, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional tutoring system that only explains the lesson in universes where the learner already understands it.', fictional: true },
+    { id: 'synergy', parent: 'themes', label: 'Interdimensional synergy', x: 1510, y: 980, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional operating layer that allegedly aligns every stakeholder in this diagram before breakfast.', fictional: true },
+    { id: 'quantum-tutor', parent: 'products', label: 'Quantum tutor network', x: 105, y: 885, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional tutoring system that only explains the lesson in universes where the learner already understands it.', fictional: true },
   ];
 
   const EDGES = [
@@ -194,6 +195,15 @@
       else fitMap({ readable: true });
       nodesElement.querySelector(`[data-expand-id="${id}"]`)?.focus();
     });
+  }
+
+  function expandAll() {
+    clearSelection();
+    NODES.filter(isAvailable).forEach((node) => {
+      if (childrenFor(node.id).length) expandedIds.add(node.id);
+    });
+    render();
+    window.requestAnimationFrame(() => fitMap());
   }
 
   function displayType(node) {
@@ -614,6 +624,7 @@
   closeButton.addEventListener('click', clearSelection);
   zoomInButton.addEventListener('click', () => zoomAt(camera.scale * 1.2));
   zoomOutButton.addEventListener('click', () => zoomAt(camera.scale / 1.2));
+  expandAllButton.addEventListener('click', expandAll);
   fitButton.addEventListener('click', () => fitMap());
 
   document.documentElement.addEventListener('slopchange', (event) => {

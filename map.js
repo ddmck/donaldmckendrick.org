@@ -34,153 +34,38 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const NODES = [
-    {
-      id: 'donald', label: 'Donald McKendrick', x: 800, y: 520, type: 'core', group: 'center',
-      detail: 'CTO, software engineer, product builder, and the only person this diagram has been authorized to over-analyze.',
-      link: 'resume.html', linkLabel: 'Read the résumé',
-    },
-    {
-      id: 'education', label: 'Education products', x: 520, y: 360, type: 'branch', group: 'work',
-      detail: 'More than a decade building learning products, from literacy practice to mental-health and social-emotional support.',
-    },
-    {
-      id: 'quill', label: 'Quill.org', x: 285, y: 410, type: 'role', group: 'work',
-      detail: 'Cofounder and Technical Director from 2016 to 2019. Donald helped grow Quill from 10,000 to more than 1.5 million users.',
-      link: 'https://www.quill.org', linkLabel: 'Visit Quill.org', external: true,
-    },
-    {
-      id: 'closegap', label: 'Closegap', x: 300, y: 230, type: 'role', group: 'work',
-      detail: 'Chief Technology Officer since November 2024, leading product strategy and engineering for K–12 mental-health and SEL tools.',
-      link: 'https://www.closegap.org', linkLabel: 'Visit Closegap', external: true,
-    },
-    {
-      id: 'literacy', label: 'Literacy feedback', x: 90, y: 510, type: 'evidence', group: 'work',
-      detail: 'At Quill, Donald shipped writing tools including Connect, Lessons, and Diagnostic, with automated feedback for open-ended writing.',
-    },
-    {
-      id: 'mental-health', label: 'Student mental health', x: 105, y: 160, type: 'evidence', group: 'work',
-      detail: 'At Closegap, Donald builds free tools that help K–12 students identify and get support for emotional needs.',
-    },
-    {
-      id: 'czi', label: 'Chan Zuckerberg Initiative', x: 485, y: 125, type: 'role', group: 'work',
-      detail: 'Senior Software Engineer from 2020 to 2022, working on curriculum and differentiation for a project-based learning platform.',
-    },
-    {
-      id: 'project-learning', label: 'Project-based learning', x: 285, y: 55, type: 'evidence', group: 'work',
-      detail: 'Donald worked on curriculum, differentiation, and the 2.0 launch of Announcements, a primary landing page during COVID.',
-    },
-    {
-      id: 'leadership', label: 'Engineering leadership', x: 785, y: 245, type: 'branch', group: 'leadership',
-      detail: 'Product strategy, technical direction, hiring, team structure, process design, and support for technical leads.',
-    },
-    {
-      id: 'fractional', label: 'Fractional CTO work', x: 770, y: 65, type: 'evidence', group: 'leadership',
-      detail: 'Donald is available for select fractional CTO and advisory engagements with small teams.',
-      link: 'mailto:ddmckendrick@gmail.com', linkLabel: 'Start a conversation',
-    },
-    {
-      id: 'shape-up', label: 'Shape Up', x: 970, y: 135, type: 'evidence', group: 'leadership',
-      detail: 'At Closegap, Donald runs development in six-week Shape Up cycles with prototyping weeks and cooldowns.',
-    },
-    {
-      id: 'ai', label: 'AI & machine learning', x: 1060, y: 355, type: 'branch', group: 'ai',
-      detail: 'Donald has worked with NLP, deep learning, generative AI, TensorFlow, scikit-learn, and responsible AI in K–12.',
-    },
-    {
-      id: 'nlp', label: 'NLP since 2016', x: 1300, y: 270, type: 'evidence', group: 'ai',
-      detail: 'At Quill, Donald introduced AI and NLP for writing feedback and built a deep-learning sentence-fragment detector.',
-    },
-    {
-      id: 'generative-ai', label: 'Context-aware AI', x: 1345, y: 420, type: 'evidence', group: 'ai',
-      detail: 'At Closegap, Donald built a generative-AI crisis detection tool that replaced keyword matching with context-aware analysis.',
-    },
-    {
-      id: 'one-medical', label: 'One Medical', x: 1125, y: 165, type: 'role', group: 'ai',
-      detail: 'Software Engineer on the Data Interoperability team from 2019 to 2020, including machine-learning work in a healthcare environment.',
-    },
-    {
-      id: 'privacy', label: 'Privacy-sensitive systems', x: 1365, y: 90, type: 'evidence', group: 'ai',
-      detail: 'Donald has worked in a HIPAA-compliant environment with rigorous privacy and security requirements.',
-    },
-    {
-      id: 'games', label: 'Games & interactive work', x: 1120, y: 660, type: 'branch', group: 'games',
-      detail: 'Independent game development spanning an educational RPG, VR prototypes, spatial-memory play, and music composition.',
-    },
-    {
-      id: 'ddm', label: 'Derivative Daydream Machine', x: 1370, y: 590, type: 'role', group: 'games',
-      detail: 'Donald’s independent game-development studio, active from 2022 to 2024.',
-    },
-    {
-      id: 'unity-vr', label: 'Unity & VR', x: 1430, y: 750, type: 'evidence', group: 'games',
-      detail: 'Donald placed fourth in a VR game jam with an accessible spatial-memory party game and has built 3D simulation prototypes.',
-    },
-    {
-      id: 'final-fantasy', label: 'Final Fantasy VI', x: 1230, y: 885, type: 'oddity', group: 'games',
-      detail: 'Donald’s favorite entry in the series, for its wide cast and its dramatic return to a changed world.',
-    },
-    {
-      id: 'research', label: 'Research', x: 825, y: 815, type: 'branch', group: 'research',
-      detail: 'Before product engineering, Donald worked in computational chemistry and now collaborates on research in education and emotional granularity.',
-    },
-    {
-      id: 'amsterdam', label: 'University of Amsterdam', x: 720, y: 1010, type: 'role', group: 'research',
-      detail: 'Assistant Researcher from 2011 to 2013 on a computational chemistry PhD track.',
-    },
-    {
-      id: 'chemistry', label: 'Molecular simulation', x: 970, y: 1015, type: 'evidence', group: 'research',
-      detail: 'Donald researched gas absorption in metal-organic frameworks using Monte Carlo and molecular dynamics simulation.',
-    },
-    {
-      id: 'heriot-watt', label: 'Heriot-Watt University', x: 520, y: 920, type: 'role', group: 'research',
-      detail: 'Donald earned a Master of Chemistry. His thesis used quantum simulation to study catalytic synthesis of isoquinoline.',
-    },
-    {
-      id: 'scotland-germany', label: 'Scotland & Germany', x: 285, y: 745, type: 'oddity', group: 'personal',
-      detail: 'Donald grew up in Scotland and Germany. Edinburgh is probably his favorite city.',
-    },
-    {
-      id: 'music', label: 'Music', x: 455, y: 730, type: 'oddity', group: 'personal',
-      detail: 'Donald likes making orchestral game scores and dark synth music. It often turns out sad.',
-    },
-    {
-      id: 'health-band', label: 'HEALTH', x: 255, y: 900, type: 'oddity', group: 'personal',
-      detail: 'Donald’s favorite band: moody, cathartic, and good for focusing.',
-    },
-    {
-      id: 'uematsu', label: 'Nobuo Uematsu', x: 365, y: 1030, type: 'oddity', group: 'personal',
-      detail: 'Donald’s favorite composer, and an enduring influence on how he thinks about music for games.',
-    },
-    {
-      id: 'food', label: 'Chicken parm & builder’s tea', x: 610, y: 670, type: 'oddity', group: 'personal',
-      detail: 'Favorite food: chicken parm. Usual drink: builder’s tea with milk and two sugars, or as much sugar as will dissolve.',
-    },
-    {
-      id: 'binturongs', label: 'Binturongs', x: 490, y: 555, type: 'oddity', group: 'personal',
-      detail: 'Donald finds binturongs funny and endearingly indifferent, and is fascinated that they smell like popcorn.',
-    },
-    {
-      id: 'pesto', label: 'Pesto', x: 610, y: 815, type: 'oddity', group: 'personal',
-      detail: 'Avoided after a college roommate left enough pesto-smeared dishes to turn a condiment into a long-term adversary.',
-    },
-    {
-      id: 'synergy', label: 'Interdimensional synergy', x: 1500, y: 505, type: 'fictional', group: 'fictional', minStage: 2,
-      detail: 'A fictional operating layer that allegedly aligns every stakeholder in this diagram before breakfast.', fictional: true,
-    },
-    {
-      id: 'quantum-tutor', label: 'Quantum tutor network', x: 90, y: 690, type: 'fictional', group: 'fictional', minStage: 2,
-      detail: 'A fictional tutoring system that only explains the lesson in universes where the learner already understands it.', fictional: true,
-    },
-    {
-      id: 'pesto-chain', label: 'Pesto blockchain', x: 625, y: 55, type: 'fictional', group: 'fictional', minStage: 3,
-      detail: 'A fictional distributed ledger designed to ensure every pesto-covered dish can be traced back to the responsible roommate.', fictional: true,
-    },
+    { id: 'donald', label: 'Donald McKendrick', x: 800, y: 520, type: 'core', group: 'center', detail: 'CTO, software engineer, and product builder working across education, AI, and games.', link: 'resume.html', linkLabel: 'Read the résumé' },
+    { id: 'education', parent: 'donald', label: 'Education products', x: 500, y: 355, type: 'branch', group: 'work', detail: 'More than a decade building learning products, from literacy practice to mental-health and social-emotional support.' },
+    { id: 'quill', parent: 'education', label: 'Quill.org', x: 270, y: 420, type: 'role', group: 'work', detail: 'Cofounder and Technical Director from 2016 to 2019. Donald helped grow Quill from 10,000 to more than 1.5 million users.', link: 'https://www.quill.org', linkLabel: 'Visit Quill.org', external: true },
+    { id: 'literacy', parent: 'quill', label: 'Literacy feedback', x: 70, y: 515, type: 'evidence', group: 'work', detail: 'At Quill, Donald shipped Connect, Lessons, and Diagnostic, with automated feedback for open-ended writing.' },
+    { id: 'closegap', parent: 'education', label: 'Closegap', x: 285, y: 230, type: 'role', group: 'work', detail: 'Chief Technology Officer since November 2024, leading product strategy and engineering for K–12 mental-health and SEL tools.', link: 'https://www.closegap.org', linkLabel: 'Visit Closegap', external: true },
+    { id: 'mental-health', parent: 'closegap', label: 'Student mental health', x: 80, y: 145, type: 'evidence', group: 'work', detail: 'At Closegap, Donald builds free tools that help K–12 students identify and get support for emotional needs.' },
+    { id: 'czi', parent: 'education', label: 'Chan Zuckerberg Initiative', x: 490, y: 115, type: 'role', group: 'work', detail: 'Senior Software Engineer from 2020 to 2022, working on curriculum and differentiation for a project-based learning platform.' },
+    { id: 'project-learning', parent: 'czi', label: 'Project-based learning', x: 290, y: 45, type: 'evidence', group: 'work', detail: 'Donald worked on curriculum, differentiation, and the 2.0 launch of Announcements, a primary landing page during COVID.' },
+    { id: 'leadership', parent: 'donald', label: 'Engineering leadership', x: 790, y: 245, type: 'branch', group: 'leadership', detail: 'Product strategy, technical direction, hiring, team structure, process design, and support for technical leads.' },
+    { id: 'fractional', parent: 'leadership', label: 'Fractional CTO work', x: 775, y: 55, type: 'evidence', group: 'leadership', detail: 'Donald is available for select fractional CTO and advisory engagements with small teams.', link: 'mailto:ddmckendrick@gmail.com', linkLabel: 'Start a conversation' },
+    { id: 'shape-up', parent: 'leadership', label: 'Shape Up', x: 990, y: 135, type: 'evidence', group: 'leadership', detail: 'At Closegap, Donald runs development in six-week Shape Up cycles with prototyping weeks and cooldowns.' },
+    { id: 'ai', parent: 'donald', label: 'AI & machine learning', x: 1080, y: 355, type: 'branch', group: 'ai', detail: 'Donald has worked with NLP, deep learning, generative AI, TensorFlow, scikit-learn, and responsible AI in K–12.' },
+    { id: 'nlp', parent: 'ai', label: 'NLP since 2016', x: 1320, y: 275, type: 'evidence', group: 'ai', detail: 'At Quill, Donald introduced AI and NLP for writing feedback and built a deep-learning sentence-fragment detector.' },
+    { id: 'generative-ai', parent: 'ai', label: 'Context-aware AI', x: 1370, y: 430, type: 'evidence', group: 'ai', detail: 'At Closegap, Donald built a generative-AI crisis detection tool that replaced keyword matching with context-aware analysis.' },
+    { id: 'one-medical', parent: 'ai', label: 'One Medical', x: 1140, y: 165, type: 'role', group: 'ai', detail: 'Software Engineer on the Data Interoperability team from 2019 to 2020, including machine-learning work in healthcare.' },
+    { id: 'privacy', parent: 'one-medical', label: 'Privacy-sensitive systems', x: 1385, y: 85, type: 'evidence', group: 'ai', detail: 'Donald has worked in a HIPAA-compliant environment with rigorous privacy and security requirements.' },
+    { id: 'games', parent: 'donald', label: 'Games & interactive work', x: 1120, y: 675, type: 'branch', group: 'games', detail: 'Independent game development spanning an educational RPG, VR prototypes, spatial-memory play, and music composition.' },
+    { id: 'ddm', parent: 'games', label: 'Derivative Daydream Machine', x: 1375, y: 600, type: 'role', group: 'games', detail: 'Donald’s independent game-development studio, active from 2022 to 2024.' },
+    { id: 'unity-vr', parent: 'games', label: 'Unity & VR', x: 1430, y: 770, type: 'evidence', group: 'games', detail: 'Donald placed fourth in a VR game jam with an accessible spatial-memory party game and has built 3D simulation prototypes.' },
+    { id: 'research', parent: 'donald', label: 'Research', x: 810, y: 820, type: 'branch', group: 'research', detail: 'Before product engineering, Donald worked in computational chemistry and now collaborates on research in education and emotional granularity.' },
+    { id: 'amsterdam', parent: 'research', label: 'University of Amsterdam', x: 760, y: 1010, type: 'role', group: 'research', detail: 'Assistant Researcher from 2011 to 2013 on a computational chemistry PhD track.' },
+    { id: 'chemistry', parent: 'amsterdam', label: 'Molecular simulation', x: 1010, y: 1020, type: 'evidence', group: 'research', detail: 'Donald researched gas absorption in metal-organic frameworks using Monte Carlo and molecular dynamics simulation.' },
+    { id: 'heriot-watt', parent: 'research', label: 'Heriot-Watt University', x: 525, y: 930, type: 'role', group: 'research', detail: 'Donald earned a Master of Chemistry. His thesis used quantum simulation to study catalytic synthesis of isoquinoline.' },
+    { id: 'synergy', parent: 'ai', label: 'Interdimensional synergy', x: 1510, y: 525, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional operating layer that allegedly aligns every stakeholder in this diagram before breakfast.', fictional: true },
+    { id: 'quantum-tutor', parent: 'education', label: 'Quantum tutor network', x: 95, y: 685, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional tutoring system that only explains the lesson in universes where the learner already understands it.', fictional: true },
   ];
 
   const EDGES = [
     ['donald', 'education', ['builds', 'keeps returning to', 'scales impact through', 'disrupts the vertical of']],
     ['education', 'quill', ['co-founded', 'helped grow', 'architected learner outcomes at', 'manifested 1.5M users at']],
-    ['education', 'closegap', ['now leads', 'now steers', 'operationalizes care at', 'synergizes feelings through']],
     ['quill', 'literacy', ['gave feedback on', 'patiently corrected', 'AI-enabled', '10,000× transformed']],
+    ['education', 'closegap', ['now leads', 'now steers', 'operationalizes care at', 'synergizes feelings through']],
     ['closegap', 'mental-health', ['supports', 'builds for', 'unlocks', 'quantum-accelerates']],
     ['education', 'czi', ['also passed through', 'shipped at', 'activated at', 'cross-pollinated at']],
     ['czi', 'project-learning', ['worked on', 'made infrastructure for', 'enabled outcomes in', 'reimagined the paradigm of']],
@@ -195,29 +80,18 @@
     ['donald', 'games', ['also makes', 'keeps making', 'explores new modalities through', 'gamifies the metaverse through']],
     ['games', 'ddm', ['founded', 'built under', 'incubated through', 'dream-machined via']],
     ['games', 'unity-vr', ['uses', 'experiments with', 'builds immersive value in', 'spatially synergizes']],
-    ['games', 'final-fantasy', ['favorite:', 'has strong opinions about', 'derives narrative leadership from', 'benchmarks civilization against']],
     ['donald', 'research', ['began in', 'still collaborates on', 'maintains epistemic leverage through', 'peer-reviews reality via']],
-    ['research', 'amsterdam', ['included', 'once lived at', 'generated findings at', 'molecularly disrupted']],
-    ['research', 'chemistry', ['simulated', 'involved', 'modeled innovation through', 'quantum-vibed']],
+    ['research', 'amsterdam', ['included', 'once worked at', 'generated findings at', 'molecularly disrupted']],
+    ['amsterdam', 'chemistry', ['simulated', 'involved', 'modeled innovation through', 'quantum-vibed']],
     ['research', 'heriot-watt', ['studied at', 'earned a chemistry degree at', 'built foundational rigor at', 'mastered matter at']],
-    ['donald', 'scotland-germany', ['grew up in', 'was geographically compiled in', 'developed cross-border perspective in', 'globally localized across']],
-    ['donald', 'music', ['makes', 'spends free afternoons on', 'composes focus assets in', 'sonically transforms']],
-    ['music', 'health-band', ['soundtracked by', 'focuses with', 'leverages catharsis from', 'emotionally benchmarks against']],
-    ['music', 'uematsu', ['influenced by', 'takes game-music notes from', 'draws melodic strategy from', 'orchestrates stakeholder feelings via']],
-    ['donald', 'food', ['runs on', 'is provisioned by', 'maintains founder energy with', 'biohacks through']],
-    ['donald', 'binturongs', ['strongly endorses', 'finds correctly funny', 'identifies untapped charisma in', 'smells disruption around']],
-    ['donald', 'pesto', ['avoids', 'has evidence against', 'maintains a zero-trust policy for', 'decentralizes away from']],
-    ['music', 'final-fantasy', ['meets in', 'converges on', 'creates a transmedia flywheel around', 'achieves melodic singularity in']],
     ['education', 'quantum-tutor', ['fictionally enables', 'fictionally pilots', 'fictionally scales', 'fictionally hyper-scales'], 2],
     ['ai', 'synergy', ['fictionally powers', 'fictionally aligns', 'fictionally unlocks', 'fictionally transcends'], 2],
-    ['pesto', 'pesto-chain', ['fictionally audits', 'fictionally tokenizes', 'fictionally decentralizes', 'fictionally puts on-chain'], 3],
-    ['leadership', 'synergy', ['fictionally aligns', 'fictionally activates', 'fictionally multiplies', 'fictionally achieves escape velocity through'], 3],
-    ['quantum-tutor', 'pesto-chain', ['has no defensible link to', 'should not connect to', 'cross-synergizes for no reason with', 'inevitably converges with'], 3],
   ].map(([from, to, labels, minStage = 0]) => ({ from, to, labels, minStage }));
 
   const nodeById = new Map(NODES.map((node) => [node.id, node]));
   let stage = ['clean', 'subtle', 'awful', 'chaos'].indexOf(document.documentElement.dataset.slopTier);
   if (stage < 0) stage = 0;
+  const expandedIds = new Set(['donald']);
   let selectedId = null;
   let camera = { x: 0, y: 0, scale: 1 };
   let drag = null;
@@ -229,18 +103,60 @@
     return element;
   }
 
-  function isVisible(node) {
+  function isAvailable(node) {
     return (node.minStage || 0) <= stage;
+  }
+
+  function isVisible(node) {
+    if (!isAvailable(node)) return false;
+    if (!node.parent) return true;
+    const parent = nodeById.get(node.parent);
+    return Boolean(parent && expandedIds.has(parent.id) && isVisible(parent));
   }
 
   function visibleNodes() {
     return NODES.filter(isVisible);
   }
 
+  function childrenFor(id) {
+    return NODES.filter((node) => node.parent === id && isAvailable(node));
+  }
+
+  function revealPath(node) {
+    let parent = node.parent ? nodeById.get(node.parent) : null;
+    while (parent) {
+      expandedIds.add(parent.id);
+      parent = parent.parent ? nodeById.get(parent.parent) : null;
+    }
+  }
+
+  function collapseDescendants(id) {
+    childrenFor(id).forEach((child) => {
+      expandedIds.delete(child.id);
+      collapseDescendants(child.id);
+    });
+  }
+
+  function toggleExpanded(id) {
+    const expanding = !expandedIds.has(id);
+    if (!expanding) {
+      expandedIds.delete(id);
+      collapseDescendants(id);
+    } else {
+      expandedIds.add(id);
+    }
+    render();
+    window.requestAnimationFrame(() => {
+      if (expanding) centerOnNode(id);
+      else fitMap({ readable: true });
+      nodesElement.querySelector(`[data-expand-id="${id}"]`)?.focus();
+    });
+  }
+
   function displayType(node) {
     return {
       core: 'Primary subject', branch: 'Working theme', role: 'Experience', evidence: 'Evidence',
-      oddity: 'Relevant somehow', fictional: 'Fictional slop node',
+      fictional: 'Fictional slop node',
     }[node.type] || 'Topic';
   }
 
@@ -318,16 +234,22 @@
 
     visible.forEach((node, index) => {
       const size = nodeSize(node);
+      const children = childrenFor(node.id);
+      const expandable = children.length > 0;
+      const expanded = expandedIds.has(node.id);
       const outer = svgElement('g', {
         class: `map-node map-node-${node.type}`,
         transform: `translate(${node.x} ${node.y})`,
-        tabindex: '0',
-        role: 'button',
-        'aria-label': `${node.label}. ${displayType(node)}. Select for details.`,
         'data-node-id': node.id,
         style: `--node-index:${index};--chaos-x:${((index * 17) % 27) - 13}px;--chaos-y:${((index * 29) % 23) - 11}px`,
       });
       const motion = svgElement('g', { class: 'map-node-motion' });
+      const select = svgElement('g', {
+        class: 'map-node-select',
+        tabindex: '0',
+        role: 'button',
+        'aria-label': `${node.label}. ${displayType(node)}. Select for details.`,
+      });
       const rect = svgElement('rect', {
         x: -size.width / 2,
         y: -size.height / 2,
@@ -344,21 +266,50 @@
         tspan.textContent = line;
         text.append(tspan);
       });
-      motion.append(rect, text);
-      outer.append(motion);
-      outer.addEventListener('click', (event) => {
+      select.append(rect, text);
+      select.addEventListener('click', (event) => {
         event.stopPropagation();
         if (!dragged) selectNode(node.id);
       });
-      outer.addEventListener('keydown', (event) => {
+      select.addEventListener('keydown', (event) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
         selectNode(node.id);
       });
+      motion.append(select);
+
+      if (expandable) {
+        const expand = svgElement('g', {
+          class: `map-node-expand${expanded ? ' is-expanded' : ''}`,
+          transform: `translate(${size.width / 2 + 18} 0)`,
+          tabindex: '0',
+          role: 'button',
+          'aria-label': `${expanded ? 'Collapse' : 'Expand'} connections from ${node.label}`,
+          'aria-expanded': String(expanded),
+          'data-expand-id': node.id,
+        });
+        const circle = svgElement('circle', { cx: 0, cy: 0, r: 16 });
+        const horizontal = svgElement('path', { d: 'M -6 0 H 6' });
+        const vertical = svgElement('path', { d: 'M 0 -6 V 6', class: 'map-expand-vertical' });
+        expand.append(circle, horizontal, vertical);
+        expand.addEventListener('click', (event) => {
+          event.stopPropagation();
+          toggleExpanded(node.id);
+        });
+        expand.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          event.stopPropagation();
+          toggleExpanded(node.id);
+        });
+        motion.append(expand);
+      }
+
+      outer.append(motion);
       nodesElement.append(outer);
     });
 
-    populatePicker(visible);
+    populatePicker(NODES.filter(isAvailable));
     if (selectedId && visibleIds.has(selectedId)) {
       updateSelection();
       showDetail(nodeById.get(selectedId));
@@ -366,11 +317,12 @@
       clearSelection();
     }
 
+    const availableCount = NODES.filter(isAvailable).length;
     const messages = [
-      '31 documented topics',
-      '31 facts, lightly overinterpreted',
-      `${visible.length} nodes · fictional claims marked`,
-      `${visible.length} nodes · methodology abandoned`,
+      `${visible.length} of ${availableCount} résumé topics visible`,
+      `${visible.length} of ${availableCount} topics, lightly overinterpreted`,
+      `${visible.length} of ${availableCount} nodes · fictional claims marked`,
+      `${visible.length} of ${availableCount} nodes · methodology abandoned`,
     ];
     status.textContent = messages[stage];
     fictionLabel.hidden = stage < 2;
@@ -385,7 +337,7 @@
 
     const groups = new Map();
     nodes.forEach((node) => {
-      const label = node.fictional ? 'Fictional slop' : node.type === 'oddity' ? 'Personal rabbit holes' : 'Work and evidence';
+      const label = node.fictional ? 'Fictional slop' : ['core', 'branch'].includes(node.type) ? 'Overview' : 'Experience and evidence';
       if (!groups.has(label)) groups.set(label, []);
       groups.get(label).push(node);
     });
@@ -405,12 +357,19 @@
 
   function selectNode(id, { focus = false } = {}) {
     const node = nodeById.get(id);
-    if (!node || !isVisible(node)) return;
+    if (!node || !isAvailable(node)) return;
+    const needsReveal = !isVisible(node);
+    if (needsReveal) revealPath(node);
     selectedId = id;
-    updateSelection();
-    showDetail(node);
-    picker.value = id;
-    if (focus) nodesElement.querySelector(`[data-node-id="${id}"]`)?.focus();
+    if (needsReveal) {
+      render();
+      window.requestAnimationFrame(() => centerOnNode(id));
+    } else {
+      updateSelection();
+      showDetail(node);
+      picker.value = id;
+    }
+    if (focus) window.requestAnimationFrame(() => nodesElement.querySelector(`[data-node-id="${id}"] .map-node-select`)?.focus());
   }
 
   function updateSelection() {
@@ -449,12 +408,12 @@
       if (edge.from === node.id) relatedIds.push(edge.to);
       if (edge.to === node.id) relatedIds.push(edge.from);
     });
-    const visibleRelated = [...new Set(relatedIds)].map((id) => nodeById.get(id)).filter((related) => related && isVisible(related));
-    if (visibleRelated.length) {
+    const relatedNodes = [...new Set(relatedIds)].map((id) => nodeById.get(id)).filter((related) => related && isAvailable(related));
+    if (relatedNodes.length) {
       const label = document.createElement('p');
-      label.textContent = 'Connected to';
+      label.textContent = 'Related topics';
       const links = document.createElement('div');
-      visibleRelated.forEach((related) => {
+      relatedNodes.forEach((related) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = related.label;
@@ -508,13 +467,32 @@
     updateCamera();
   }
 
-  function fitMap({ initial = false } = {}) {
+  function centerOnNode(id) {
+    const node = nodeById.get(id);
+    if (!node) return;
+    camera.x = (VIEW_WIDTH / 2) - node.x * camera.scale;
+    camera.y = (VIEW_HEIGHT / 2) - node.y * camera.scale;
+    updateCamera();
+  }
+
+  function fitMap({ readable = false } = {}) {
+    const visible = visibleNodes();
+    if (!visible.length) return;
     const narrow = window.matchMedia('(max-width: 680px)').matches;
-    const scale = initial && narrow ? 2.05 : 1;
+    const minX = Math.min(...visible.map((node) => node.x));
+    const maxX = Math.max(...visible.map((node) => node.x));
+    const minY = Math.min(...visible.map((node) => node.y));
+    const maxY = Math.max(...visible.map((node) => node.y));
+    const width = Math.max(420, maxX - minX + 330);
+    const height = Math.max(360, maxY - minY + 250);
+    const fittedScale = Math.max(0.62, Math.min(VIEW_WIDTH / width, VIEW_HEIGHT / height, narrow ? 2.05 : 1.65));
+    const scale = readable && narrow ? Math.max(2.05, fittedScale) : fittedScale;
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
     camera = {
       scale,
-      x: (VIEW_WIDTH / 2) * (1 - scale),
-      y: (VIEW_HEIGHT / 2) * (1 - scale),
+      x: (VIEW_WIDTH / 2) - centerX * scale,
+      y: (VIEW_HEIGHT / 2) - centerY * scale,
     };
     updateCamera();
   }
@@ -581,10 +559,10 @@
   });
 
   window.addEventListener('resize', () => {
-    if (!selectedId) fitMap({ initial: true });
+    if (!selectedId) fitMap({ readable: true });
   });
 
   render();
-  fitMap({ initial: true });
+  fitMap({ readable: true });
   window.requestAnimationFrame(() => workspace.classList.add('map-ready'));
 })();

@@ -2204,6 +2204,11 @@ main,
   transition: transform 200ms ease;
 }
 
+.map-node-select {
+  cursor: pointer;
+  outline: none;
+}
+
 .map-node rect {
   fill: var(--paper);
   stroke: var(--ink);
@@ -2274,13 +2279,13 @@ main,
 }
 
 .map-node:hover rect,
-.map-node:focus-visible rect,
+.map-node-select:focus-visible rect,
 .map-node.is-related rect {
   stroke: var(--map-signal);
   stroke-width: 2.5;
 }
 
-.map-node:focus-visible rect {
+.map-node-select:focus-visible rect {
   filter: drop-shadow(0 0 6px color-mix(in srgb, var(--map-signal) 58%, transparent));
 }
 
@@ -2297,6 +2302,46 @@ main,
 
 .map-node.is-dimmed {
   opacity: 0.2 !important;
+}
+
+.map-node-expand {
+  cursor: pointer;
+  outline: none;
+}
+
+.map-node-expand circle {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+  transition: fill 150ms ease, stroke 150ms ease, transform 150ms ease;
+}
+
+.map-node-expand path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  transition: opacity 150ms ease, stroke 150ms ease, transform 150ms ease;
+}
+
+.map-node-expand:hover circle,
+.map-node-expand:focus-visible circle,
+.map-node-expand.is-expanded circle {
+  fill: var(--ink);
+  transform: scale(1.08);
+}
+
+.map-node-expand:hover path,
+.map-node-expand:focus-visible path,
+.map-node-expand.is-expanded path {
+  stroke: var(--paper);
+}
+
+.map-node-expand.is-expanded .map-expand-vertical {
+  opacity: 0;
+  transform: rotate(90deg);
 }
 
 .map-zoom {

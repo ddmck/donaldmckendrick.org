@@ -249,7 +249,9 @@
 
     const visible = visibleNodes();
     const visibleIds = new Set(visible.map((node) => node.id));
-    const visibleEdges = EDGES.filter((edge) => edge.minStage <= stage && visibleIds.has(edge.from) && visibleIds.has(edge.to));
+    const visibleEdges = EDGES.filter((edge) => (
+      !edge.cross && edge.minStage <= stage && visibleIds.has(edge.from) && visibleIds.has(edge.to)
+    ));
 
     visibleEdges.forEach((edge, index) => {
       const from = nodeById.get(edge.from);
@@ -454,16 +456,22 @@
     fictionNote.hidden = !node.fictional;
 
     relatedElement.replaceChildren();
-    const relatedIds = [];
+    const primaryIds = [];
+    const otherIds = [];
     EDGES.forEach((edge) => {
       if (edge.minStage > stage) return;
-      if (edge.from === node.id) relatedIds.push(edge.to);
-      if (edge.to === node.id) relatedIds.push(edge.from);
+      const relatedId = edge.from === node.id ? edge.to : edge.to === node.id ? edge.from : null;
+      if (!relatedId) return;
+      (edge.cross ? otherIds : primaryIds).push(relatedId);
     });
-    const relatedNodes = [...new Set(relatedIds)].map((id) => nodeById.get(id)).filter((related) => related && isAvailable(related));
-    if (relatedNodes.length) {
+
+    const appendRelatedGroup = (title, ids) => {
+      const relatedNodes = [...new Set(ids)]
+        .map((id) => nodeById.get(id))
+        .filter((related) => related && isAvailable(related));
+      if (!relatedNodes.length) return;
       const label = document.createElement('p');
-      label.textContent = 'Related topics';
+      label.textContent = title;
       const links = document.createElement('div');
       relatedNodes.forEach((related) => {
         const button = document.createElement('button');
@@ -473,7 +481,10 @@
         links.append(button);
       });
       relatedElement.append(label, links);
-    }
+    };
+
+    appendRelatedGroup('In this branch', primaryIds);
+    appendRelatedGroup('Other connections', otherIds);
 
     if (node.link) {
       detailLink.hidden = false;

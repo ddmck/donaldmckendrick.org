@@ -9,7 +9,6 @@
   const inspector = document.querySelector('[data-map-inspector]');
   const picker = document.querySelector('#map-topic-picker');
   const status = document.querySelector('[data-map-status]');
-  const fictionLabel = document.querySelector('[data-map-fiction]');
   const detailType = document.querySelector('[data-map-detail-type]');
   const detailTitle = document.querySelector('[data-map-detail-title]');
   const detailCopy = document.querySelector('[data-map-detail-copy]');
@@ -23,7 +22,7 @@
 
   if (
     !svg || !workspace || !cameraElement || !edgesElement || !extraEdgesElement || !labelsElement ||
-    !nodesElement || !inspector || !picker || !status || !fictionLabel || !detailType || !detailTitle ||
+    !nodesElement || !inspector || !picker || !status || !detailType || !detailTitle ||
     !detailCopy || !detailLink || !fictionNote || !relatedElement || !closeButton || !zoomInButton ||
     !zoomOutButton || !fitButton
   ) return;
@@ -325,7 +324,6 @@
       `${visible.length} of ${availableCount} nodes · methodology abandoned`,
     ];
     status.textContent = messages[stage];
-    fictionLabel.hidden = stage < 2;
   }
 
   function populatePicker(nodes) {
@@ -368,6 +366,7 @@
       updateSelection();
       showDetail(node);
       picker.value = id;
+      window.requestAnimationFrame(() => centerOnNode(id));
     }
     if (focus) window.requestAnimationFrame(() => nodesElement.querySelector(`[data-node-id="${id}"] .map-node-select`)?.focus());
   }
@@ -486,7 +485,7 @@
     const width = Math.max(420, maxX - minX + 330);
     const height = Math.max(360, maxY - minY + 250);
     const fittedScale = Math.max(0.62, Math.min(VIEW_WIDTH / width, VIEW_HEIGHT / height, narrow ? 2.05 : 1.65));
-    const scale = readable && narrow ? Math.max(2.05, fittedScale) : fittedScale;
+    const scale = readable && narrow ? Math.max(1.72, fittedScale) : fittedScale;
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
     camera = {

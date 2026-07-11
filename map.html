@@ -38,9 +38,9 @@
         root.dataset.theme = theme;
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=map-6">
-    <script src="script.js?v=map-6" defer></script>
-    <script src="map.js?v=map-6" defer></script>
+    <link rel="stylesheet" href="styles.css?v=map-12">
+    <script src="script.js?v=map-12" defer></script>
+    <script src="map.js?v=map-12" defer></script>
   </head>
   <body class="map-site">
     <header class="site-header">
@@ -75,14 +75,7 @@
     </header>
 
     <main class="map-page">
-      <section class="map-intro" aria-labelledby="map-title">
-        <p class="map-kicker">Twenty-three résumé facts, one avoidable diagram</p>
-        <h1 id="map-title">A needlessly complicated map of Donald McKendrick.</h1>
-        <p class="map-deck">
-          Select a node for details. Use the plus controls to reveal its connections. Increase Slop to weaken the methodology.
-        </p>
-      </section>
-
+      <h1 class="visually-hidden">Interactive knowledge map of Donald McKendrick</h1>
       <section class="map-workspace" aria-label="Interactive knowledge map">
         <div class="map-toolbar">
           <div class="map-toolbar-status" aria-live="polite">
@@ -101,8 +94,6 @@
             <label for="slop-filter">Slop Slider</label>
             <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="None">
             <output for="slop-filter"><strong data-slop-stage>None</strong></output>
-            <button class="slop-reset" type="button" hidden>Reset</button>
-            <span class="map-fiction-label" data-map-fiction hidden>Fictional claims active</span>
           </div>
         </div>
 

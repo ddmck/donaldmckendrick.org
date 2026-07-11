@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A needlessly complicated map of Donald McKendrick</title>
+    <meta
+      name="description"
+      content="An interactive and increasingly questionable map of Donald McKendrick's work, interests, and opinions."
+    >
+    <script>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('js');
+
+        let theme;
+        try {
+          const savedTheme = localStorage.getItem('donald-theme');
+          if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+
+          const savedStage = localStorage.getItem('donald-slop-stage');
+          const legacyLevel = Number(localStorage.getItem('donald-slop-level'));
+          const parsedStage = Number(savedStage);
+          const slopStage = savedStage !== null && Number.isInteger(parsedStage) && parsedStage >= 0 && parsedStage <= 3
+            ? parsedStage
+            : !Number.isFinite(legacyLevel) || legacyLevel <= 0 ? 0 : legacyLevel <= 33 ? 1 : legacyLevel <= 66 ? 2 : 3;
+          const intensities = [0, 0.22, 0.55, 1];
+          const tiers = ['clean', 'subtle', 'awful', 'chaos'];
+          const slopPosition = slopStage / 3;
+          root.style.setProperty('--slop', String(intensities[slopStage]));
+          root.style.setProperty('--slop-position', String(slopPosition));
+          root.style.setProperty('--slop-percent', `${slopPosition * 100}%`);
+          root.style.setProperty('--slop-thumb-offset', `${8 - (slopPosition * 16)}px`);
+          root.dataset.slopTier = tiers[slopStage];
+        } catch {}
+
+        if (!theme) theme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.dataset.theme = theme;
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=map-4">
+    <script src="script.js?v=map-4" defer></script>
+    <script src="map.js?v=map-4" defer></script>
+  </head>
+  <body class="map-site">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Donald McKendrick home">Donald McKendrick</a>
+      <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" title="Switch to dark mode">
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+        </svg>
+      </button>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+        aria-label="Open menu"
+      >
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+        <a href="index.html#work" aria-label="Selected work">Work</a>
+        <a href="resume.html" aria-label="Resume">Resume</a>
+        <a href="ask.html" aria-label="Ask about Donald's work">Ask</a>
+        <a href="map.html" aria-current="page" aria-label="Explore Donald's knowledge map">Map</a>
+        <a href="mailto:ddmckendrick@gmail.com" aria-label="Email Donald McKendrick">Email</a>
+        <a href="https://linkedin.com/in/donaldmckendrick" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <main class="map-page">
+      <section class="map-intro" aria-labelledby="map-title">
+        <p class="map-kicker">Thirty-one facts, several opinions, one avoidable diagram</p>
+        <h1 id="map-title">A needlessly complicated map of Donald McKendrick.</h1>
+        <p class="map-deck">
+          Select a node to inspect the evidence. Increase the Slop Slider to weaken the methodology.
+        </p>
+      </section>
+
+      <section class="map-workspace" aria-label="Interactive knowledge map">
+        <div class="map-toolbar">
+          <div class="map-toolbar-status" aria-live="polite">
+            <span class="map-status-dot" aria-hidden="true"></span>
+            <span data-map-status>31 documented connections</span>
+          </div>
+
+          <label class="map-topic-jump" for="map-topic-picker">
+            <span>Jump to</span>
+            <select id="map-topic-picker" aria-label="Jump to a topic">
+              <option value="">Choose a node…</option>
+            </select>
+          </label>
+
+          <div class="map-slop" data-slop-ui hidden>
+            <label for="slop-filter">Slop Slider</label>
+            <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="None">
+            <output for="slop-filter"><strong data-slop-stage>None</strong></output>
+            <button class="slop-reset" type="button" hidden>Reset</button>
+            <span class="map-fiction-label" data-map-fiction hidden>Fictional claims active</span>
+          </div>
+        </div>
+
+        <div class="map-layout">
+          <div class="map-canvas" data-map-canvas>
+            <svg
+              class="knowledge-map"
+              data-knowledge-map
+              viewBox="0 0 1600 1080"
+              role="group"
+              aria-labelledby="map-svg-title map-svg-description"
+            >
+              <title id="map-svg-title">Knowledge map of Donald McKendrick</title>
+              <desc id="map-svg-description">A pannable and zoomable network of Donald's work, skills, research, games, and personal interests.</desc>
+              <defs>
+                <filter id="map-glow" x="-70%" y="-70%" width="240%" height="240%">
+                  <feGaussianBlur stdDeviation="8" result="blur"></feGaussianBlur>
+                  <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+                </filter>
+                <pattern id="map-grid" width="36" height="36" patternUnits="userSpaceOnUse">
+                  <path d="M 36 0 L 0 0 0 36" fill="none" stroke="currentColor" stroke-width="1"></path>
+                </pattern>
+              </defs>
+              <rect class="map-grid" width="1600" height="1080" fill="url(#map-grid)"></rect>
+              <g class="map-camera" data-map-camera>
+                <g class="map-extra-edges" data-map-extra-edges></g>
+                <g class="map-edges" data-map-edges></g>
+                <g class="map-edge-labels" data-map-edge-labels></g>
+                <g class="map-nodes" data-map-nodes></g>
+              </g>
+            </svg>
+
+            <div class="map-zoom" aria-label="Map view controls">
+              <button type="button" data-map-zoom-in aria-label="Zoom in">+</button>
+              <button type="button" data-map-zoom-out aria-label="Zoom out">−</button>
+              <button type="button" data-map-fit>Fit map</button>
+            </div>
+            <p class="map-instructions">Drag to move · Scroll or use controls to zoom · Select any node</p>
+          </div>
+
+          <aside class="map-inspector" data-map-inspector aria-live="polite" aria-labelledby="map-detail-title" hidden>
+            <button class="map-inspector-close" type="button" data-map-close aria-label="Close detail note">×</button>
+            <p class="map-detail-type" data-map-detail-type>Topic</p>
+            <h2 id="map-detail-title" data-map-detail-title></h2>
+            <p class="map-detail-copy" data-map-detail-copy></p>
+            <p class="map-fiction-note" data-map-fiction-note hidden>
+              This node is fictional. It has been added by the Slop Slider and should not be mistaken for a credential.
+            </p>
+            <div class="map-related" data-map-related></div>
+            <a class="map-detail-link" data-map-detail-link hidden>Follow the evidence <span aria-hidden="true">↗</span></a>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Donald McKendrick</span>
+      <div class="footer-links">
+        <span>Walnut Creek, CA</span>
+        <a href="https://linkedin.com/in/donaldmckendrick" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/ddmck" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </footer>
+
+    <div class="slop-atmosphere" data-slop-ui hidden aria-hidden="true">
+      <span class="slop-orb slop-orb-one"></span>
+      <span class="slop-orb slop-orb-two"></span>
+      <span class="slop-floater slop-floater-one">✨</span>
+      <span class="slop-floater slop-floater-two">🚀</span>
+      <span class="slop-floater slop-floater-three">💡</span>
+      <span class="slop-floater slop-floater-four">⚡</span>
+    </div>
+    <div class="slop-hype-strip" data-slop-ui hidden aria-hidden="true">
+      <div>KNOWLEDGE GRAPH&nbsp; • &nbsp;SYNERGY DETECTED&nbsp; • &nbsp;INSIGHT ENGINE&nbsp; • &nbsp;HUMAN-CENTERED NODES&nbsp; • &nbsp;</div>
+    </div>
+  </body>
+</html>

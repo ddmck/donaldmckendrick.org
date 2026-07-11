@@ -20,20 +20,15 @@
     'nav-resume': ['Resume', 'Profile', 'Resume'],
     'nav-email': ['Connect', "Let's talk", 'Initiate synergy'],
 
-    'ask-kicker': [
-      'Built-in AI office hours',
-      'AI-powered expertise concierge ✨',
-      'QUANTUM OFFICE HOURS · LIVE FROM THE EDGE 🚀',
-    ],
     'ask-title': [
       'Ask what I can help with.',
       'Discover your technical advantage.',
       'Consult the oracle of infinite technical destiny.',
     ],
     'ask-intro-copy': [
-      'Explore my services, experience, and technical background through a private, on-device conversation grounded in this site and my resume.',
-      'Put more than a decade of product, AI, and engineering leadership on demand with a private intelligence layer grounded in my complete impact profile.',
-      'Activate a quantum-native executive oracle trained on 600 years of category-defining CTO lore, infinite founder energy, and several technologies not yet invented.',
+      'Chrome’s new Prompt API uses this site and my resume to answer questions about my services and experience. The model and conversation run entirely on your device.',
+      'Powered by Chrome’s new Prompt API, this private intelligence layer explores more than a decade of product, AI, and engineering work entirely on your device. Your questions and resume context stay there too.',
+      'Chrome’s new Prompt API channels 600 years of fictional CTO lore entirely on your device; your questions and context remain sealed inside the browser while the hype escapes containment.',
     ],
     'ask-privacy-label': [
       'Private by default.',
@@ -397,7 +392,7 @@
   const copyElements = Array.from(document.querySelectorAll('[data-slop-copy]'));
   const originalCopy = new Map(copyElements.map((element) => [element, element.textContent.trim()]));
   const slopInput = document.querySelector('#slop-filter');
-  const slopStageOutput = document.querySelector('[data-slop-stage]');
+  const slopStageOutputs = document.querySelectorAll('[data-slop-stage]');
   const slopReset = document.querySelector('.slop-reset');
   let currentSlopStage = readStoredSlop();
   let prePrintSlopStage = currentSlopStage;
@@ -423,7 +418,9 @@
       slopInput.value = String(currentSlopStage);
       slopInput.setAttribute('aria-valuetext', stage.label);
     }
-    if (slopStageOutput) slopStageOutput.textContent = stage.shortLabel;
+    slopStageOutputs.forEach((output) => {
+      output.textContent = stage.shortLabel;
+    });
     if (slopReset) slopReset.hidden = currentSlopStage === 0;
     if (persist) storeSlop(currentSlopStage);
     root.dispatchEvent(new CustomEvent('slopchange', {

@@ -38,9 +38,9 @@
         root.dataset.theme = theme;
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=ask-8">
-    <script src="script.js?v=ask-8" defer></script>
-    <script src="ask.js?v=ask-8" defer></script>
+    <link rel="stylesheet" href="styles.css?v=ask-18">
+    <script src="script.js?v=ask-18" defer></script>
+    <script src="ask.js?v=ask-18" defer></script>
   </head>
   <body class="ask-site" data-ai-state="checking">
     <header class="site-header">
@@ -73,22 +73,6 @@
       </nav>
     </header>
 
-    <aside class="slop-dock" data-slop-ui hidden aria-label="Slop Slider controls">
-      <div class="slop-dock-heading">
-        <label for="slop-filter">Slop Slider</label>
-        <div class="slop-dock-actions">
-          <span class="slop-fictional-note">Fictional claims</span>
-          <button class="slop-reset" type="button" hidden>Reset</button>
-        </div>
-      </div>
-      <div class="slop-range-row">
-        <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="None">
-        <output for="slop-filter" class="slop-output">
-          <strong data-slop-stage>None</strong>
-        </output>
-      </div>
-    </aside>
-
     <main class="ask-page">
       <section class="ask-unsupported" data-unsupported hidden aria-labelledby="unsupported-title">
         <p class="ask-unsupported-kicker">Chrome built-in AI</p>
@@ -108,31 +92,61 @@
       </section>
 
       <div class="ask-experience" data-ask-experience>
-        <section class="ask-intro" aria-labelledby="ask-title">
-          <div>
-            <p class="ask-kicker" data-slop-copy="ask-kicker">On-device assistant</p>
-            <h1 id="ask-title" data-slop-copy="ask-title">Ask about my work.</h1>
-          </div>
-          <p data-slop-copy="ask-intro-copy">
-            Ask about my services, experience, and technical background. Chrome generates answers on your device from
-            the same facts as this site and my resume.
-          </p>
-        </section>
+        <section class="ask-workspace" aria-labelledby="ask-title">
+          <div class="ask-status">
+            <div class="ask-status-state">
+              <span class="ask-status-dot" aria-hidden="true"></span>
+              <span data-ai-status aria-live="polite">Checking this browser</span>
+            </div>
 
-        <section class="ask-workspace" aria-label="Ask Donald's resume assistant">
-          <div class="ask-status" aria-live="polite">
-            <span class="ask-status-dot" aria-hidden="true"></span>
-            <span data-ai-status>Checking this browser</span>
-          </div>
+            <div class="ask-tone-control" data-slop-ui hidden>
+              <button
+                class="ask-tone-trigger"
+                type="button"
+                aria-expanded="false"
+                aria-controls="ask-tone-panel"
+              >
+                <span>Slop Slider:</span>
+                <strong data-slop-stage>None</strong>
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="m4 6 4 4 4-4"></path>
+                </svg>
+              </button>
 
-          <div class="chat-log" role="log" aria-live="polite" aria-relevant="additions text">
-            <div class="chat-message chat-message-assistant">
-              <span class="chat-speaker">Donald's browser</span>
-              <p>What would you like to know? I can help you understand where Donald's experience might fit your team.</p>
+              <div class="ask-tone-panel" id="ask-tone-panel" hidden>
+                <div class="ask-tone-panel-heading">
+                  <label for="slop-filter">Response style</label>
+                  <div class="slop-dock-actions">
+                    <span class="slop-fictional-note">Fictional claims</span>
+                    <button class="slop-reset" type="button" hidden>Reset</button>
+                  </div>
+                </div>
+                <div class="slop-range-row">
+                  <input id="slop-filter" type="range" min="0" max="3" step="1" value="0" aria-valuetext="None">
+                  <output for="slop-filter" class="slop-output">
+                    <strong data-slop-stage>None</strong>
+                  </output>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="suggested-questions" aria-label="Suggested questions"></div>
+          <div class="chat-log" role="log" aria-live="polite" aria-relevant="additions text">
+            <div class="chat-message chat-message-assistant chat-message-intro">
+              <span class="chat-speaker">Donald's browser</span>
+              <div class="chat-intro-copy">
+                <h1 id="ask-title" data-slop-copy="ask-title">Ask about my work.</h1>
+                <p data-slop-copy="ask-intro-copy">
+                  This experiment uses Chrome’s new Prompt API to answer from the facts on this site and my resume.
+                  The model, your questions, and the resume context all stay on your device.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="suggested-questions-shell">
+            <div class="suggested-questions" role="group" aria-label="Suggested questions"></div>
+          </div>
 
           <form class="ask-form" id="ask-form">
             <label class="visually-hidden" for="question">Ask a question about Donald's work</label>
@@ -159,7 +173,7 @@
         </section>
 
         <aside class="ask-privacy" aria-label="Privacy and limitations">
-          <p><strong data-slop-copy="ask-privacy-label">Private by design.</strong> Your questions and the resume context stay on your device.</p>
+          <p><strong data-slop-copy="ask-privacy-label">Private by design.</strong> The assistant runs without sending this conversation to a server.</p>
           <p>
             <strong data-slop-copy="ask-reality-label">Reality check.</strong> Built-in AI can make mistakes. For a definitive answer, <a href="resume.html">read the resume</a> or
             <a href="mailto:ddmckendrick@gmail.com">email me</a>.

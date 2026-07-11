@@ -7,15 +7,21 @@
   const note = document.querySelector('[data-ai-note]');
   const log = document.querySelector('.chat-log');
   const suggestions = document.querySelector('.suggested-questions');
+  const suggestionShell = document.querySelector('.suggested-questions-shell');
   const toneInput = document.querySelector('#slop-filter');
   const toneReset = document.querySelector('.slop-reset');
+  const toneControl = document.querySelector('.ask-tone-control');
+  const toneTrigger = document.querySelector('.ask-tone-trigger');
+  const tonePanel = document.querySelector('.ask-tone-panel');
   const unsupported = document.querySelector('[data-unsupported]');
   const unsupportedCopy = document.querySelector('[data-unsupported-copy]');
   const experience = document.querySelector('[data-ask-experience]');
+  const workspace = document.querySelector('.ask-workspace');
 
   if (
-    !form || !input || !submit || !submitLabel || !status || !note || !log || !suggestions || !toneInput ||
-    !unsupported || !unsupportedCopy || !experience
+    !form || !input || !submit || !submitLabel || !status || !note || !log || !suggestions || !suggestionShell ||
+    !toneInput || !toneControl || !toneTrigger || !tonePanel || !unsupported || !unsupportedCopy || !experience ||
+    !workspace
   ) return;
 
   const CAPABILITIES = {
@@ -172,7 +178,14 @@ SKILLS
     unsupportedCopy.textContent = message;
     experience.hidden = true;
     unsupported.hidden = false;
+    setTonePanel(false);
     resetUnsupportedVisuals();
+  }
+
+  function setTonePanel(open, { restoreFocus = false } = {}) {
+    tonePanel.hidden = !open;
+    toneTrigger.setAttribute('aria-expanded', String(open));
+    if (!open && restoreFocus) toneTrigger.focus();
   }
 
   function setControls(enabled) {
@@ -184,6 +197,26 @@ SKILLS
     });
     toneInput.disabled = busy;
     if (toneReset) toneReset.disabled = busy;
+    toneTrigger.disabled = busy;
+    if (busy) setTonePanel(false);
+  }
+
+  function updateSuggestionOverflow() {
+    const maxScroll = suggestions.scrollWidth - suggestions.clientWidth;
+    suggestionShell.toggleAttribute('data-overflow-start', suggestions.scrollLeft > 2);
+    suggestionShell.toggleAttribute('data-overflow-end', suggestions.scrollLeft < maxScroll - 2);
+  }
+
+  function updateWorkspaceHeight() {
+    const workspaceTop = workspace.getBoundingClientRect().top + window.scrollY;
+    document.documentElement.style.setProperty(
+      '--ask-workspace-height',
+      `calc(100dvh - ${Math.ceil(workspaceTop)}px)`
+    );
+  }
+
+  function scrollLogToBottom() {
+    log.scrollTop = log.scrollHeight;
   }
 
   function renderSuggestions() {
@@ -197,6 +230,9 @@ SKILLS
       button.dataset.question = question;
       button.textContent = label;
       button.disabled = !controlsEnabled;
+      button.addEventListener('focus', () => {
+        button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      });
       button.addEventListener('click', () => {
         usedQuestions.add(question);
         renderSuggestions();
@@ -206,6 +242,8 @@ SKILLS
     });
 
     suggestions.hidden = availableQuestions.length === 0;
+    suggestions.scrollLeft = 0;
+    window.requestAnimationFrame(updateSuggestionOverflow);
   }
 
   function resetSessionForTone(nextStage) {
@@ -221,7 +259,7 @@ SKILLS
       const needsDownload = ['downloadable', 'downloading', 'after-download'].includes(availability);
       setState(
         needsDownload ? 'download' : 'ready',
-        needsDownload ? 'Model download available' : `On-device AI ready · ${currentTone().label}`,
+        needsDownload ? 'Model download available' : 'On-device AI ready',
         'The next answer will begin a fresh session in this tone.'
       );
     }
@@ -240,7 +278,7 @@ SKILLS
 
     message.append(label, content);
     log.append(message);
-    message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    window.requestAnimationFrame(scrollLogToBottom);
     return { message, content };
   }
 
@@ -282,7 +320,7 @@ SKILLS
       session.addEventListener('contextoverflow', () => {
         note.textContent = 'This is a long conversation, so Chrome may forget its earliest turns.';
       });
-      setState('ready', `On-device AI ready · ${currentTone().label}`, 'Answers stay in this browser. Press Enter to ask; Shift + Enter adds a line.');
+      setState('ready', 'On-device AI ready', 'Press Enter to ask; Shift + Enter adds a line.');
       return session;
     }).catch((error) => {
       sessionPromise = null;
@@ -310,13 +348,17 @@ SKILLS
       const stream = modelSession.promptStreaming(question.trim());
       for await (const chunk of stream) {
         answer.content.append(chunk);
+        scrollLogToBottom();
       }
+      answer.content.textContent = answer.content.textContent.trim();
       answer.message.classList.remove('is-streaming');
-      setState('ready', `On-device AI ready · ${currentTone().label}`, 'Answers stay in this browser. Press Enter to ask; Shift + Enter adds a line.');
+      scrollLogToBottom();
+      setState('ready', 'On-device AI ready', 'Press Enter to ask; Shift + Enter adds a line.');
     } catch (error) {
       answer.message.classList.remove('is-streaming');
       answer.message.classList.add('has-error');
       answer.content.textContent = friendlyError(error);
+      scrollLogToBottom();
       setState('error', 'AI unavailable', 'You can still read the resume or email Donald directly.');
       console.error(error);
     } finally {
@@ -347,10 +389,10 @@ SKILLS
       const needsDownload = ['downloadable', 'downloading', 'after-download'].includes(availability);
       setState(
         needsDownload ? 'download' : 'ready',
-        needsDownload ? 'Model download available' : `On-device AI ready · ${currentTone().label}`,
+        needsDownload ? 'Model download available' : 'On-device AI ready',
         needsDownload
           ? 'Your first question will ask Chrome to prepare its built-in model.'
-          : 'Answers stay in this browser. Press Enter to ask; Shift + Enter adds a line.'
+          : 'Press Enter to ask; Shift + Enter adds a line.'
       );
       setControls(true);
       input.focus();
@@ -374,15 +416,51 @@ SKILLS
     }
   });
 
+  toneTrigger.addEventListener('click', () => {
+    setTonePanel(tonePanel.hidden);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!tonePanel.hidden && !toneControl.contains(event.target)) setTonePanel(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !tonePanel.hidden) {
+      event.preventDefault();
+      setTonePanel(false, { restoreFocus: true });
+    }
+  });
+
+  suggestions.addEventListener('scroll', updateSuggestionOverflow, { passive: true });
+  suggestions.addEventListener('wheel', (event) => {
+    if (
+      suggestions.scrollWidth > suggestions.clientWidth &&
+      Math.abs(event.deltaY) > Math.abs(event.deltaX)
+    ) {
+      event.preventDefault();
+      suggestions.scrollLeft += event.deltaY;
+    }
+  }, { passive: false });
+  window.addEventListener('resize', () => {
+    updateSuggestionOverflow();
+    updateWorkspaceHeight();
+  });
+  window.visualViewport?.addEventListener('resize', updateWorkspaceHeight);
+
   document.documentElement.addEventListener('slopchange', (event) => {
     if (availability === 'unavailable') {
       resetUnsupportedVisuals();
       return;
     }
     resetSessionForTone(event.detail?.stage);
+    window.requestAnimationFrame(updateWorkspaceHeight);
   });
 
   window.addEventListener('pagehide', () => session?.destroy());
+  window.addEventListener('pageshow', updateWorkspaceHeight);
+  document.querySelector('.site-header')?.addEventListener('transitionend', updateWorkspaceHeight);
+  document.fonts?.ready.then(updateWorkspaceHeight);
   renderSuggestions();
+  updateWorkspaceHeight();
   checkAvailability();
 })();

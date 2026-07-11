@@ -2159,6 +2159,13 @@ main,
   opacity: 0.68;
 }
 
+.map-edge-cross {
+  stroke-dasharray: 5 7;
+  stroke-dashoffset: 0;
+  opacity: 0.32;
+  animation: none;
+}
+
 .map-edge.is-selected {
   stroke: var(--map-signal);
   stroke-width: 2.4;
@@ -2186,6 +2193,10 @@ main,
 
 .map-edge-label-primary {
   opacity: 0.58;
+}
+
+.map-edge-label-cross {
+  opacity: 0.64;
 }
 
 .map-edge-label.is-selected {
@@ -2262,7 +2273,10 @@ main,
   font-weight: 820;
 }
 
-.map-node-role text {
+.map-node-role text,
+.map-node-project text,
+.map-node-practice text,
+.map-node-theme text {
   font-weight: 820;
 }
 

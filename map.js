@@ -33,64 +33,108 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const NODES = [
-    { id: 'donald', label: 'Donald McKendrick', x: 800, y: 520, type: 'core', group: 'center', detail: 'CTO, software engineer, and product builder working across education, AI, and games.', link: 'resume.html', linkLabel: 'Read the résumé' },
-    { id: 'education', parent: 'donald', label: 'Education products', x: 500, y: 355, type: 'branch', group: 'work', detail: 'More than a decade building learning products, from literacy practice to mental-health and social-emotional support.' },
-    { id: 'quill', parent: 'education', label: 'Quill.org', x: 270, y: 420, type: 'role', group: 'work', detail: 'Cofounder and Technical Director from 2016 to 2019. Donald helped grow Quill from 10,000 to more than 1.5 million users.', link: 'https://www.quill.org', linkLabel: 'Visit Quill.org', external: true },
-    { id: 'literacy', parent: 'quill', label: 'Literacy feedback', x: 70, y: 515, type: 'evidence', group: 'work', detail: 'At Quill, Donald shipped Connect, Lessons, and Diagnostic, with automated feedback for open-ended writing.' },
-    { id: 'closegap', parent: 'education', label: 'Closegap', x: 285, y: 230, type: 'role', group: 'work', detail: 'Chief Technology Officer since November 2024, leading product strategy and engineering for K–12 mental-health and SEL tools.', link: 'https://www.closegap.org', linkLabel: 'Visit Closegap', external: true },
-    { id: 'mental-health', parent: 'closegap', label: 'Student mental health', x: 80, y: 145, type: 'evidence', group: 'work', detail: 'At Closegap, Donald builds free tools that help K–12 students identify and get support for emotional needs.' },
-    { id: 'czi', parent: 'education', label: 'Chan Zuckerberg Initiative', x: 490, y: 115, type: 'role', group: 'work', detail: 'Senior Software Engineer from 2020 to 2022, working on curriculum and differentiation for a project-based learning platform.' },
-    { id: 'project-learning', parent: 'czi', label: 'Project-based learning', x: 290, y: 45, type: 'evidence', group: 'work', detail: 'Donald worked on curriculum, differentiation, and the 2.0 launch of Announcements, a primary landing page during COVID.' },
-    { id: 'leadership', parent: 'donald', label: 'Engineering leadership', x: 790, y: 245, type: 'branch', group: 'leadership', detail: 'Product strategy, technical direction, hiring, team structure, process design, and support for technical leads.' },
-    { id: 'fractional', parent: 'leadership', label: 'Fractional CTO work', x: 775, y: 55, type: 'evidence', group: 'leadership', detail: 'Donald is available for select fractional CTO and advisory engagements with small teams.', link: 'mailto:ddmckendrick@gmail.com', linkLabel: 'Start a conversation' },
-    { id: 'shape-up', parent: 'leadership', label: 'Shape Up', x: 990, y: 135, type: 'evidence', group: 'leadership', detail: 'At Closegap, Donald runs development in six-week Shape Up cycles with prototyping weeks and cooldowns.' },
-    { id: 'ai', parent: 'donald', label: 'AI & machine learning', x: 1080, y: 355, type: 'branch', group: 'ai', detail: 'Donald has worked with NLP, deep learning, generative AI, TensorFlow, scikit-learn, and responsible AI in K–12.' },
-    { id: 'nlp', parent: 'ai', label: 'NLP since 2016', x: 1320, y: 275, type: 'evidence', group: 'ai', detail: 'At Quill, Donald introduced AI and NLP for writing feedback and built a deep-learning sentence-fragment detector.' },
-    { id: 'generative-ai', parent: 'ai', label: 'Context-aware AI', x: 1370, y: 430, type: 'evidence', group: 'ai', detail: 'At Closegap, Donald built a generative-AI crisis detection tool that replaced keyword matching with context-aware analysis.' },
-    { id: 'one-medical', parent: 'ai', label: 'One Medical', x: 1140, y: 165, type: 'role', group: 'ai', detail: 'Software Engineer on the Data Interoperability team from 2019 to 2020, including machine-learning work in healthcare.' },
-    { id: 'privacy', parent: 'one-medical', label: 'Privacy-sensitive systems', x: 1385, y: 85, type: 'evidence', group: 'ai', detail: 'Donald has worked in a HIPAA-compliant environment with rigorous privacy and security requirements.' },
-    { id: 'games', parent: 'donald', label: 'Games & interactive work', x: 1120, y: 675, type: 'branch', group: 'games', detail: 'Independent game development spanning an educational RPG, VR prototypes, spatial-memory play, and music composition.' },
-    { id: 'ddm', parent: 'games', label: 'Derivative Daydream Machine', x: 1375, y: 600, type: 'role', group: 'games', detail: 'Donald’s independent game-development studio, active from 2022 to 2024.' },
-    { id: 'unity-vr', parent: 'games', label: 'Unity & VR', x: 1430, y: 770, type: 'evidence', group: 'games', detail: 'Donald placed fourth in a VR game jam with an accessible spatial-memory party game and has built 3D simulation prototypes.' },
-    { id: 'research', parent: 'donald', label: 'Research', x: 810, y: 820, type: 'branch', group: 'research', detail: 'Before product engineering, Donald worked in computational chemistry and now collaborates on research in education and emotional granularity.' },
-    { id: 'amsterdam', parent: 'research', label: 'University of Amsterdam', x: 760, y: 1010, type: 'role', group: 'research', detail: 'Assistant Researcher from 2011 to 2013 on a computational chemistry PhD track.' },
-    { id: 'chemistry', parent: 'amsterdam', label: 'Molecular simulation', x: 1010, y: 1020, type: 'evidence', group: 'research', detail: 'Donald researched gas absorption in metal-organic frameworks using Monte Carlo and molecular dynamics simulation.' },
-    { id: 'heriot-watt', parent: 'research', label: 'Heriot-Watt University', x: 525, y: 930, type: 'role', group: 'research', detail: 'Donald earned a Master of Chemistry. His thesis used quantum simulation to study catalytic synthesis of isoquinoline.' },
-    { id: 'synergy', parent: 'ai', label: 'Interdimensional synergy', x: 1510, y: 525, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional operating layer that allegedly aligns every stakeholder in this diagram before breakfast.', fictional: true },
-    { id: 'quantum-tutor', parent: 'education', label: 'Quantum tutor network', x: 95, y: 685, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional tutoring system that only explains the lesson in universes where the learner already understands it.', fictional: true },
+    { id: 'donald', label: 'Donald McKendrick', x: 800, y: 540, type: 'core', group: 'center', detail: 'CTO, software engineer, and product builder working across education, AI, research, and games.', link: 'resume.html', linkLabel: 'Read the résumé' },
+
+    { id: 'products', parent: 'donald', label: 'Products & organizations', x: 440, y: 480, type: 'branch', group: 'products', detail: 'The organizations where Donald has built education, healthcare, and student-support products.' },
+    { id: 'closegap', parent: 'products', label: 'Closegap', x: 235, y: 270, type: 'role', group: 'products', detail: 'Chief Technology Officer since November 2024, leading product strategy and engineering for K–12 mental-health and SEL tools.', link: 'https://www.closegap.org', linkLabel: 'Visit Closegap', external: true },
+    { id: 'student-support', parent: 'closegap', label: 'K–12 mental health & SEL', x: 55, y: 165, type: 'evidence', group: 'products', detail: 'Free tools that help K–12 students identify and get support for emotional needs.' },
+    { id: 'context-detection', parent: 'closegap', label: 'Context-aware detection', x: 55, y: 330, type: 'evidence', group: 'products', detail: 'A generative-AI crisis detection tool that replaced keyword matching with context-aware analysis.' },
+    { id: 'quill', parent: 'products', label: 'Quill.org', x: 180, y: 440, type: 'role', group: 'products', detail: 'Cofounder and Technical Director from 2016 to 2019, building free literacy products and automated writing feedback.', link: 'https://www.quill.org', linkLabel: 'Visit Quill.org', external: true },
+    { id: 'quill-growth', parent: 'quill', label: '10,000 → 1.5M+ learners', x: 20, y: 475, type: 'evidence', group: 'products', detail: 'Donald helped grow Quill from roughly 10,000 users to more than 1.5 million.' },
+    { id: 'writing-feedback', parent: 'quill', label: 'NLP writing feedback', x: 95, y: 575, type: 'evidence', group: 'products', detail: 'Connect, Lessons, and Diagnostic used automated feedback for open-ended writing, including a deep-learning sentence-fragment detector.' },
+    { id: 'czi', parent: 'products', label: 'Chan Zuckerberg Initiative', x: 220, y: 615, type: 'role', group: 'products', detail: 'Senior Software Engineer from 2020 to 2022, working on curriculum and differentiation for a project-based learning platform.' },
+    { id: 'project-learning', parent: 'czi', label: 'Project-based learning', x: 40, y: 710, type: 'evidence', group: 'products', detail: 'Curriculum, differentiation, and the 2.0 launch of Announcements, a primary landing page during COVID.' },
+    { id: 'one-medical', parent: 'products', label: 'One Medical', x: 360, y: 760, type: 'role', group: 'products', detail: 'Software Engineer on the Data Interoperability team from 2019 to 2020, including machine-learning work in a HIPAA-compliant healthcare environment.' },
+
+    { id: 'independent', parent: 'donald', label: 'Games & independent work', x: 1130, y: 690, type: 'branch', group: 'independent', detail: 'Independent game development, interactive prototypes, and music created outside Donald’s product work.' },
+    { id: 'ddm', parent: 'independent', label: 'Derivative Daydream Machine', x: 1350, y: 600, type: 'role', group: 'independent', detail: 'Donald’s independent game-development studio, active from 2022 to 2024.' },
+    { id: 'donimoes', parent: 'ddm', label: 'Donimoes', x: 1510, y: 500, type: 'project', group: 'independent', detail: 'A simple two-player game that uses dominoes as playing pieces.', link: 'https://donimoes.fun/', linkLabel: 'Play Donimoes', external: true },
+    { id: 'unity-vr', parent: 'ddm', label: 'Unity & VR', x: 1500, y: 685, type: 'project', group: 'independent', detail: 'Unity and 3D simulation prototypes, including a fourth-place VR game-jam project built around accessible spatial-memory play.' },
+    { id: 'music', parent: 'ddm', label: 'Music', x: 1390, y: 845, type: 'evidence', group: 'independent', detail: 'Music and composition remain part of Donald’s independent game-making practice.' },
+
+    { id: 'research', parent: 'donald', label: 'Research foundations', x: 720, y: 850, type: 'branch', group: 'research', detail: 'Donald’s background in computational chemistry, molecular modeling, and quantum simulation.' },
+    { id: 'amsterdam', parent: 'research', label: 'University of Amsterdam', x: 730, y: 1020, type: 'role', group: 'research', detail: 'Assistant Researcher from 2011 to 2013 on a computational chemistry PhD track.' },
+    { id: 'molecular-simulation', parent: 'amsterdam', label: 'Molecular simulation', x: 1000, y: 1020, type: 'evidence', group: 'research', detail: 'Research into gas absorption in metal-organic frameworks using Monte Carlo and molecular dynamics simulation.' },
+    { id: 'heriot-watt', parent: 'research', label: 'Heriot-Watt University', x: 430, y: 1000, type: 'role', group: 'research', detail: 'Donald earned a Master of Chemistry at Heriot-Watt University.' },
+    { id: 'quantum-simulation', parent: 'heriot-watt', label: 'Quantum simulation', x: 160, y: 1020, type: 'evidence', group: 'research', detail: 'His thesis used quantum simulation to study catalytic synthesis of isoquinoline.' },
+
+    { id: 'practice', parent: 'donald', label: 'Leadership & practice', x: 680, y: 210, type: 'branch', group: 'practice', detail: 'How Donald approaches technical direction, product strategy, team design, and delivery.' },
+    { id: 'technical-direction', parent: 'practice', label: 'Technical direction', x: 440, y: 70, type: 'practice', group: 'practice', detail: 'Technical strategy, architecture, engineering standards, and support for technical leads.' },
+    { id: 'product-strategy', parent: 'practice', label: 'Product strategy', x: 650, y: 40, type: 'practice', group: 'practice', detail: 'Shaping product direction, prototyping ideas, setting priorities, and connecting technical choices to user needs.' },
+    { id: 'team-design', parent: 'practice', label: 'Hiring & team design', x: 870, y: 70, type: 'practice', group: 'practice', detail: 'Hiring, team structure, collaboration practices, and creating room for technical leadership.' },
+    { id: 'shape-up', parent: 'practice', label: 'Shape Up', x: 430, y: 255, type: 'practice', group: 'practice', detail: 'At Closegap, Donald runs development in six-week Shape Up cycles with prototyping weeks and cooldowns.' },
+    { id: 'fractional', parent: 'practice', label: 'Fractional CTO work', x: 920, y: 215, type: 'practice', group: 'practice', detail: 'Donald is available for select fractional CTO and advisory engagements with small teams.', link: 'mailto:ddmckendrick@gmail.com', linkLabel: 'Start a conversation' },
+
+    { id: 'themes', parent: 'donald', label: 'Recurring themes', x: 1100, y: 300, type: 'branch', group: 'themes', detail: 'Ideas that recur across otherwise separate organizations, projects, and research.' },
+    { id: 'education-technology', parent: 'themes', label: 'Education technology', x: 1320, y: 145, type: 'theme', group: 'themes', detail: 'Learning products spanning literacy, project-based learning, student mental health, and social-emotional support.' },
+    { id: 'applied-ai', parent: 'themes', label: 'Applied AI & NLP', x: 1380, y: 285, type: 'theme', group: 'themes', detail: 'Applied machine learning, NLP, deep learning, and generative AI used inside real product contexts.' },
+    { id: 'privacy-safety', parent: 'themes', label: 'Privacy & safety', x: 1360, y: 435, type: 'theme', group: 'themes', detail: 'Privacy-sensitive healthcare systems and safety-sensitive analysis for student-support products.' },
+    { id: 'simulation', parent: 'themes', label: 'Simulation', x: 1110, y: 70, type: 'theme', group: 'themes', detail: 'A through-line connecting molecular modeling with later Unity, 3D, and VR experiments.' },
+
+    { id: 'synergy', parent: 'themes', label: 'Interdimensional synergy', x: 1510, y: 525, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional operating layer that allegedly aligns every stakeholder in this diagram before breakfast.', fictional: true },
+    { id: 'quantum-tutor', parent: 'products', label: 'Quantum tutor network', x: 105, y: 850, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional tutoring system that only explains the lesson in universes where the learner already understands it.', fictional: true },
   ];
 
   const EDGES = [
-    ['donald', 'education', ['builds', 'keeps returning to', 'scales impact through', 'disrupts the vertical of']],
-    ['education', 'quill', ['co-founded', 'helped grow', 'architected learner outcomes at', 'manifested 1.5M users at']],
-    ['quill', 'literacy', ['gave feedback on', 'patiently corrected', 'AI-enabled', '10,000× transformed']],
-    ['education', 'closegap', ['now leads', 'now steers', 'operationalizes care at', 'synergizes feelings through']],
-    ['closegap', 'mental-health', ['supports', 'builds for', 'unlocks', 'quantum-accelerates']],
-    ['education', 'czi', ['also passed through', 'shipped at', 'activated at', 'cross-pollinated at']],
-    ['czi', 'project-learning', ['worked on', 'made infrastructure for', 'enabled outcomes in', 'reimagined the paradigm of']],
-    ['donald', 'leadership', ['provides', 'practices', 'operationalizes', 'thought-leads about']],
-    ['leadership', 'fractional', ['available for', 'selectively offers', 'unlocks', 'moonshots through']],
-    ['leadership', 'shape-up', ['uses', 'runs cycles with', 'leverages', 'vibe-cycles via']],
-    ['donald', 'ai', ['builds with', 'has used since before the hype', 'strategically deploys', 'summons']],
-    ['ai', 'nlp', ['includes', 'started with', 'pioneered learner intelligence via', 'was doing before your deck said AI']],
-    ['ai', 'generative-ai', ['now includes', 'applies cautiously to', 'unlocks context through', 'transcends keywords with']],
-    ['ai', 'one-medical', ['was applied at', 'met healthcare at', 'cross-functionally activated at', 'healed data gravity at']],
-    ['one-medical', 'privacy', ['required', 'took seriously', 'operationalized trust through', 'quantum-sealed']],
-    ['donald', 'games', ['also makes', 'keeps making', 'explores new modalities through', 'gamifies the metaverse through']],
-    ['games', 'ddm', ['founded', 'built under', 'incubated through', 'dream-machined via']],
-    ['games', 'unity-vr', ['uses', 'experiments with', 'builds immersive value in', 'spatially synergizes']],
-    ['donald', 'research', ['began in', 'still collaborates on', 'maintains epistemic leverage through', 'peer-reviews reality via']],
-    ['research', 'amsterdam', ['included', 'once worked at', 'generated findings at', 'molecularly disrupted']],
-    ['amsterdam', 'chemistry', ['simulated', 'involved', 'modeled innovation through', 'quantum-vibed']],
-    ['research', 'heriot-watt', ['studied at', 'earned a chemistry degree at', 'built foundational rigor at', 'mastered matter at']],
-    ['education', 'quantum-tutor', ['fictionally enables', 'fictionally pilots', 'fictionally scales', 'fictionally hyper-scales'], 2],
-    ['ai', 'synergy', ['fictionally powers', 'fictionally aligns', 'fictionally unlocks', 'fictionally transcends'], 2],
-  ].map(([from, to, labels, minStage = 0]) => ({ from, to, labels, minStage }));
+    ['donald', 'products', ['has built products at', 'keeps building through', 'scales impact through', 'disrupts verticals through']],
+    ['products', 'closegap', ['currently leads', 'currently steers', 'operationalizes care at', 'synergizes feelings through']],
+    ['closegap', 'student-support', ['builds for', 'supports', 'unlocks support for', 'quantum-accelerates']],
+    ['closegap', 'context-detection', ['developed', 'applies context through', 'strategically detects with', 'transcends keywords via']],
+    ['products', 'quill', ['co-founded', 'helped grow', 'architected learner outcomes at', 'manifested 1.5M users at']],
+    ['quill', 'quill-growth', ['grew from', 'scaled from', 'activated growth from', '10,000× transformed']],
+    ['quill', 'writing-feedback', ['built', 'patiently improved', 'AI-enabled', 'hyper-personalized']],
+    ['products', 'czi', ['worked at', 'shipped at', 'activated at', 'cross-pollinated at']],
+    ['czi', 'project-learning', ['worked on', 'built infrastructure for', 'enabled outcomes in', 'reimagined the paradigm of']],
+    ['products', 'one-medical', ['worked at', 'built healthcare systems at', 'operationalized interoperability at', 'healed data gravity at']],
+
+    ['donald', 'independent', ['also makes', 'keeps making', 'explores new modalities through', 'gamifies the metaverse through']],
+    ['independent', 'ddm', ['founded', 'built under', 'incubated through', 'dream-machined via']],
+    ['ddm', 'donimoes', ['released', 'made playable at', 'shipped independently through', 'domino-pilled']],
+    ['ddm', 'unity-vr', ['experiments with', 'builds in', 'creates immersive work with', 'spatially synergizes']],
+    ['ddm', 'music', ['includes', 'makes room for', 'scores experiences with', 'sonically aligns']],
+
+    ['donald', 'research', ['began in', 'draws foundations from', 'maintains rigor through', 'peer-reviews reality via']],
+    ['research', 'amsterdam', ['included', 'continued at', 'generated findings at', 'molecularly disrupted']],
+    ['amsterdam', 'molecular-simulation', ['researched', 'modeled with', 'generated findings through', 'quantum-vibed']],
+    ['research', 'heriot-watt', ['began at', 'earned a chemistry degree at', 'built foundational rigor at', 'mastered matter at']],
+    ['heriot-watt', 'quantum-simulation', ['studied with', 'modeled with', 'established rigor through', 'quantum-vibed']],
+
+    ['donald', 'practice', ['works through', 'practices', 'operationalizes', 'thought-leads about']],
+    ['practice', 'technical-direction', ['includes', 'is grounded in', 'provides leverage through', 'architects destiny via']],
+    ['practice', 'product-strategy', ['includes', 'shapes through', 'aligns outcomes through', 'roadmaps the future with']],
+    ['practice', 'team-design', ['includes', 'supports', 'unlocks teams through', 'org-designs the vibe with']],
+    ['practice', 'shape-up', ['uses', 'runs cycles with', 'leverages', 'vibe-cycles via']],
+    ['practice', 'fractional', ['includes', 'is available as', 'selectively offers', 'moonshots through']],
+
+    ['donald', 'themes', ['keeps returning to', 'connects ideas through', 'finds through-lines across', 'summons']],
+    ['themes', 'education-technology', ['includes', 'centers', 'activates learning through', 'reinvents education via']],
+    ['themes', 'applied-ai', ['includes', 'applies cautiously', 'strategically deploys', 'summons intelligence through']],
+    ['themes', 'privacy-safety', ['includes', 'takes seriously', 'operationalizes trust through', 'quantum-seals']],
+    ['themes', 'simulation', ['includes', 'connects', 'models systems through', 'simulates the simulation of']],
+
+    ['education-technology', 'quill', ['literacy products', 'connects to', 'activates at', 'learner-optimizes'], 0, true],
+    ['education-technology', 'closegap', ['student support', 'connects to', 'operationalizes at', 'wellbeing-maximizes'], 0, true],
+    ['education-technology', 'czi', ['project-based learning', 'connects to', 'enabled outcomes at', 'pedagogy-pivots at'], 0, true],
+    ['applied-ai', 'quill', ['NLP writing feedback', 'connects to', 'pioneered at', 'did AI before your deck at'], 0, true],
+    ['applied-ai', 'closegap', ['context-aware detection', 'connects to', 'deploys context at', 'transcends keywords at'], 0, true],
+    ['applied-ai', 'one-medical', ['healthcare machine learning', 'connects to', 'applied carefully at', 'heals data gravity at'], 0, true],
+    ['privacy-safety', 'one-medical', ['HIPAA-sensitive systems', 'connects to', 'operationalizes trust at', 'quantum-seals'], 0, true],
+    ['privacy-safety', 'closegap', ['safety-sensitive analysis', 'connects to', 'protects students at', 'risk-aligns'], 0, true],
+    ['simulation', 'molecular-simulation', ['molecular modeling', 'connects to', 'originates in', 'simulates reality through'], 0, true],
+    ['simulation', 'unity-vr', ['3D and VR experiments', 'connects to', 'reappears in', 'spatially synergizes'], 0, true],
+    ['technical-direction', 'closegap', ['CTO leadership', 'connects to', 'guides work at', 'thought-leads at'], 0, true],
+    ['technical-direction', 'quill', ['technical leadership', 'connects to', 'guided architecture at', 'architected destiny at'], 0, true],
+    ['product-strategy', 'closegap', ['product leadership', 'connects to', 'shapes direction at', 'roadmaps the future at'], 0, true],
+    ['shape-up', 'closegap', ['six-week cycles', 'connects to', 'focuses delivery at', 'vibe-cycles at'], 0, true],
+
+    ['products', 'quantum-tutor', ['fictionally enables', 'fictionally pilots', 'fictionally scales', 'fictionally hyper-scales'], 2],
+    ['themes', 'synergy', ['fictionally powers', 'fictionally aligns', 'fictionally unlocks', 'fictionally transcends'], 2],
+  ].map(([from, to, labels, minStage = 0, cross = false]) => ({ from, to, labels, minStage, cross }));
 
   const nodeById = new Map(NODES.map((node) => [node.id, node]));
   let stage = ['clean', 'subtle', 'awful', 'chaos'].indexOf(document.documentElement.dataset.slopTier);
   if (stage < 0) stage = 0;
-  const expandedIds = new Set(['donald']);
+  const expandedIds = new Set(['donald', 'products']);
   let selectedId = null;
   let camera = { x: 0, y: 0, scale: 1 };
   let drag = null;
@@ -154,7 +198,8 @@
 
   function displayType(node) {
     return {
-      core: 'Primary subject', branch: 'Working theme', role: 'Experience', evidence: 'Evidence',
+      core: 'Primary subject', branch: 'Section', role: 'Organization', project: 'Project',
+      practice: 'Way of working', theme: 'Recurring theme', evidence: 'Detail',
       fictional: 'Fictional slop node',
     }[node.type] || 'Topic';
   }
@@ -212,7 +257,7 @@
       const geometry = curvedPath(from, to, index);
       const path = svgElement('path', {
         d: geometry.d,
-        class: `map-edge${edge.minStage ? ' map-edge-fictional' : ''}`,
+        class: `map-edge${edge.cross ? ' map-edge-cross' : ''}${edge.minStage ? ' map-edge-fictional' : ''}`,
         'data-from': edge.from,
         'data-to': edge.to,
         'vector-effect': 'non-scaling-stroke',
@@ -222,7 +267,7 @@
       const label = svgElement('text', {
         x: geometry.mx,
         y: geometry.my - 7,
-        class: `map-edge-label${edge.from === 'donald' ? ' map-edge-label-primary' : ''}${edge.minStage ? ' map-edge-label-fictional' : ''}`,
+        class: `map-edge-label${edge.from === 'donald' ? ' map-edge-label-primary' : ''}${edge.cross ? ' map-edge-label-cross' : ''}${edge.minStage ? ' map-edge-label-fictional' : ''}`,
         'data-from': edge.from,
         'data-to': edge.to,
         'text-anchor': 'middle',
@@ -335,7 +380,15 @@
 
     const groups = new Map();
     nodes.forEach((node) => {
-      const label = node.fictional ? 'Fictional slop' : ['core', 'branch'].includes(node.type) ? 'Overview' : 'Experience and evidence';
+      const label = node.fictional ? 'Fictional slop' : {
+        core: 'Overview',
+        branch: 'Overview',
+        role: 'Organizations',
+        project: 'Projects',
+        practice: 'Leadership and practice',
+        theme: 'Recurring themes',
+        evidence: 'Details',
+      }[node.type] || 'Other topics';
       if (!groups.has(label)) groups.set(label, []);
       groups.get(label).push(node);
     });

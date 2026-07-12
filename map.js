@@ -136,6 +136,8 @@
   let camera = { x: 0, y: 0, scale: 1 };
   let drag = null;
   let dragged = false;
+  let renderedVisibleIds = new Set();
+  let renderedVisibleEdgeIds = new Set();
 
   function svgElement(name, attributes = {}) {
     const element = document.createElementNS(NS, name);
@@ -265,6 +267,7 @@
     const visibleEdges = EDGES.filter((edge) => (
       !edge.cross && edge.minStage <= stage && visibleIds.has(edge.from) && visibleIds.has(edge.to)
     ));
+    const visibleEdgeIds = new Set(visibleEdges.map((edge) => `${edge.from}:${edge.to}`));
 
     visibleEdges.forEach((edge, index) => {
       const from = nodeById.get(edge.from);
@@ -272,7 +275,7 @@
       const geometry = curvedPath(from, to, index);
       const path = svgElement('path', {
         d: geometry.d,
-        class: `map-edge${edge.cross ? ' map-edge-cross' : ''}${edge.minStage ? ' map-edge-fictional' : ''}`,
+        class: `map-edge${renderedVisibleEdgeIds.has(`${edge.from}:${edge.to}`) ? '' : ' is-entering'}${edge.cross ? ' map-edge-cross' : ''}${edge.minStage ? ' map-edge-fictional' : ''}`,
         'data-from': edge.from,
         'data-to': edge.to,
         'vector-effect': 'non-scaling-stroke',
@@ -299,7 +302,7 @@
       const expandable = children.length > 0;
       const expanded = expandedIds.has(node.id);
       const outer = svgElement('g', {
-        class: `map-node map-node-${node.type}`,
+        class: `map-node map-node-${node.type}${renderedVisibleIds.has(node.id) ? '' : ' is-entering'}`,
         transform: `translate(${node.x} ${node.y})`,
         'data-node-id': node.id,
         style: `--node-index:${index};--chaos-x:${((index * 17) % 27) - 13}px;--chaos-y:${((index * 29) % 23) - 11}px`,
@@ -386,6 +389,8 @@
       `${visible.length} of ${availableCount} nodes · methodology abandoned`,
     ];
     status.textContent = messages[stage];
+    renderedVisibleIds = visibleIds;
+    renderedVisibleEdgeIds = visibleEdgeIds;
   }
 
   function populatePicker(nodes) {

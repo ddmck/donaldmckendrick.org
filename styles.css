@@ -2144,13 +2144,17 @@ main,
   fill: none;
   stroke: var(--muted);
   stroke-dasharray: 900;
-  stroke-dashoffset: 900;
+  stroke-dashoffset: 0;
   stroke-linecap: round;
   stroke-width: 1.2;
   opacity: 0.38;
   pointer-events: none;
-  animation: map-draw-edge 780ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
   transition: opacity 160ms ease, stroke 160ms ease, stroke-width 160ms ease;
+}
+
+.map-edge.is-entering {
+  stroke-dashoffset: 900;
+  animation: map-draw-edge 780ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
 
 .map-extra-edges .map-edge {
@@ -2209,10 +2213,13 @@ main,
   transition: opacity 160ms ease;
 }
 
-.map-node-motion {
-  opacity: 0;
-  animation: map-node-enter 360ms cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+.map-node.is-entering {
+  animation: map-node-enter 360ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
   animation-delay: calc(110ms + (var(--node-index) * 13ms));
+}
+
+.map-node-motion {
+  opacity: 1;
   transform-box: fill-box;
   transform-origin: center;
   transition: transform 200ms ease;

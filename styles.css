@@ -2414,6 +2414,11 @@ main,
   outline-offset: -3px;
 }
 
+:root[data-slop-tier="clean"] .map-zoom,
+:root[data-slop-tier="clean"] .map-zoom button {
+  background: var(--paper);
+}
+
 .map-instructions {
   position: absolute;
   bottom: 18px;
@@ -2485,15 +2490,6 @@ main,
   outline-offset: -2px;
 }
 
-.map-detail-type {
-  margin: 0 44px 18px 0;
-  color: var(--map-signal);
-  font-size: 0.66rem;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .map-inspector h2 {
   font-size: clamp(2rem, 3vw, 2.8rem);
   line-height: 1.02;
@@ -2519,19 +2515,6 @@ main,
 
 .map-related {
   margin-top: 30px;
-}
-
-.map-related > p {
-  margin: 0 0 10px;
-  color: var(--muted);
-  font-size: 0.66rem;
-  font-weight: 850;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.map-related > div + p {
-  margin-top: 22px;
 }
 
 .map-related > div {
@@ -2894,6 +2877,16 @@ main,
 :root[data-slop-tier="chaos"] .map-node.is-selected rect {
   fill: rgb(109 40 217 / 0.9);
   stroke: rgb(244 114 182 / 0.9);
+}
+
+:root[data-slop-tier="chaos"] .map-node-core rect,
+:root[data-slop-tier="chaos"] .map-node-core.is-selected rect {
+  fill: rgb(49 25 82 / 0.94);
+  stroke: rgb(244 114 182 / 0.9);
+}
+
+:root[data-slop-tier="chaos"] .map-node-core text {
+  fill: #ffffff;
 }
 
 :root[data-slop-tier="chaos"] .map-node-expand circle,

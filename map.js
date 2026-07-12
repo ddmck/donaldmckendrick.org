@@ -9,7 +9,6 @@
   const inspector = document.querySelector('[data-map-inspector]');
   const picker = document.querySelector('#map-topic-picker');
   const status = document.querySelector('[data-map-status]');
-  const detailType = document.querySelector('[data-map-detail-type]');
   const detailTitle = document.querySelector('[data-map-detail-title]');
   const detailCopy = document.querySelector('[data-map-detail-copy]');
   const detailLink = document.querySelector('[data-map-detail-link]');
@@ -19,13 +18,14 @@
   const zoomInButton = document.querySelector('[data-map-zoom-in]');
   const zoomOutButton = document.querySelector('[data-map-zoom-out]');
   const expandAllButton = document.querySelector('[data-map-expand-all]');
+  const collapseAllButton = document.querySelector('[data-map-collapse-all]');
   const fitButton = document.querySelector('[data-map-fit]');
 
   if (
     !svg || !workspace || !cameraElement || !edgesElement || !extraEdgesElement || !labelsElement ||
-    !nodesElement || !inspector || !picker || !status || !detailType || !detailTitle ||
+    !nodesElement || !inspector || !picker || !status || !detailTitle ||
     !detailCopy || !detailLink || !fictionNote || !relatedElement || !closeButton || !zoomInButton ||
-    !zoomOutButton || !expandAllButton || !fitButton
+    !zoomOutButton || !expandAllButton || !collapseAllButton || !fitButton
   ) return;
 
   const NS = 'http://www.w3.org/2000/svg';
@@ -72,8 +72,6 @@
     { id: 'privacy-safety', parent: 'themes', label: 'Privacy & safety', x: 1360, y: 435, type: 'theme', group: 'themes', detail: 'Privacy-sensitive healthcare systems and safety-sensitive analysis for student-support products.' },
     { id: 'simulation', parent: 'themes', label: 'Simulation', x: 1160, y: 0, type: 'theme', group: 'themes', detail: 'A through-line connecting molecular modeling with later Unity, 3D, and VR experiments.' },
 
-    { id: 'synergy', parent: 'themes', label: 'Interdimensional synergy', x: 1510, y: 980, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional operating layer that allegedly aligns every stakeholder in this diagram before breakfast.', fictional: true },
-    { id: 'quantum-tutor', parent: 'products', label: 'Quantum tutor network', x: 105, y: 885, type: 'fictional', group: 'fictional', minStage: 2, detail: 'A fictional tutoring system that only explains the lesson in universes where the learner already understands it.', fictional: true },
   ];
 
   const EDGES = [
@@ -128,8 +126,6 @@
     ['product-strategy', 'closegap', ['product leadership', 'connects to', 'shapes direction at', 'roadmaps the future at'], 0, true],
     ['shape-up', 'closegap', ['six-week cycles', 'connects to', 'focuses delivery at', 'vibe-cycles at'], 0, true],
 
-    ['products', 'quantum-tutor', ['fictionally enables', 'fictionally pilots', 'fictionally scales', 'fictionally hyper-scales'], 2],
-    ['themes', 'synergy', ['fictionally powers', 'fictionally aligns', 'fictionally unlocks', 'fictionally transcends'], 2],
   ].map(([from, to, labels, minStage = 0, cross = false]) => ({ from, to, labels, minStage, cross }));
 
   const nodeById = new Map(NODES.map((node) => [node.id, node]));
@@ -191,8 +187,8 @@
     }
     render();
     window.requestAnimationFrame(() => {
-      if (expanding) centerOnNode(id);
-      else fitMap({ readable: true });
+      if (expanding) ensureExpandedClusterInSafeArea(id);
+      else ensureNodeInSafeArea(id);
       nodesElement.querySelector(`[data-expand-id="${id}"]`)?.focus();
     });
   }
@@ -204,6 +200,13 @@
     });
     render();
     window.requestAnimationFrame(() => fitMap());
+  }
+
+  function collapseAll() {
+    clearSelection();
+    expandedIds.clear();
+    render();
+    window.requestAnimationFrame(() => fitMap({ readable: true }));
   }
 
   function displayType(node) {
@@ -276,16 +279,18 @@
       });
       (edge.minStage ? extraEdgesElement : edgesElement).append(path);
 
-      const label = svgElement('text', {
-        x: geometry.mx,
-        y: geometry.my - 7,
-        class: `map-edge-label${edge.from === 'donald' ? ' map-edge-label-primary' : ''}${edge.cross ? ' map-edge-label-cross' : ''}${edge.minStage ? ' map-edge-label-fictional' : ''}`,
-        'data-from': edge.from,
-        'data-to': edge.to,
-        'text-anchor': 'middle',
-      });
-      label.textContent = edge.labels[Math.min(stage, edge.labels.length - 1)];
-      labelsElement.append(label);
+      if (stage === 3) {
+        const label = svgElement('text', {
+          x: geometry.mx,
+          y: geometry.my - 7,
+          class: `map-edge-label${edge.from === 'donald' ? ' map-edge-label-primary' : ''}`,
+          'data-from': edge.from,
+          'data-to': edge.to,
+          'text-anchor': 'middle',
+        });
+        label.textContent = edge.labels[3];
+        labelsElement.append(label);
+      }
     });
 
     visible.forEach((node, index) => {
@@ -377,7 +382,7 @@
     const messages = [
       `${visible.length} of ${availableCount} résumé topics visible`,
       `${visible.length} of ${availableCount} topics, lightly overinterpreted`,
-      `${visible.length} of ${availableCount} nodes · fictional claims marked`,
+      `${visible.length} of ${availableCount} nodes · aggressively framed`,
       `${visible.length} of ${availableCount} nodes · methodology abandoned`,
     ];
     status.textContent = messages[stage];
@@ -426,12 +431,12 @@
     selectedId = id;
     if (needsReveal) {
       render();
-      window.requestAnimationFrame(() => centerOnNode(id));
+      window.requestAnimationFrame(() => ensureNodeInSafeArea(id));
     } else {
       updateSelection();
       showDetail(node);
       picker.value = id;
-      window.requestAnimationFrame(() => centerOnNode(id));
+      window.requestAnimationFrame(() => ensureNodeInSafeArea(id));
     }
     if (focus) window.requestAnimationFrame(() => nodesElement.querySelector(`[data-node-id="${id}"] .map-node-select`)?.focus());
   }
@@ -460,7 +465,6 @@
   function showDetail(node) {
     inspector.hidden = false;
     workspace.classList.add('detail-open');
-    detailType.textContent = displayType(node);
     detailTitle.textContent = node.label;
     detailCopy.textContent = node.detail;
     fictionNote.hidden = !node.fictional;
@@ -475,13 +479,10 @@
       (edge.cross ? otherIds : primaryIds).push(relatedId);
     });
 
-    const appendRelatedGroup = (title, ids) => {
-      const relatedNodes = [...new Set(ids)]
-        .map((id) => nodeById.get(id))
-        .filter((related) => related && isAvailable(related));
-      if (!relatedNodes.length) return;
-      const label = document.createElement('p');
-      label.textContent = title;
+    const relatedNodes = [...new Set([...primaryIds, ...otherIds])]
+      .map((id) => nodeById.get(id))
+      .filter((related) => related && isAvailable(related));
+    if (relatedNodes.length) {
       const links = document.createElement('div');
       relatedNodes.forEach((related) => {
         const button = document.createElement('button');
@@ -490,11 +491,8 @@
         button.addEventListener('click', () => selectNode(related.id));
         links.append(button);
       });
-      relatedElement.append(label, links);
-    };
-
-    appendRelatedGroup('In this branch', primaryIds);
-    appendRelatedGroup('Other connections', otherIds);
+      relatedElement.append(links);
+    }
 
     if (node.link) {
       detailLink.hidden = false;
@@ -540,12 +538,89 @@
     updateCamera();
   }
 
-  function centerOnNode(id) {
+  function renderedNodeBounds(node) {
+    const size = nodeSize(node);
+    const motionAllowance = stage === 3 && !prefersReducedMotion.matches ? 18 : 2;
+    const expandAllowance = childrenFor(node.id).length ? 34 : 0;
+    return {
+      left: node.x - size.width / 2 - motionAllowance,
+      right: node.x + size.width / 2 + expandAllowance + motionAllowance,
+      top: node.y - size.height / 2 - motionAllowance,
+      bottom: node.y + size.height / 2 + motionAllowance,
+    };
+  }
+
+  function combinedBounds(nodes) {
+    const bounds = nodes.map(renderedNodeBounds);
+    return {
+      left: Math.min(...bounds.map((item) => item.left)),
+      right: Math.max(...bounds.map((item) => item.right)),
+      top: Math.min(...bounds.map((item) => item.top)),
+      bottom: Math.max(...bounds.map((item) => item.bottom)),
+    };
+  }
+
+  function visibleDescendants(id) {
+    return childrenFor(id).flatMap((child) => (
+      isVisible(child) ? [child, ...visibleDescendants(child.id)] : []
+    ));
+  }
+
+  function ensureBoundsInSafeArea(bounds, fraction, { allowZoomOut = false } = {}) {
+    const safeWidth = VIEW_WIDTH * fraction;
+    const safeHeight = VIEW_HEIGHT * fraction;
+    const safeLeft = (VIEW_WIDTH - safeWidth) / 2;
+    const safeRight = safeLeft + safeWidth;
+    const safeTop = (VIEW_HEIGHT - safeHeight) / 2;
+    const safeBottom = safeTop + safeHeight;
+    let nextScale = camera.scale;
+
+    if (allowZoomOut) {
+      const width = Math.max(1, bounds.right - bounds.left);
+      const height = Math.max(1, bounds.bottom - bounds.top);
+      nextScale = Math.max(0.62, Math.min(camera.scale, safeWidth / width, safeHeight / height));
+    }
+
+    const projected = {
+      left: camera.x + bounds.left * nextScale,
+      right: camera.x + bounds.right * nextScale,
+      top: camera.y + bounds.top * nextScale,
+      bottom: camera.y + bounds.bottom * nextScale,
+    };
+    let dx = 0;
+    let dy = 0;
+
+    if (projected.right - projected.left > safeWidth) {
+      dx = VIEW_WIDTH / 2 - (projected.left + projected.right) / 2;
+    } else if (projected.left < safeLeft) {
+      dx = safeLeft - projected.left;
+    } else if (projected.right > safeRight) {
+      dx = safeRight - projected.right;
+    }
+
+    if (projected.bottom - projected.top > safeHeight) {
+      dy = VIEW_HEIGHT / 2 - (projected.top + projected.bottom) / 2;
+    } else if (projected.top < safeTop) {
+      dy = safeTop - projected.top;
+    } else if (projected.bottom > safeBottom) {
+      dy = safeBottom - projected.bottom;
+    }
+
+    if (Math.abs(nextScale - camera.scale) < 0.0001 && Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01) return;
+    camera = { x: camera.x + dx, y: camera.y + dy, scale: nextScale };
+    updateCamera();
+  }
+
+  function ensureNodeInSafeArea(id) {
     const node = nodeById.get(id);
     if (!node) return;
-    camera.x = (VIEW_WIDTH / 2) - node.x * camera.scale;
-    camera.y = (VIEW_HEIGHT / 2) - node.y * camera.scale;
-    updateCamera();
+    ensureBoundsInSafeArea(renderedNodeBounds(node), 0.8);
+  }
+
+  function ensureExpandedClusterInSafeArea(id) {
+    const node = nodeById.get(id);
+    if (!node) return;
+    ensureBoundsInSafeArea(combinedBounds([node, ...visibleDescendants(id)]), 0.9, { allowZoomOut: true });
   }
 
   function fitMap({ readable = false } = {}) {
@@ -625,6 +700,7 @@
   zoomInButton.addEventListener('click', () => zoomAt(camera.scale * 1.2));
   zoomOutButton.addEventListener('click', () => zoomAt(camera.scale / 1.2));
   expandAllButton.addEventListener('click', expandAll);
+  collapseAllButton.addEventListener('click', collapseAll);
   fitButton.addEventListener('click', () => fitMap());
 
   document.documentElement.addEventListener('slopchange', (event) => {

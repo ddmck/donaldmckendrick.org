@@ -1492,7 +1492,7 @@ main,
   overflow: hidden;
   background: #101010;
   color: #ffffff;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   font-weight: 900;
   letter-spacing: 0.16em;
   line-height: 32px;
@@ -2029,28 +2029,61 @@ main,
 }
 
 .map-topic-jump {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 11px;
   margin-left: auto;
   color: var(--muted);
   font-weight: 700;
   white-space: nowrap;
 }
 
+.map-topic-jump::after {
+  position: absolute;
+  top: 50%;
+  right: 13px;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  content: "";
+  pointer-events: none;
+  transform: translateY(-68%) rotate(45deg);
+}
+
+.map-topic-jump > span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.035em;
+}
+
 .map-topic-jump select {
-  width: 176px;
-  min-height: 36px;
-  padding: 6px 28px 6px 9px;
+  width: 190px;
+  min-height: 40px;
+  padding: 7px 36px 7px 12px;
   border: 1px solid var(--quiet);
-  border-radius: 0;
+  border-radius: 6px;
+  appearance: none;
   background: transparent;
   color: var(--ink);
   font: inherit;
+  font-weight: 650;
   cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }
 
-.map-topic-jump select:focus-visible,
+.map-topic-jump select:hover {
+  border-color: color-mix(in srgb, var(--ink) 38%, var(--quiet));
+  background: color-mix(in srgb, var(--shade) 46%, transparent);
+}
+
+.map-topic-jump select:focus-visible {
+  border-color: var(--map-signal);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--map-signal) 18%, transparent);
+}
+
 .map-slop input:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 2px;

@@ -370,6 +370,7 @@
     if (!themeToggle) return;
 
     themeToggle.setAttribute('aria-pressed', String(isDark));
+    themeToggle.setAttribute('aria-label', isDark ? 'Light mode' : 'Dark mode');
     themeToggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
   }
 
